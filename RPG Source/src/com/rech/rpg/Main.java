@@ -113,7 +113,8 @@ public class Main {
 			}
 		}
 		
-		System.out.println(occupiedSlots+"/10 slots used.\n");
+		System.out.println("Your "+player.getEquipped().getName()+" is equipped.");
+		System.out.println(occupiedSlots+"/10 backpack slots used.\n");
 		System.out.println("Coins: "+String.format("%,d",player.getCoins())+"gp\n"); // formats coins with a comma
 		System.out.println("[EQUIP] [DROP] [BACK]");
 		
