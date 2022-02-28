@@ -112,6 +112,7 @@ public class Player {
 	}
 	
 	public void equip(Weapon weapon) { // this should be re-written to only equip items from inventory
+		inventory.pickup(equipped);
 		equipped = weapon;
 	}
 	

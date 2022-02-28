@@ -34,18 +34,18 @@ public class Weapon extends Item{
 	public static Weapon generateNewWeapon(int materialCap, int typeCap) {
 		Random rand = new Random();
 		
-		//prevent caps from exceeding the total amount of materials/types
-		if(materialCap > Material.allMaterials.size()) {materialCap = Material.allMaterials.size();}
-		if(typeCap > Material.allMaterials.size()) {typeCap = Type.allWeaponTypes.size();}
-		
-		Material weaponMat = Material.allMaterials.get(rand.nextInt(materialCap));
-		Type weaponType = Type.allWeaponTypes.get(rand.nextInt(typeCap));
-		String weaponName = weaponMat.getName() + " " + weaponType.getName();
-		int damage = weaponMat.damageModifier + weaponType.damageModifier;
-		int cost = weaponMat.costModifier + weaponType.costModifier;
-		
-		return new Weapon(weaponName, cost, weaponMat, weaponType, damage);
-		
+		try {
+			Material weaponMat = Material.allMaterials.get(rand.nextInt(materialCap));
+			Type weaponType = Type.allWeaponTypes.get(rand.nextInt(typeCap));
+			String weaponName = weaponMat.getName() + " " + weaponType.getName();
+			int damage = weaponMat.damageModifier + weaponType.damageModifier;
+			int cost = weaponMat.costModifier + weaponType.costModifier;
+			
+			return new Weapon(weaponName, cost, weaponMat, weaponType, damage);
+		}catch(ArrayIndexOutOfBoundsException IOB) { //Returns the default fist if material/type parameters exceed total in their arrays
+			IOB.printStackTrace();
+			return fist;
+		}
 	}
 	
 	public int getDamage() {
@@ -62,8 +62,12 @@ public class Weapon extends Item{
 	
 	
 	
-	//Materials - This is another class within this class. This is because since materials and types will only be used with weapons, and they're so simple
-	// theres no real need to make another class
+	/**
+	 * Materials - This is another class within this class. This is because since materials and types will only be used with weapons, and they're so simple
+	 * there's no real need to make another class
+	 * @author Nolan DeMatteis
+	 *
+	 */
 	private static class Material{
 		String name;
 		int damageModifier;

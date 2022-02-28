@@ -303,6 +303,7 @@ public class Adventure{
 				System.out.println("Your blade meets his weapon as you get to your feet.");
 			}
 			fight(player, enemy, enemyWeapon, false);
+			
 		}else {
 			switch (event) {
 			case 1: //ambush
