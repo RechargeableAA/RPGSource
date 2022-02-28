@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Weapon;
+import com.rech.rpg.map.Town; //temporary!!! - for debugging purposes
 
 
 /*
@@ -69,7 +70,18 @@ public class Player {
 			inventory.pickup(Weapon.adminBlade);
 			health = 10000;
 			maxHealth = 10000;
+		}else if (name.equals("town")) {
+			String out;
+			for (int i = 0; i < 10; ++i) {
+				out = Town.generateTown(0,0);
+				System.out.println(out);
+			}
+			System.out.println("\n!!NOTICE!!\nGame will not procede properly.");
+			Player.name = "ERROR";
 		}
+		
+		
+
 	}
 	
 	
