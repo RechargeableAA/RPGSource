@@ -3,6 +3,9 @@ package com.rech.rpg;
 import java.util.Scanner;
 
 import com.rech.rpg.item.Weapon;
+import com.rech.rpg.map.Location;
+import com.rech.rpg.map.Map;
+import com.rech.rpg.map.Town;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +35,8 @@ public class Main {
 
 	public static Player player;
 	
+	public static Map map;
+	
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		
@@ -40,6 +45,8 @@ public class Main {
 		System.out.println("\n\nHello stranger...\nYou seem like you're not from around here.\nDo you have a name?\n");
 		input.toString();
 
+		map = new Map();
+		
 		player = new Player(input.next()); // creates new player with name input
 		player.equip(Weapon.generateNewWeapon(2, 2));
 		
@@ -71,7 +78,7 @@ public class Main {
 		else if (optionSelection.equalsIgnoreCase("backpack") || optionSelection.equalsIgnoreCase("inv")) { showInventory(input); }
 		else if (optionSelection.equalsIgnoreCase("spellbooks") || optionSelection.equalsIgnoreCase("spells")) { showInventory(input); }
 		else if (optionSelection.equalsIgnoreCase("look")) { showSurroundings(player.getLocation()); }
-		else if (optionSelection.equalsIgnoreCase("travel")) { showTravelMenu(player.getLocation()); }
+		else if (optionSelection.equalsIgnoreCase("travel")) { showTravelMenu(input); }
 		else if (optionSelection.equalsIgnoreCase("options")) { optionsMenu(input, false); }
 		else {
 			System.out.println("\nYou don't know what '"+optionSelection+"' means.\n");
@@ -242,10 +249,14 @@ public class Main {
 		}
 	}
 
-	public static void showTravelMenu(String where) {
-		//TODO
-		System.out.println("WIP");
-		player.teleport(player.getLocation());
+	public static void showTravelMenu(Scanner input) {
+		Location currentLocation = map.getLocation(player.getSector());
+		
+		System.out.println(currentLocation.getDescription());
+		if(currentLocation instanceof Town) {
+			System.out.println(Town.class.cast(currentLocation).getSurroundings());
+			Town.class.cast(currentLocation).interact(input, player);
+		}
 	}
 
 }
