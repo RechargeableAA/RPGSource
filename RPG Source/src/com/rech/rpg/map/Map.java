@@ -10,12 +10,14 @@ public class Map {
 	 * Map contains an array of locations the player can move between.
 	 */
 	public Map() {
-
-		
-		
+		map = new Location[MAPSIZE];
 		//Setting town locations
-		map[0] = Town.GRAYDRIFT;
+		map[0] = Town.GRAYDRIFT; // default town
 		
+	}
+	
+	public Location getLocation(int locationIndex) {
+		return map[locationIndex];
 	}
 
 }
