@@ -114,7 +114,7 @@ public class Weapon extends Item{
 		protected static final Material steel = new Material("Steel", 7, 20);
 		protected static final Material blueSteel = new Material("Blue-Steel", 9, 26);
 		protected static final Material bloodIron = new Material("Blood-Iron", 10, 33);
-		protected static final Material shadowSteel = new Material("Shadow-steel", 12, 41);
+		protected static final Material shadowSteel = new Material("Shadow-Steel", 12, 41);
 		protected static final Material celestialSteel = new Material("Celesteel", 14, 65);
 		protected static final Material demonSteel = new Material("Demonite", 16, 88);
 		protected static final Material luminSteel = new Material("Luminium", 18, 94);

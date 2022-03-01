@@ -42,7 +42,7 @@ public class Main {
 		
 		optionsMenu(input, true);
 		//intro
-		System.out.println("\n\nHello stranger...\nYou seem like you're not from around here.\nDo you have a name?\n");
+		System.out.println("\n\nYou awake in a strange land. You have no recollection of how you got here.\nYou notice a man standing over you.\n\nHello stranger...\nYou seem like you're not from around here.\nDo you have a name?\n");
 		input.toString();
 
 		map = new Map();
@@ -50,7 +50,8 @@ public class Main {
 		player = new Player(input.next()); // creates new player with name input
 		player.equip(Weapon.generateNewWeapon(2, 2));
 		
-		System.out.println("\n"+player.getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. Welcome to "+player.getLocation()+".\n I'll let you rest in my home just down the way. It's not much, but I bet it'll work until you can sort yourself out.\n");
+		System.out.println("\n"+player.getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. This is "+player.getLocation()+".\nI'll let you rest in my home just down the way.\nIt's not much, but I bet it'll work until you can sort yourself out.\n"
+				+ "\nHere, you can have my old "+player.getEquipped().getName()+".\nYou're gonna need it. Watch yourself out there.");
 		player.teleport("Graydrift");
 		
 		while(!player.isDead())
