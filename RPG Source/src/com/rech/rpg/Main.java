@@ -35,30 +35,9 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
-		
-		optionsMenu(input, true);
-		//intro
-		System.out.println("\n\nYou awake in a strange land. You have no recollection of how you got here.\nYou notice a man standing over you.\n\nHello stranger...\nYou seem like you're not from around here.\nDo you have a name?\n");
-		input.toString();
-
-		map = new Map();
-		
-		player = new Player(input.next()); // creates new player with name input
-		player.equip(Weapon.generateNewWeapon(2, 2));
-		
-		System.out.println("\n"+player.getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. This is "+player.getLocation()+".\nI'll let you rest in my home just down the way.\nIt's not much, but I bet it'll work until you can sort yourself out.\n"
-				+ "\nHere, you can have my old "+player.getEquipped().getName()+".\nYou're gonna need it. Watch yourself out there.");
-		player.teleport("Graydrift");
-		
-		while(!player.isDead())
-		{
-			input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
-			mainMenu(input);
-		}
-		introMenu(input);
-		
+				
 		input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
-		mainMenu(input);
+		introMenu(input);
 		
 		input.close();
 	}
@@ -153,19 +132,25 @@ public class Main {
 	 * @param input - Input scanner
 	 */
 	private static void newGame(Scanner input) {
-		System.out.println(
-				"\n\nHello stranger...\n"
-				+ "You seem like you're not from around here.\n"
-				+ "Do you have a name?\n");
-		
+		//intro
+		System.out.println("\n\nYou awake in a strange land. You have no recollection of how you got here.\nYou notice a man standing over you.\n\nHello stranger...\nYou seem like you're not from around here.\nDo you have a name?\n");
+		input.toString();
+
 		map = new Map();
 		
-		player = new Player(input.nextLine()); // creates new player with name input
-		player.getInventory().pickup(Weapon.generateNewWeapon(2, 2));
-		player.equip(0); // give player random weapon
+		player = new Player(input.next()); // creates new player with name input
+		player.equip(Weapon.generateNewWeapon(2, 2));
 		
-		clearScreen();
-		System.out.println("\n"+player.getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. Welcome to "+player.getLocation()+".\n I'll let you rest in my home just down the way. It's not much, but I bet it'll work until you can sort yourself out.\n");
+		System.out.println("\n"+player.getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. This is "+player.getLocation()+".\nI'll let you rest in my home just down the way.\nIt's not much, but I bet it'll work until you can sort yourself out.\n"
+				+ "\nHere, you can have my old "+player.getEquipped().getName()+".\nYou're gonna need it. Watch yourself out there.");
+		player.teleport("Graydrift");
+		
+		while(!player.isDead())
+		{
+			input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
+			mainMenu(input);
+		}
+		introMenu(input);
 	}
 	
 	/**
