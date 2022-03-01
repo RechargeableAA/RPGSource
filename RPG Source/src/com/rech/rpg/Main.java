@@ -3,12 +3,7 @@ package com.rech.rpg;
 import java.util.Scanner;
 
 import com.rech.rpg.item.Weapon;
-import com.rech.rpg.map.Location;
 import com.rech.rpg.map.Map;
-import com.rech.rpg.map.Town;
-
-import java.util.Arrays;
-import java.util.List;
 
 /*
 TODO:
