@@ -1,5 +1,8 @@
 package com.rech.rpg;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import com.rech.rpg.item.Inventory;
@@ -73,8 +76,8 @@ public class Player {
 		}else if (name.equals("town")) {
 			String out;
 			for (int i = 0; i < 10; ++i) {
-				out = Town.generateTown(0,0);
-				System.out.println(out);
+				//out = Town.generateTown(0,0);
+				//System.out.println(out);
 			}
 			System.out.println("\n!!NOTICE!!\nGame will not procede properly.");
 			Player.name = "ERROR";
@@ -123,41 +126,79 @@ public class Player {
 		return inventory;
 	}
 	
-	public void equip(Weapon weapon) { // this should be re-written to only equip items from inventory
-		inventory.pickup(equipped);
-		equipped = weapon;
+	public void equip(int slot) { // this should be re-written to only equip items from inventory
+		if(inventory.getSlot(slot) instanceof Weapon) {
+			inventory.pickup(equipped);
+			equipped = (Weapon) inventory.getSlot(slot);
+			inventory.drop(slot);
+		}else {
+			System.out.println("You can't equip a "+inventory.getSlot(slot).getName());
+		}
+		
 	}
 	
 	
 	/**
+	 * 		MENUS
+	 */
+	
+	/**
 	 * stats menu
 	 */
-	public void showStats() {
-		System.out.println("\n\n\n     STATISTICS");
-		if (points > 0) { System.out.println("You have "+points+" skill points to spend!  [LEVELUP] - to spend points.\n"); }else{ System.out.println("\n"); }
-		//add the sword and shield bonuses in parentheses after those are worked in
-		System.out.println("Name: "+name+"\nLevel "+level+"\n"+"EXP: "+exp+"/"+level+"\n[Health]: "+health+"/"+maxHealth+"\n[Mana]: "+mana+"/"+maxMana+"\n\n[Strength]: "+strength+"\n[Defense]: "+defense+"\n[Dodge]: "+dodge+"\n[Luck]: "+luck+"\n[Magic]: "+magic+"\n[Resistance]: "+resistance+"\n\n");
-		System.out.println("[HELP] - show descriptions for each stat.\n[BACK] - go back to the previous prompt.\n");
-		Scanner input = new Scanner(System.in);
+	public void showStats(Scanner input) {
+		Menu statsMenu = new Menu("STATISTICS");
+		statsMenu.options.add("Name: "+name);
+		statsMenu.options.add("Level "+level);
+		statsMenu.options.add("EXP: "+exp+"/"+level);
+		statsMenu.options.add("[Health]: "+health+"/"+maxHealth);
+		statsMenu.options.add("[Mana]: "+mana+"/"+maxMana);
+		statsMenu.options.add("[Strength]: "+strength);
+		statsMenu.options.add("[Defense]: "+defense);
+		statsMenu.options.add("[Dodge]: "+dodge);
+		statsMenu.options.add("[Luck]: "+luck);
+		statsMenu.options.add("[Magic]: "+magic);
+		statsMenu.options.add("[Resistance]: "+resistance);
+		statsMenu.options.add("[HELP] - show descriptions for each stat.");
+		statsMenu.options.add("[BACK] - go back to the previous prompt.\n");
 
-		String in = input.next();
-		if (in.equals("help")) {
-			System.out.println("\nSTRENGTH = melee damage modifier\r\nDEFENSE = how much incoming damage is reduced\r\nDODGE = chance to negate damage all together\r\nLUCK = modifies how many coins and materials you can gain.\r\nMAGIC = how powerful spells will be, will use spell books that work like swords with elemental bonuses and healing\r\nRESISTANCE = like defense, but against magic/status effects");
-			showStats();
-		} else if (in.equals("levelup")) {
-			if (points <= 0) {
-				System.out.println("You don't have any points to spend on skills.");
-				showStats();
-			}else{
-				Main.skillMenu();
-			}
-		} else if (in.equals("back")) {
-			System.out.println("\n\n\n");
-			return;
-		}else { 
-			System.out.println("\nYou don't know what '"+in+"' means.\n");
-			showStats();
+		//level up info
+		if (points < 0) { 
+			statsMenu.setMessage("You have \"+points+\" skill points to spend!  [LEVELUP] - to spend points.");
+		}else {
+			levelUp();
 		}
+		
+		while(true) {
+			statsMenu.display();
+		
+			String selection = input.nextLine();
+			
+			switch(selection.toUpperCase()){
+			case "LEVELUP":
+				if (points <= 0) {
+					statsMenu.setMessage("You don't have any points to spend on skills.");
+				}else{
+					skillMenu(input);
+				}
+				break;
+			case "BACK":
+				return;
+			case "HELP":
+				statsMenu.setMessage(
+						"STRENGTH = melee damage modifier\r\n"
+					  + "DEFENSE = how much incoming damage is reduced\r\n"
+					  + "DODGE = chance to negate damage all together\r\n"
+					  + "LUCK = modifies how many coins and materials you can gain.\r\n"
+					  + "MAGIC = how powerful spells will be, will use spell books that work like swords with elemental bonuses and healing\r\n"
+					  + "RESISTANCE = like defense, but against magic/status effects"
+				);
+			break;
+			default:
+				statsMenu.setMessage("\nYou don't know what '"+selection+"' means.\n");
+				break;
+			}
+		}
+		
 	}
 	
 	
@@ -220,10 +261,10 @@ public class Player {
 			}
 			points -= amount;
 			System.out.println("You've advanced your "+stat+ " by " +amount+".\nYour "+stat+" is now level "+total+".\nYou have "+points+" left.");
-			showStats();
+			showStats(input);
 		}catch (Exception e) {
 			if (in.equals("back")) {
-				Main.skillMenu();
+				skillMenu(input);
 			}else{
 				System.out.println("Enter a number.");
 				addSkillPoint(stat);
@@ -231,6 +272,41 @@ public class Player {
 		}
 
 	}
+	
+	/**
+	 * Skills Menu
+	 */
+	public void skillMenu(Scanner input) {
+		System.out.println("\n\nYou have "+getPoints()+" skill point(s) to spend. Enter the name of the skill you want to add points to.\n\r"
+						+ "Once added, they cannot be reset, without a fee.\n\r"
+						+ "[STR][DEF][DGE][LCK][MGC][RST]\n\r"
+						+ "[HELP] - show descriptions for each stat.\n"
+						+ "[BACK] - go back to the previous prompt.\n");
+		
+		//making an array and converting it into a list, so that it can check the list against the input and see if it is a valid stat to modify
+		final String validate[] = new String[] {"str", "Strength", "def", "Defense", "lck", "luck", "dge", "dodge", "mgc", "magic", "rst", "resistance"};
+		List<String> validStat = Arrays.asList(validate); 
+		
+		while(true) {
+			String selection = input.next().toString();
+
+			if (selection.equals("back")) {
+				Main.mainMenu(input);
+			}else if (validStat.contains(selection)) { //seeing which stat to modify
+				addSkillPoint(selection);
+			}else if (selection.equals("help")) {//checking input for menu related navigation
+				System.out.println("\nSTRENGTH = melee damage modifier\r\n"
+								   + "DEFENSE = how much incoming damage is reduced\r\n"
+								   + "DODGE = chance to negate damage all together\r\n"
+								   + "LUCK = modifies how many coins and materials you can gain.\r\n"
+								   + "MAGIC = how powerful spells will be, will use spell books that work like swords with elemental bonuses and healing\r\n"
+								   + "RESISTANCE = like defense, but against magic/status effects");
+			}else {
+				System.out.println("\nYou don't know what '"+selection+"' means.\n");
+			}
+		}
+	}
+	
 	
 	/**
 	 * Teleports player
