@@ -108,17 +108,17 @@ public class Weapon extends Item{
 		
 		// Materials
 		protected static final Material unarmed = new Material(1, 0);
-		protected static final Material bronze = new Material("bronze", 3, 8);
-		protected static final Material pigIron = new Material("pig iron", 4, 12);
-		protected static final Material iron = new Material("iron", 5, 16);
-		protected static final Material steel = new Material("steel", 7, 20);
-		protected static final Material blueSteel = new Material("blue steel", 9, 26);
-		protected static final Material bloodIron = new Material("blood iron", 10, 33);
-		protected static final Material shadowSteel = new Material("shadow steel", 12, 41);
-		protected static final Material celestialSteel = new Material("celestial steel", 14, 65);
-		protected static final Material demonSteel = new Material("demon steel", 16, 88);
-		protected static final Material luminSteel = new Material("lumin steel", 18, 94);
-		protected static final Material mortemSteel = new Material("mortem steel", 22, 135);
+		protected static final Material bronze = new Material("Bronze", 3, 8);
+		protected static final Material pigIron = new Material("Pig-Iron", 4, 12);
+		protected static final Material iron = new Material("Iron", 5, 16);
+		protected static final Material steel = new Material("Steel", 7, 20);
+		protected static final Material blueSteel = new Material("Blue-Steel", 9, 26);
+		protected static final Material bloodIron = new Material("Blood-Iron", 10, 33);
+		protected static final Material shadowSteel = new Material("Shadow-steel", 12, 41);
+		protected static final Material celestialSteel = new Material("Celesteel", 14, 65);
+		protected static final Material demonSteel = new Material("Demonite", 16, 88);
+		protected static final Material luminSteel = new Material("Luminium", 18, 94);
+		protected static final Material mortemSteel = new Material("Mortem-Metal", 22, 135);
 	}
 	
 	// Type - used only within weapon, identical to materials atm, though gives room to add other modifiers ei. damage speed
@@ -162,16 +162,16 @@ public class Weapon extends Item{
 		
 		// Types
 		protected static final Type unarmed = new Type(0, 0);
-		protected static final Type dagger = new Type("dagger", 1, 3);
-		protected static final Type rapier = new Type("rapier", 2, 6);
-		protected static final Type shortSword = new Type("short sword", 2, 10);
-		protected static final Type mace = new Type("mace", 3, 14);
-		protected static final Type scimitar = new Type("scimitar", 4, 15);
-		protected static final Type longSword = new Type("long sword", 5, 21);
-		protected static final Type greatSword = new Type("great sword", 8, 36);
-		protected static final Type katana = new Type("katana", 7, 27);
-		protected static final Type hatchet = new Type("hatchet", 3, 15);
-		protected static final Type battleAxe = new Type("battle axe", 6, 30);
-		protected static final Type greatAxe = new Type("great axe", 8, 35);
+		protected static final Type dagger = new Type("Dagger", 1, 3);
+		protected static final Type rapier = new Type("Rapier", 2, 6);
+		protected static final Type shortSword = new Type("Short sword", 2, 10);
+		protected static final Type mace = new Type("Mace", 3, 14);
+		protected static final Type scimitar = new Type("Scimitar", 4, 15);
+		protected static final Type longSword = new Type("Long Sword", 5, 21);
+		protected static final Type greatSword = new Type("Greatsword", 8, 36);
+		protected static final Type katana = new Type("Katana", 7, 27);
+		protected static final Type hatchet = new Type("Hatchet", 3, 15);
+		protected static final Type battleAxe = new Type("Battle-axe", 6, 30);
+		protected static final Type greatAxe = new Type("Great Hammer", 8, 35);
 	}
 }
