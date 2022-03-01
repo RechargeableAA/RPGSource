@@ -3,12 +3,7 @@ package com.rech.rpg;
 import java.util.Scanner;
 
 import com.rech.rpg.item.Weapon;
-import com.rech.rpg.map.Location;
 import com.rech.rpg.map.Map;
-import com.rech.rpg.map.Town;
-
-import java.util.Arrays;
-import java.util.List;
 
 /*
 TODO:
@@ -35,9 +30,11 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
-				
-		input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
+		
 		introMenu(input);
+		
+		input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
+		mainMenu(input);
 		
 		input.close();
 	}
@@ -133,24 +130,18 @@ public class Main {
 	 */
 	private static void newGame(Scanner input) {
 		//intro
-		System.out.println("\n\nYou awake in a strange land. You have no recollection of how you got here.\nYou notice a man standing over you.\n\nHello stranger...\nYou seem like you're not from around here.\nDo you have a name?\n");
 		input.toString();
 
+		System.out.println("\n\nYou awake in a strange land. You have no recollection of how you got here.\nYou notice a man standing over you.\n\nHello stranger...\nYou seem like you're not from around here.\nDo you have a name?\n");
+		
 		map = new Map();
 		
 		player = new Player(input.next()); // creates new player with name input
 		player.equip(Weapon.generateNewWeapon(2, 2));
 		
+		clearScreen();
 		System.out.println("\n"+player.getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. This is "+player.getLocation()+".\nI'll let you rest in my home just down the way.\nIt's not much, but I bet it'll work until you can sort yourself out.\n"
 				+ "\nHere, you can have my old "+player.getEquipped().getName()+".\nYou're gonna need it. Watch yourself out there.");
-		player.teleport("Graydrift");
-		
-		while(!player.isDead())
-		{
-			input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
-			mainMenu(input);
-		}
-		introMenu(input);
 	}
 	
 	/**
