@@ -45,8 +45,7 @@ public class Town extends Location{
 		}
 	}
 	
-	
-	@Override
+
 	public String getSurroundings() {
 		return surroundings;
 	}
