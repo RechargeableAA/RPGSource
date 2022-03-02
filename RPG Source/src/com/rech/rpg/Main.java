@@ -136,9 +136,8 @@ public class Main {
 		
 		map = new Map();
 		
-		player = new Player(input.nextLine()); // creates new player with name input
-		player.getInventory().pickup(Weapon.generateNewWeapon(2, 2));
-		player.equip(0); // give player random weapon
+		player = new Player(input.next()); // creates new player with name input
+		player.equip(Weapon.generateNewWeapon(2, 2));
 		
 		clearScreen();
 		System.out.println("\n"+player.getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. This is "+player.getLocation()+".\nI'll let you rest in my home just down the way.\nIt's not much, but I bet it'll work until you can sort yourself out.\n"
