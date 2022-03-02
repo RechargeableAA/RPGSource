@@ -48,9 +48,16 @@ public class PotionShop extends Shop{
 			try {
 				// the beauty of using objects! every selection contained into one code block
 				System.out.println("Ah, a " + shopInventory[selection].getName() + " that'll be " + shopInventory[selection].getCost() + " coins.");
-				System.out.println("Pay the shopkeep " + shopInventory[selection].getCost() + " coins? [y/n]");
+				System.out.println("Pay the shopkeep " + shopInventory[selection].getCost() + " coins? [y/n]\nYou have "+player.getCoins()+" coins right now.");
 				if(input.next().equalsIgnoreCase("y")) {
-					player.getInventory().pickup(shopInventory[selection]);
+					if (player.getCoins() >= shopInventory[selection].getCost()) {
+						player.getInventory().pickup(shopInventory[selection]);
+						player.loseCoins(shopInventory[selection].getCost());
+						System.out.println("You give the shopkeep "+shopInventory[selection].getCost()+" coins and recieve the " + shopInventory[selection] + ".");
+					}else {
+						System.out.println("You can't afford that!");
+					}
+					
 				}
 			}
 			catch (Exception indexOutOfBounds) { //catches if player enters a word instead of a number, or if index-outofbounds

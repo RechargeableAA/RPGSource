@@ -52,7 +52,7 @@ public class TownGenerator {
 				@Override
 				public void interact(Scanner input, Player player) { // settings what can be interacted with within the town
 					
-					switch(Location.userInputToDirection(input)) {
+					switch(Location.userInputToDirection(input)) { //could we make an array for each town that would store whats in each direction?
 					case NORTH:
 						this.shops[0].interact(input, player);
 					break;

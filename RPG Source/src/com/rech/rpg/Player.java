@@ -365,6 +365,10 @@ public class Player {
 		coins = amount;
 	}
 	
+	public void loseCoins(int amount) {
+		coins = coins-amount;
+	}
+	
 	public int getHealth() {
 		return health;
 	}
@@ -424,6 +428,9 @@ public class Player {
 	
 	public void heal(int heal) {
 		health+= heal;
+		if (health > maxHealth) {
+			health = maxHealth;
+		}
 	}
 	
 	public void grantXP(int xp) {
