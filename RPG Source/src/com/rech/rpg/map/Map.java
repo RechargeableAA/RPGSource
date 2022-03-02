@@ -14,7 +14,7 @@ public class Map {
 	public Map() {
 		map = new Location[MAPSIZE];
 		//Setting town locations
-		map[0] = TownGenerator.generateTown(); // default town
+		map[0] = TownGenerator.populateTown(); // default town
 		
 	}
 	

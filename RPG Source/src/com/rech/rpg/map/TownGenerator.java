@@ -35,7 +35,7 @@ public class TownGenerator {
 	
 	
 	
-	public static Town generateTown() {
+	public static Town populateTown() { //populates what is in the town
 		String name = generateTownName(0, 0);
 		Town generatedTown = new Town(
 				name, //name

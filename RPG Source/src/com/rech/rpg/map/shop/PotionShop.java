@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.rech.rpg.Player;
 import com.rech.rpg.item.Potion;
+import com.rech.rpg.map.TownGenerator;
 
 public class PotionShop extends Shop{
 
@@ -16,7 +17,7 @@ public class PotionShop extends Shop{
 		Potion shopInventory[] = {
 				Potion.minorHealth,
 				Potion.standardHealth,
-				Potion.minorMana
+				Potion.majorMana
 		};
 		
 		// bool to keep the shopping look going
@@ -30,7 +31,19 @@ public class PotionShop extends Shop{
 	
 			System.out.println("\nWhich would you like to buy? [1-3] [back]");
 			
-			int selection = input.nextInt()-1; // subtract 1 to correspond with array index
+			String in = input.nextLine(); //has to be taken as a string to catch the 'back' command. is parsed as an int after.
+			int selection = 0;
+			
+			try {
+				selection = Integer.parseInt(in)-1;// subtract 1 to correspond with array index
+			}catch (Exception InputMismatchException) {
+				if (in.equals("back")) {
+					TownGenerator.populateTown(); //TownGenerator class isnt finished. so this is a placeholder for now. not sure where to return the player to
+				}else {
+					System.out.println("I'm sorry, I didnt catch that.");
+					interact(input, player);
+				}
+			}
 			
 			try {
 				// the beauty of using objects! every selection contained into one code block
@@ -40,12 +53,10 @@ public class PotionShop extends Shop{
 					player.getInventory().pickup(shopInventory[selection]);
 				}
 			}
-			catch (Exception e) { //catches if player enters a word instead of a number, or if index-outofbounds
-				if (selection > 2 || selection < 0) {
+			catch (Exception indexOutOfBounds) { //catches if player enters a word instead of a number, or if index-outofbounds
+				//if (selection > shopInventory.length+1 || selection < shopInventory.length+1)  {
 					System.out.println("\nI'm afraid that this is all I have to offer you right now.");
-				}else {
-					System.out.println("\nI'm sorry, I didn't catch that.");
-				}
+				//}
 				interact(input, player);
 			}
 			
