@@ -103,13 +103,14 @@ public class Main {
 	 * @return True if player selects new game, otherwise returns false
 	 */
 	private static boolean introMenu(Scanner input) {
+		Menu introMenu = new Menu("RPG Source");
 		while(true) {
-			System.out.println("[NEW] Game");
-			System.out.println("[LOAD] Game");
+			introMenu.options.add("[NEW] Game");
+			introMenu.options.add("[LOAD] Game");
 			
 			String selection = input.nextLine();
 			
-			clearScreen();
+			//switch(selection)
 			
 			if(selection.equalsIgnoreCase("new")) {
 				newGame(input);
