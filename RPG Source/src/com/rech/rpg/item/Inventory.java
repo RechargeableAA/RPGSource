@@ -8,11 +8,11 @@ import com.rech.rpg.Player;
 
 public class Inventory{
 	//inventory stored as an array list which is just an array that can dynamically change its size, just a place holder for now
-	private Item[] inventory;
-
+	private static Item[] inventory;
+	private final static int maxInventorySize = 10;
 	
 	public Inventory() {
-		inventory = new Item[10]; // inventory can store 10 items
+		inventory = new Item[maxInventorySize]; // inventory can store 10 items
 	}
 	
 	public void pickup(Item item) {
@@ -22,7 +22,7 @@ public class Inventory{
 				return;
 			}
 		}
-		System.out.println("Your inventory is full!");
+		System.out.println("Your inventory is full!"); //there needs to be an option to drop something to make room
 	}
 	
 	
@@ -189,6 +189,14 @@ public class Inventory{
 	public int getSize() {
 		return inventory.length;
 	}
+	
+	public static boolean isFull() { //purely for checking if inv is full
+		if (inventory[maxInventorySize] != null) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
 	public void setSlot(int slot, Item item) {
 		inventory[slot] = item;
@@ -196,6 +204,10 @@ public class Inventory{
 	
 	public void drop(int slot) {
 		inventory[slot] = null;
+	}
+	
+	public void dropPrompt() {
+		//yes or no? may need to modify the drop functionality so that it doesnt take you back to the equip menu
 	}
 	 
 }

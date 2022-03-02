@@ -3,6 +3,7 @@ package com.rech.rpg.map.shop;
 import java.util.Scanner;
 
 import com.rech.rpg.Player;
+import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Potion;
 import com.rech.rpg.map.TownGenerator;
 
@@ -50,10 +51,11 @@ public class PotionShop extends Shop{
 				System.out.println("Ah, a " + shopInventory[selection].getName() + " that'll be " + shopInventory[selection].getCost() + " coins.");
 				System.out.println("Pay the shopkeep " + shopInventory[selection].getCost() + " coins? [y/n]\nYou have "+player.getCoins()+" coins right now.");
 				if(input.next().equalsIgnoreCase("y")) {
-					if (player.getCoins() >= shopInventory[selection].getCost()) {
-						player.getInventory().pickup(shopInventory[selection]);
-						player.loseCoins(shopInventory[selection].getCost());
-						System.out.println("You give the shopkeep "+shopInventory[selection].getCost()+" coins and recieve the " + shopInventory[selection] + ".");
+					if (player.getCoins() >= shopInventory[selection].getCost()) { //need to see if theres room in the inventory before taking money
+						//if (Inventory.isFull() == false) {
+							player.getInventory().pickup(shopInventory[selection]);
+							player.loseCoins(shopInventory[selection].getCost());
+							System.out.println("You give the shopkeep "+shopInventory[selection].getCost()+" coins and recieve the " + shopInventory[selection] + ".");	
 					}else {
 						System.out.println("You can't afford that!");
 					}
