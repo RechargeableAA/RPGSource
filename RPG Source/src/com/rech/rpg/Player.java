@@ -81,6 +81,13 @@ public class Player {
 			}
 			System.out.println("\n!!NOTICE!!\nGame will not procede properly.");
 			Player.name = "ERROR";
+		}else if (name.equals("invtest")) {
+			coins = 100;
+			inventory.pickup(Weapon.testWeapon);
+			inventory.pickup(Weapon.testWeapon);
+			inventory.pickup(Weapon.testWeapon);
+			health = 10;
+			maxHealth = 10;
 		}
 		
 		

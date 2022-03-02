@@ -55,7 +55,7 @@ public class Weapon extends Item{
 	
 	// Static pre-made weapons
 	public static final Weapon fist = new Weapon("fists", 0, Material.unarmed, Type.unarmed, 1);
-	public static final Weapon bsGreatSword = new Weapon("Blue-Steel Greatsword", 800, Material.blueSteel, Type.greatSword, 30);
+	public static final Weapon testWeapon = new Weapon("Tester-Sword", 1, Material.iron, Type.dagger, 30);
 	public static final Weapon adminBlade = new Weapon("Admin Blade", 9999999, Material.shadowSteel, Type.dagger, 99999);
 	
 	
@@ -115,10 +115,10 @@ public class Weapon extends Item{
 		protected static final Material blueSteel = new Material("Blue-Steel", 9, 26);
 		protected static final Material bloodIron = new Material("Blood-Iron", 10, 33);
 		protected static final Material shadowSteel = new Material("Shadow-Steel", 12, 41);
-		protected static final Material celestialSteel = new Material("Celesteel", 14, 65);
-		protected static final Material demonSteel = new Material("Demonite", 16, 88);
-		protected static final Material luminSteel = new Material("Luminium", 18, 94);
-		protected static final Material mortemSteel = new Material("Mortem-Metal", 22, 135);
+		protected static final Material celesteel = new Material("Celesteel", 14, 65);
+		protected static final Material demonite = new Material("Demonite", 16, 88);
+		protected static final Material luminium = new Material("Luminium", 18, 94);
+		protected static final Material mortemMetal = new Material("Mortem-Metal", 22, 135);
 	}
 	
 	// Type - used only within weapon, identical to materials atm, though gives room to add other modifiers ei. damage speed

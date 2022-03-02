@@ -86,19 +86,30 @@ public class Inventory{
 			sortInventory();
 			dropMenu.options.clear();
 			//show inventory again
+			int emptySlotCount = 0;
 			for(int inventorySlot = 0; inventorySlot < getSize(); inventorySlot++) {
 				if(getSlot(inventorySlot) != null) {
 					dropMenu.options.add("["+inventorySlot+"] " + getSlot(inventorySlot).getName());
+				}else{
+					++emptySlotCount;
 				}
 			}
-			dropMenu.options.add("Which slot do you want to drop? [0-9] [back]");
-			
-			dropMenu.display();
+			if (emptySlotCount == 10) {
+				System.out.println("You have nothing in your backpack.");
+			}else {
+				dropMenu.options.add("Which slot do you want to drop? [0-9] [back]");
+				dropMenu.display();
+			}
+
 			
 			String optionSelection = input.nextLine(); 
 			switch(optionSelection.toUpperCase()) {
 			case "BACK":
-				return;
+				if (emptySlotCount == 10) {
+					Main.mainMenu(input); //the inventory menu will still be visible, so it acts as if the drop command never happened. so when you type back, it goes back to the menu before showing the backpack
+				}else {
+					return;
+				}
 			default:
 				if(optionSelection.matches("[0-9]+")) { // check if string input is an integer
 					int slot = Integer.parseInt(optionSelection);
