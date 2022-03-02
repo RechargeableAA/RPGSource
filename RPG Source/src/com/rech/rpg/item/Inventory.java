@@ -102,10 +102,12 @@ public class Inventory{
 			default:
 				if(optionSelection.matches("[0-9]+")) { // check if string input is an integer
 					int slot = Integer.parseInt(optionSelection);
-					dropMenu.setMessage("Are you sure you want to drop " + getSlot(slot).getName() + "? [y/n]");
-					if(input.nextLine().equalsIgnoreCase("y")) {
-						System.out.println("You drop your " + getSlot(slot).getName() + ".");
-						drop(slot);
+					if(getSlot(slot) != null) {
+						dropMenu.setMessage("Are you sure you want to drop " + getSlot(slot).getName() + "? [y/n]");
+						if(input.nextLine().equalsIgnoreCase("y")) {
+							System.out.println("You drop your " + getSlot(slot).getName() + ".");
+							drop(slot);
+						}
 					}
 				}else {
 					dropMenu.setMessage("You don't know what "+optionSelection+" means.");
