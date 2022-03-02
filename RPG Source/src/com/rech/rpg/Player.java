@@ -124,7 +124,7 @@ public class Player {
 	protected void godMode() {
 		coins = 99999;
 		inventory.pickup(Weapon.adminBlade);
-		inventory.pickup(Weapon.bsGreatSword);
+		inventory.pickup(Weapon.testWeapon);
 		health = 10000;
 		maxHealth = 10000;
 	}
