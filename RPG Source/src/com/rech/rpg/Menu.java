@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class Menu {
 	//Options to be displayed
-	public ArrayList<String> options;
+	public ArrayList<String> prompt;
 	//Informational message printed after options, this is usually "You dont know what..." when user enters an incorrect input
 	private String message = "";
 	private String menuTitle;
@@ -19,7 +19,7 @@ public class Menu {
 	 * @param menuTitle - Name displayed above options
 	 */
 	public Menu(String menuTitle) {
-		options = new ArrayList<String>();
+		prompt = new ArrayList<String>();
 		this.menuTitle = menuTitle;
 	}
 	
@@ -29,7 +29,7 @@ public class Menu {
 	public void display() {
 		Main.clearScreen();
 		System.out.println("\t" + menuTitle + "\n");
-		for(String option : options) {
+		for(String option : prompt) {
 			System.out.println(option);
 		}
 		

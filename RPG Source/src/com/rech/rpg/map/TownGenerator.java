@@ -21,11 +21,8 @@ public class TownGenerator {
 			if (firstName == 0 && lastName == 0) { //0,0 will ask to make a random town. any other number will pick a specific name based on the arrays
 				townName = stringA[rand.nextInt(stringA.length)]+stringB[rand.nextInt(stringB.length)];
 			}else {
-				townName = stringA[firstName]+stringB[lastName];//placeholder for final name
-			}
-			
-			//"You are currently in the town of Graydrift.\\nTo the West, there is the [BLACKSMITH]. Just North of me, is [GAVIN]'s Home. To the East is the [POTIONS] Seller.\\n[BACK]\"
-			
+				townName = stringA[firstName]+stringB[lastName];
+			}			
 			return townName;
 			
 		}catch (ArrayIndexOutOfBoundsException IOB){
