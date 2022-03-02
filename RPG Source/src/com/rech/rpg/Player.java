@@ -145,13 +145,6 @@ public class Player {
 	}
 	
 	
-	/**
-	 * 		MENUS
-	 */
-	
-	/**
-	 * stats menu
-	 */
 	public void showStats(Scanner input) {
 		Menu statsMenu = new Menu("STATISTICS");
 		statsMenu.options.add("Name: "+name);
