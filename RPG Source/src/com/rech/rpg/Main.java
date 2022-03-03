@@ -45,12 +45,12 @@ public class Main {
 	 */
 	public static void mainMenu(Scanner input) {
 		Menu mainMenu = new Menu("Main Menu");
-		mainMenu.options.add("[stats] - check your statistics");
-		mainMenu.options.add("[backpack] - look at, potions, coins, and equip weapons that you own");
-		mainMenu.options.add("[spells] - look at and equip spellbooks owned");
-		mainMenu.options.add("[look] - examine your surroundings");
-		mainMenu.options.add("[travel] - move to another location");
-		mainMenu.options.add("[OPTIONS] - load or save your game");
+		mainMenu.prompt.add("[stats] - check your statistics");
+		mainMenu.prompt.add("[backpack] - look at, potions, coins, and equip weapons that you own");
+		mainMenu.prompt.add("[spells] - look at and equip spellbooks owned");
+		mainMenu.prompt.add("[look] - examine your surroundings");
+		mainMenu.prompt.add("[travel] - move to another location");
+		mainMenu.prompt.add("[OPTIONS] - load or save your game");
 
 		while(true) {
 			mainMenu.display();
@@ -105,8 +105,8 @@ public class Main {
 	private static boolean introMenu(Scanner input) {
 		Menu introMenu = new Menu("RPG Source");
 		while(true) {
-			introMenu.options.add("[NEW] Game");
-			introMenu.options.add("[LOAD] Game");
+			introMenu.prompt.add("[NEW] Game");
+			introMenu.prompt.add("[LOAD] Game");
 			
 			String selection = input.nextLine();
 			

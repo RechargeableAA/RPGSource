@@ -142,19 +142,19 @@ public class Player {
 	 */
 	public void showStats(Scanner input) {
 		Menu statsMenu = new Menu("STATISTICS");
-		statsMenu.options.add("Name: "+name);
-		statsMenu.options.add("Level "+level);
-		statsMenu.options.add("EXP: "+exp+"/"+level);
-		statsMenu.options.add("[Health]: "+health+"/"+maxHealth);
-		statsMenu.options.add("[Mana]: "+mana+"/"+maxMana);
-		statsMenu.options.add("[Strength]: "+strength);
-		statsMenu.options.add("[Defense]: "+defense);
-		statsMenu.options.add("[Dodge]: "+dodge);
-		statsMenu.options.add("[Luck]: "+luck);
-		statsMenu.options.add("[Magic]: "+magic);
-		statsMenu.options.add("[Resistance]: "+resistance);
-		statsMenu.options.add("[HELP] - show descriptions for each stat.");
-		statsMenu.options.add("[BACK] - go back to the previous prompt.\n");
+		statsMenu.prompt.add("Name: "+name);
+		statsMenu.prompt.add("Level "+level);
+		statsMenu.prompt.add("EXP: "+exp+"/"+level);
+		statsMenu.prompt.add("[Health]: "+health+"/"+maxHealth);
+		statsMenu.prompt.add("[Mana]: "+mana+"/"+maxMana);
+		statsMenu.prompt.add("[Strength]: "+strength);
+		statsMenu.prompt.add("[Defense]: "+defense);
+		statsMenu.prompt.add("[Dodge]: "+dodge);
+		statsMenu.prompt.add("[Luck]: "+luck);
+		statsMenu.prompt.add("[Magic]: "+magic);
+		statsMenu.prompt.add("[Resistance]: "+resistance);
+		statsMenu.prompt.add("[HELP] - show descriptions for each stat.");
+		statsMenu.prompt.add("[BACK] - go back to the previous prompt.\n");
 
 		//level up info
 		if (points < 0) { 
@@ -166,11 +166,6 @@ public class Player {
 		statsMenu.display();
 		
 		while(true) {
-<<<<<<< Updated upstream
-			statsMenu.display();
-		
-=======
->>>>>>> Stashed changes
 			String selection = input.nextLine();
 			
 			switch(selection.toUpperCase()){
