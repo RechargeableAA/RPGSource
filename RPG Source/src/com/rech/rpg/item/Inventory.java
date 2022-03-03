@@ -8,7 +8,7 @@ import com.rech.rpg.Player;
 
 public class Inventory{
 	//inventory stored as an array list which is just an array that can dynamically change its size, just a place holder for now
-	private static Item[] inventory;
+	private Item[] inventory;
 	private final static int maxInventorySize = 10;
 	
 	public Inventory() {
@@ -190,8 +190,8 @@ public class Inventory{
 		return inventory.length;
 	}
 	
-	public static boolean isFull() { //purely for checking if inv is full
-		if (inventory[maxInventorySize] != null) {
+	public boolean isFull() { //purely for checking if inv is full
+		if (this.inventory[maxInventorySize] != null) {
 			return true;
 		}else {
 			return false;
