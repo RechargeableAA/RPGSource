@@ -33,7 +33,7 @@ public class Player {
 	resistance;
 	private static String name;
 	
-	private int sector = 0;
+	private int sector = 1;
 	private String location = Main.worldMap[sector];
 	
 	// Inventory
@@ -81,6 +81,13 @@ public class Player {
 			}
 			System.out.println("\n!!NOTICE!!\nGame will not procede properly.");
 			Player.name = "ERROR";
+		}else if (name.equals("invtest")) {
+			coins = 100;
+			inventory.pickup(Weapon.testWeapon);
+			inventory.pickup(Weapon.testWeapon);
+			inventory.pickup(Weapon.testWeapon);
+			health = 10;
+			maxHealth = 10;
 		}
 		
 		
@@ -117,7 +124,7 @@ public class Player {
 	protected void godMode() {
 		coins = 99999;
 		inventory.pickup(Weapon.adminBlade);
-		inventory.pickup(Weapon.bsGreatSword);
+		inventory.pickup(Weapon.testWeapon);
 		health = 10000;
 		maxHealth = 10000;
 	}
@@ -421,7 +428,7 @@ public class Player {
 	}
 	
 	public void heal(int heal) {
-		health+= heal;
+		health += heal;
 	}
 	
 	public void grantXP(int xp) {

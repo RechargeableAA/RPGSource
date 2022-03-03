@@ -55,7 +55,7 @@ public class Weapon extends Item{
 	
 	// Static pre-made weapons
 	public static final Weapon fist = new Weapon("fists", 0, Material.unarmed, Type.unarmed, 1);
-	public static final Weapon bsGreatSword = new Weapon("Blue-Steel Greatsword", 800, Material.blueSteel, Type.greatSword, 30);
+	public static final Weapon testWeapon = new Weapon("testWeapon", 1, Material.blueSteel, Type.greatSword, 1);
 	public static final Weapon adminBlade = new Weapon("Admin Blade", 9999999, Material.shadowSteel, Type.dagger, 99999);
 	
 	
