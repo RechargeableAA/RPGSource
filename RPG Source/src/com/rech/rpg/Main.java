@@ -65,7 +65,7 @@ public class Main {
 			else if (optionSelection.equalsIgnoreCase("travel")) { map.showTravelMenu(player, input); }
 			else if (optionSelection.equalsIgnoreCase("options")) { optionsMenu(input); }
 			else {
-				mainMenu.setMessage("\nYou don't know what '"+optionSelection+"' means.\n");
+				mainMenu.message("\nYou don't know what '"+optionSelection+"' means.\n");
 			}
 		}
 	}
