@@ -61,11 +61,11 @@ public class Main {
 			if(optionSelection.equalsIgnoreCase("stats")) { player.showStats(input); }
 			else if (optionSelection.equalsIgnoreCase("backpack") || optionSelection.equalsIgnoreCase("inv")) { player.getInventory().showInventory(player, input); }
 			else if (optionSelection.equalsIgnoreCase("spellbooks") || optionSelection.equalsIgnoreCase("spells")) { player.getInventory().showInventory(player, input); }
-			else if (optionSelection.equalsIgnoreCase("look")) { map.showTravelMenu(player, input); }
-			else if (optionSelection.equalsIgnoreCase("travel")) { map.showTravelMenu(player, input); }
+			else if (optionSelection.equalsIgnoreCase("look")) { map.locationMenu(player, input); }
+			else if (optionSelection.equalsIgnoreCase("travel")) { map.locationMenu(player, input); }
 			else if (optionSelection.equalsIgnoreCase("options")) { optionsMenu(input); }
 			else {
-				mainMenu.setMessage("\nYou don't know what '"+optionSelection+"' means.\n");
+				mainMenu.message("\nYou don't know what '"+optionSelection+"' means.\n");
 			}
 		}
 	}
@@ -121,7 +121,6 @@ public class Main {
 				System.out.println(selection + " is not an option.");
 			}
 		}
-		
 	}
 	
 	/**

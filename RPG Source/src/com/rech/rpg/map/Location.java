@@ -36,9 +36,10 @@ public abstract class Location {
 	 * @return the input of the user converted into NORTH, SOUTH, EAST, WEST
 	 */
 	public static Direction userInputToDirection(Scanner input) {
-		String rawInput = input.nextLine();
-		
 		while(true) {
+			String rawInput = input.nextLine();
+
+			
 			if(rawInput.equalsIgnoreCase(Direction.NORTH.toString())) {
 				return Direction.NORTH;
 			}else if(rawInput.equalsIgnoreCase(Direction.SOUTH.toString())) {
@@ -54,5 +55,7 @@ public abstract class Location {
 	}
 	
 	public abstract void interact(Scanner input, Player player);
+	
+	public abstract String getSurroundings();
 
 }

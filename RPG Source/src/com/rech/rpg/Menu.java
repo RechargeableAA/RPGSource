@@ -24,24 +24,31 @@ public class Menu {
 	}
 	
 	/**
-	 * Print the menu name, its options, and any messages
+	 * Print the menu name, its options, and any messages in that order
 	 */
 	public void display() {
 		Main.clearScreen();
 		System.out.println("\t" + menuTitle + "\n");
-		for(String option : prompt) {
-			System.out.println(option);
+		for(String prompt : prompt) {
+			System.out.println(prompt);
 		}
 		
 		System.out.println(message);
-		message = "";
 	}
 	
 	/**
-	 * Create a message to appear below the options. The message is cleared after every display()
+	 * Creates a message and displays the menu again
 	 * @param message
 	 */
-	public void setMessage(String message) {
+	public void message(String message) {
 		this.message = message;
+		display();
+	}
+	
+	/**
+	 * Clears the menu message line
+	 */
+	public void clearMessage() {
+		message = "";
 	}
 }

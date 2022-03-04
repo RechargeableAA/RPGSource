@@ -26,8 +26,6 @@ public class Inventory{
 	}
 	
 	
-	
-	
 	public void sortInventory() {
 		for (int item = 0; item < inventory.length; item++) {
 			for (int index = 0; index < inventory.length; ++index) {
@@ -64,6 +62,7 @@ public class Inventory{
 			
 			invMenu.display();
 			
+			
 			String optionSelection = input.nextLine().toString();
 			switch(optionSelection.toUpperCase()) {
 			case "EQUIP":
@@ -75,14 +74,11 @@ public class Inventory{
 			case "BACK":
 				return;
 			default:
-				invMenu.setMessage("You don't know  what "+optionSelection+" means.");
+				invMenu.message("You don't know  what "+optionSelection+" means.");
 				break;
 			}
 		}
 	}
-	
-	
-	
 	
 	
 	public void dropItemMenu(Player player, Scanner input) {
@@ -92,58 +88,63 @@ public class Inventory{
 		while(true) {
 			sortInventory();
 			dropMenu.prompt.clear();
+			
 			//show inventory again
 			dropMenu.prompt.add("Your " + player.getEquipped().getName() + " is equipped.");
 			for(int inventorySlot = 0; inventorySlot < getSize(); inventorySlot++) {
 				if(getSlot(inventorySlot) != null) {
 					dropMenu.prompt.add("["+inventorySlot+"] " + getSlot(inventorySlot).getName());
-				}else{
-					++emptySlotCount;
 				}
 			}
-			if (emptySlotCount == 10) {
-				dropMenu.setMessage("You have nothing in your backpack.");
+			
+			if (this.isEmpty()) { // if this(inventory) is empty
+				dropMenu.message("You have nothing in your backpack. [BACK]");
 			}else {
-				dropMenu.prompt.add("Which slot do you want to drop? [0-9] [back]");
+				dropMenu.prompt.add("Which slot do you want to drop? [0-9] [BACK]");
 			}
+			
 			dropMenu.display();
 			
 			String optionSelection = input.nextLine(); 
 			switch(optionSelection.toUpperCase()) {
 			case "BACK":
-				if (emptySlotCount == 10) {
-					Main.mainMenu(input); //the inventory menu will still be visible, so it acts as if the drop command never happened. so when you type back, it goes back to the menu before showing the backpack
-				}else {
-					return;
-				}
+				if (this.isEmpty()) { //the inventory menu will still be visible, so it acts as if the drop command never happened. so when you type back, it goes back to the menu before showing the backpack
+					Main.mainMenu(input); 
+				} 
+				return;
 			default:
-				try {
 					if(optionSelection.matches("[0-9]+")) { // check if string input is an integer
 						int slot = Integer.parseInt(optionSelection);
-						dropMenu.setMessage("Are you sure you want to drop " + getSlot(slot).getName() + "? [y/n]");
-						dropMenu.display();
-						if(input.nextLine().equalsIgnoreCase("y")) {
-							System.out.println("You drop your " + getSlot(slot).getName() + ".");
-							drop(slot);
-						}
+							if(inventory[slot] != null) {
+								dropMenu.prompt.clear();
+								dropMenu.clearMessage();
+								dropMenu.prompt.add("Are you sure you want to drop " + getSlot(slot).getName() + "? [y/n]");
+								dropMenu.display();
+								if(input.nextLine().equalsIgnoreCase("y")) {
+									dropMenu.prompt.clear();
+									dropMenu.prompt.add("You drop your " + getSlot(slot).getName() + ".");
+									dropMenu.display();
+									input.nextLine();
+									drop(slot);
+									
+								}
+							}else {
+								dropMenu.message("There isn't an item in that slot.");
+							}
 					}else {
-						dropMenu.setMessage("You don't know what "+optionSelection+" means.");
+						dropMenu.message("You don't know what "+optionSelection+" means.");
 					}
-				}catch (Exception NullPointerException) {
-					System.out.println("You cannot drop what you do not have.");
-				}
 				break;
 			}
 		}
 	}
 
 	
-	
-	
-	
 	public void equipMenu(Player player, Scanner input){ //fromMain checks to see if you came from the backpack menu
 		Menu equipMenu = new Menu("Equip");
+		
 		while(true) {
+			//adding inventory to menu
 			sortInventory();
 			equipMenu.prompt.clear();
 			for(int inventorySlot = 0; inventorySlot < getSize(); inventorySlot++) {
@@ -151,7 +152,12 @@ public class Inventory{
 					equipMenu.prompt.add("["+inventorySlot+"] " + getSlot(inventorySlot).getName());
 				}
 			}
-			equipMenu.prompt.add("Which slot do you want to equip? [0-9] [back]");
+			
+			if (this.isEmpty()) { // if this(inventory) is empty
+				equipMenu.message("You have nothing in your backpack. [BACK]");
+			}else {
+				equipMenu.prompt.add("Which slot do you want to equip? [0-9] [back]");
+			}
 			
 			equipMenu.display();
 			
@@ -159,28 +165,38 @@ public class Inventory{
 			String optionSelection = input.nextLine(); 
 			switch(optionSelection.toUpperCase()) {
 			case "BACK":
+				if (this.isEmpty()) { //the inventory menu will still be visible, so it acts as if the drop command never happened. so when you type back, it goes back to the menu before showing the backpack
+					Main.mainMenu(input); 
+				} 
 				return;
 			default:
-				if(optionSelection.matches("[0-9]+")) {
-					int slot = Integer.parseInt(optionSelection);
+				if(optionSelection.matches("[0-9]+")) { // is optionSelection a number stored in a string?
+					int slot = Integer.parseInt(optionSelection); // convert string of number into an integer
 					if(getSlot(slot) != null) {
 						if(getSlot(slot) instanceof Weapon) { // checks to see if item is a weapon
-							equipMenu.setMessage("You equip your " + getSlot(slot).getName() + ".");
+							equipMenu.message("You equip your " + getSlot(slot).getName() + ".");
 							player.equip(slot);
 						}else {
-							equipMenu.setMessage("You can't equip a " + player.getInventory().getSlot(slot).getName());
+							equipMenu.message("You can't equip a " + player.getInventory().getSlot(slot).getName());
 						}
 					}else {
-						equipMenu.setMessage("There's nothing in that inventory slot.");
+						equipMenu.message("There's nothing in that inventory slot.");
 					}
 				}else {
-					equipMenu.setMessage("You don't know what "+optionSelection+" means.");
+					equipMenu.message("You don't know what "+optionSelection+" means.");
 				}
 				break;
 			}
 		}
 	}
 
+	public boolean isEmpty() {
+		sortInventory();
+		if(inventory[0] == null) {
+			return true;
+		}
+		return false;
+	}
 	
 	public Item getSlot(int i) {
 		return inventory[i];

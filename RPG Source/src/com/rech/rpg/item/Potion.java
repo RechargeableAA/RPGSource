@@ -20,9 +20,9 @@ public class Potion extends Item{
 	public static final Potion majorHealth = new Potion("Major Health Potion", 10, 30, 0);
 	
 	//Mana pots
-	public static final Potion minorMana = new Potion("Minor Health Potion", 10, 0, 10);
-	public static final Potion standardMana = new Potion("Standard Health Potion", 10, 0, 20);
-	public static final Potion majorMana = new Potion("Major Health Potion", 10, 0, 30);
+	public static final Potion minorMana = new Potion("Minor Mana Potion", 10, 0, 10);
+	public static final Potion standardMana = new Potion("Standard Mana Potion", 10, 0, 20);
+	public static final Potion majorMana = new Potion("Major Mana Potion", 10, 0, 30);
 	
 	public int getHealAmount() {
 		return healthAddition;
