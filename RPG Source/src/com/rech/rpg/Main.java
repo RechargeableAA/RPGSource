@@ -18,11 +18,14 @@ TODO:
 - fast traveling
 - make a max level cap for skills
 - Turn menus into objects
+
+- Shields
+- Spells (attacks + enchantment)
 */
 
 public class Main {
 	//geography
-	public static String[] worldMap = new String[]{"Graydrift", "Greenville", "Kilrock", "Bleakhost", "Duskwood", "Stormvalley", "Summerfelt", "Nevershore", "Southport", "Direwatch"};
+	//public static String[] worldMap = new String[]{"Graydrift", "Greenville", "Kilrock", "Bleakhost", "Duskwood", "Stormvalley", "Summerfelt", "Nevershore", "Southport", "Direwatch"};
 
 	public static Player player;
 	

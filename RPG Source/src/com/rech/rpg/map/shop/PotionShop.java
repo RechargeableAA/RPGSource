@@ -6,7 +6,7 @@ import com.rech.rpg.Main;
 import com.rech.rpg.Player;
 import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Potion;
-import com.rech.rpg.map.TownGenerator;
+//import com.rech.rpg.map.TownGenerator;
 
 public class PotionShop extends Shop{
 
@@ -40,7 +40,7 @@ public class PotionShop extends Shop{
 				selection = Integer.parseInt(in)-1;// subtract 1 to correspond with array index
 			}catch (Exception InputMismatchException) {
 				if (in.equals("back")) {
-					TownGenerator.populateTown(); //TownGenerator class isnt finished. so this is a placeholder for now. not sure where to return the player to
+					return; //TownGenerator class isnt finished. so this is a placeholder for now. not sure where to return the player to
 				}else {
 					System.out.println("I'm sorry, I didnt catch that.");
 					interact(input, player);

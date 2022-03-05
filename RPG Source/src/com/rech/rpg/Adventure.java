@@ -59,7 +59,7 @@ public class Adventure{
 	private static void generateDialogue(Player player, int dialogue, int event) { //dialogue (out of 3) to say, event is which group of dialogue to choose based on the event.
 		String enemy = null;
 		Weapon enemyWeapon = Weapon.fist;
-		switch (event) { //attack = fight. flee & main.luck are evasions
+		switch (event) { //attack = fight. flee & luck are evasions
 		case 1: //ambush
 			if (dialogue == 0) {
 				enemy = getEnemy("human"); 
@@ -67,7 +67,7 @@ public class Adventure{
 				System.out.println("You walk outside of the gates of "+player.getLocation()+", when you hear a desparate cry for help.\n"
 						+ "You dash over to see who is in trouble.\nYou see a "+enemy+" slouched against the wall of a building.\nAs you reach out to see if he has a pulse, "
 						+ "he punches you in the face (-1 HP)!\nYou Stagger back as the "+enemy+" stands up revealing a "+enemyWeapon.getName()+". \n\n'Ha ha ha, the look on your face,'\nhe laughs,\n\n"
-						+ "'Why don't you hand over the gold in that backpack of yours?'\n\nWhat do you do? [attack] [flee] [main.luck]");
+						+ "'Why don't you hand over the gold in that backpack of yours?'\n\nWhat do you do? [attack] [flee] [luck]");
 				player.damage(1);
 				testHealth(player);
 			}else if (dialogue == 1) {
@@ -75,13 +75,13 @@ public class Adventure{
 				enemyWeapon = Weapon.generateNewWeapon(6, 6);
 				System.out.println("As you walk across the bridge just outside of town, you come across a small building made of brick.\nThere aren't many people living just outside of "+player.getLocation()+", so you decide to investigate.\n"
 						+ "Just before you get to the entrance you hear a loud scraping noise. You look over to see a "+enemy+", grinding his "+enemyWeapon.getName()+" against the brick as he approaches.\n\n'Not from around here are ya?'\nHe says, grinning.\n\n"
-						+ "He's getting closer,\n\n What do you do? [attack] [flee] [main.luck]");
+						+ "He's getting closer,\n\n What do you do? [attack] [flee] [luck]");
 			}else if (dialogue == 2) {
 				enemy = getEnemy("orc");
 				enemyWeapon = Weapon.generateNewWeapon(6, 6);
 				System.out.println("You find a small opening in the mountain face just ahead. You decide to investigate.\nInside you find distiguished torches.\n'Odd.' you say to yourself aloud.\nSomething falls over just outside of sight, deeper in"
 						+ " the cave.\nYou walk further into the dark cave...\n~woosh~ You duck as a "+enemyWeapon.getName()+" swings over your head.\n\n'Human! You don't belong here!'\nAn "+enemy+" emerges from the depths of the cave darkness. He lifts his"
-						+ "weapon again.\n\n What do you do? [attack] [flee] [main.luck]");
+						+ "weapon again.\n\n What do you do? [attack] [flee] [luck]");
 			}
 			response(player, event, dialogue, enemy, enemyWeapon);
 			break;
@@ -216,7 +216,7 @@ public class Adventure{
 				player.setCoins(player.getCoins()+payout);
 			}else if (dialogue == 2) {
 				System.out.println("You find a dusty container with a door in the side of a mountain. You've never seen something like it before.\nYou grab the handle on the white door, it feels cold..."
-						+ " here...\nIt's clearly some sort of elven made magic box.\nYou open it to a cool breeze and discover it emits light from a smokeless torch on the top of the inside, and clear shelves hinged on the sides.\n"
+						+ " here...\nIt's clearly some sort of elven made magic box.\nYou open it to a cool breeze and discover it emits light from a smokeless torch at the top of the inside, and clear shelves hinged on the sides.\n"
 						+ "Inside you find 3 minor mana potions and 2 minor healing potions!");
 				player.getInventory().pickup(Potion.minorMana);
 				player.getInventory().pickup(Potion.minorMana);
@@ -273,7 +273,7 @@ public class Adventure{
 	}
 
 	private static void response(Player player, int event, int dialogue, String enemy, Weapon enemyWeapon){
-		Scanner input = new Scanner(System.in); //[attack] [flee] [main.luck]
+		Scanner input = new Scanner(System.in); //[attack] [flee] [luck]
 		Random rand = new Random(); int roll;
 		String in = input.nextLine();
 		String response = null;
@@ -281,8 +281,8 @@ public class Adventure{
 			response = "attack"; 
 		}else if (in.equals("flee")) {
 			response = "flee";
-		}else if (in.equals("main.luck")) {
-			response = "main.luck";
+		}else if (in.equals("luck")) {
+			response = "luck";
 		}else {
 			System.out.println("In shock, you udder a strange noise that no one understands.");
 			++strike;
@@ -317,7 +317,7 @@ public class Adventure{
 							System.out.println("You kick the "+enemy+" but he jumps back, avoiding the blow...\nnow he's angry...");
 							fight(player, enemy, enemyWeapon, true);
 						}					
-					}else if (response.equals("main.luck")) {
+					}else if (response.equals("luck")) {
 						roll = (int) (rand.nextInt(121)+(player.getLuck()*1.25));
 						if (roll > 100){
 							roll = rand.nextInt(12)+6;
@@ -340,7 +340,7 @@ public class Adventure{
 							System.out.println("You turn around and fall over, your foot is caught in a rope. You slice the rope off, but by the time you get up, the "+enemy+" is right in front of you. Can't run now...");
 							fight(player, enemy, enemyWeapon, true);
 						}
-					}else if (response.equals("main.luck")) {
+					}else if (response.equals("luck")) {
 						roll = (int) (rand.nextInt(121)+(player.getLuck()*1.25));
 						if (roll > 100){
 							System.out.println("'Stop in the name of the law!' you shout, 'Under kings orders, you are under arrest!'\nThe "+enemy+"'s eyes widen. He turns around and runs into the woods behind the building.\n"
@@ -362,14 +362,14 @@ public class Adventure{
 							System.out.println("You roll out of the way as the "+enemy+"'s "+enemyWeapon+" slams into the rock beside you.\nYou stumble to your feet, but he picks you up and throws you further into the cave.\nNo running now...");
 							fight(player, enemy, enemyWeapon, true);
 						}
-					}else if (response.equals("main.luck")) {
+					}else if (response.equals("luck")) {
 						roll = (int) (rand.nextInt(121)+(player.getLuck()*1.25));
 						if (roll > 100){
 							System.out.println("Your "+player.getEquipped().getName()+" meets his weapon, blocking his attack.\nYou kick his wrist, knocking the sword out of his hand. You raise your blade to his throat.\n'Human never surprise me like this before!'"
 									+ "\nHe slowly backs away as you sheath your sword.");
 							return;
 						}else{
-							System.out.println("Your \"+main.inventory[0]+\" meets his weapon, blocking his attack.\\nYou kick his wrist, knocking the sword out of his hand, but dropping yours in the process.\nYou both scramble to pick your weapons back up.\nHe growls. That just made him angry...");
+							System.out.println("Your "+main.inventory[0]+" meets his weapon, blocking his attack.\nYou kick his wrist, knocking the sword out of his hand, but dropping yours in the process.\nYou both scramble to pick your weapons back up.\nHe growls. That just made him angry...");
 							fight(player, enemy, enemyWeapon, true);
 						}
 					}
@@ -390,7 +390,7 @@ public class Adventure{
 		int enemyAtk = (int) (multiplier*(rand.nextInt(player.getStrength()+rand.nextInt(2))+Math.floor(enemyWeapon.getDamage()/2)));
 		if (enemyAtk == 0) {
 			++enemyAtk;
-		}//TODO roll main.luck to see who attacks first
+		}//TODO roll luck to see who attacks first
 		//TODO might want to make an enemy object for easy universal use.
 	}
 
