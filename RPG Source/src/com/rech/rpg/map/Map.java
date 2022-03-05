@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.rech.rpg.Menu;
 import com.rech.rpg.Player;
+import com.rech.rpg.map.event.Event;
 
 public class Map {
 	public static enum Direction{
@@ -16,7 +17,7 @@ public class Map {
 	
 	private Location[] map;
 	private static final int MAPSIZE = 50;
-	private static final int eventProbability = 30; // 30 out of 100
+	private static final int eventProbability = 100; // 30 out of 100
 	/**
 	 * Map contains an array of locations the player can move between.
 	 */
@@ -26,6 +27,7 @@ public class Map {
 		map[0] = Town.generateTown(); // default town
 		map[1] = Town.generateTown(); // default town
 		map[2] = Town.generateTown(); // default town
+		map[3] = Town.generateTown(); // default town
 		
 	}
 	
@@ -91,8 +93,8 @@ public class Map {
 					travelMenu.prompt.clear();
 					player.travel(direction);
 					travelMenu.message("You begin to travel " + direction.name() + " towards " + map[player.getSector()].name);
-					procEvent();
-					input.nextLine(); // pause
+					input.nextLine();
+					procEvent(input, player);
 					return;
 				}else {
 					travelMenu.message("You don't know what " + optionSelection + " means.");
@@ -102,10 +104,10 @@ public class Map {
 		}
 	}
 
-	private void procEvent() {
+	private void procEvent(Scanner input, Player player) {
 		Random random = new Random();
 		if(random.nextInt(100) <= eventProbability) {
-			
+			Event.getEvents().get(random.nextInt(Event.getEvents().size())).runEvent(input, player);
 		}
 	}
 }

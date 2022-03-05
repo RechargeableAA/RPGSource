@@ -60,7 +60,7 @@ public class PotionShop extends Shop{
 									if (!Main.player.getInventory().isFull()) { 
 										player.getInventory().pickup(shopInventory[selection]);
 										player.loseCoins(shopInventory[selection].getCost());
-										potShop.message("\n\nYou give the shopkeep "+shopInventory[selection].getCost()+" coins and receive the " + shopInventory[selection].getName() + ".");
+										potShop.message("You give the shopkeep "+shopInventory[selection].getCost()+" coins and receive the " + shopInventory[selection].getName() + ".");
 										break;
 									}else {
 										potShop.prompt.clear();

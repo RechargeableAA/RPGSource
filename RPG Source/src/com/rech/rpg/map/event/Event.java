@@ -1,9 +1,11 @@
-package com.rech.rpg.map;
+package com.rech.rpg.map.event;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.rech.rpg.Menu;
 import com.rech.rpg.Player;
+import com.rech.rpg.item.Item;
 
 /**
  * Events occur inbetween locations
@@ -13,13 +15,13 @@ import com.rech.rpg.Player;
 
 public abstract class Event{
 	
-	private String 
+	protected String 
 	name,
 	description;
-	private ArrayList<Event> eventList = new ArrayList<Event>();
+	private static ArrayList<Event> eventList = new ArrayList<Event>();
 	
 	
-	private Event(String name, String description) {
+	protected Event(String name, String description) {
 		this.name = name;
 		this.description = description;
 		eventList.add(this);
@@ -27,16 +29,8 @@ public abstract class Event{
 
 	public abstract void runEvent(Scanner input, Player player);
 	
-	
-	public static class Ambush extends Event{
-
-		public Ambush(String name, String description) {
-			super(name, description);
-		}
-
-		@Override
-		public void runEvent(Scanner input, Player player) {
-			
-		}
+	public static ArrayList<Event> getEvents() {
+		return eventList;
 	}
+	
 }
