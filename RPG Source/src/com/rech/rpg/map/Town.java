@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import com.rech.rpg.Player;
 import com.rech.rpg.item.Potion;
+import com.rech.rpg.map.Map.Direction;
 import com.rech.rpg.map.shop.PotionShop;
 import com.rech.rpg.map.shop.Shop;
 
@@ -37,7 +38,7 @@ public class Town extends Location{
 	
 	
 	@Override
-	public void interact(Scanner input, Player player) {
+	public void interact(Scanner input, Direction directionSelection, Player player) {
 		System.out.println("No interactions set for town " + this.name);
 	}
 	
@@ -60,9 +61,9 @@ public class Town extends Location{
 				}
 				){
 					@Override
-					public void interact(Scanner input, Player player) { // settings what can be interacted with within the town
+					public void interact(Scanner input, Direction directionSelection, Player player) { // settings what can be interacted with within the town
 						
-						switch(Location.userInputToDirection(input)) {
+						switch(directionSelection) {
 						case NORTH:
 							this.shops[0].interact(input, player);
 						break;

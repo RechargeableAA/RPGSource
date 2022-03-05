@@ -17,7 +17,7 @@ public class Surroundings {
 
 	public static void setLocation(Player player) {
 		if (player.getLocation().equals("Graydrift")) {
-			player.setSector(0);
+			//player.setSector(0);
 			localAreas[0] = "Blacksmith"; localInput[0] = "blacksmith";
 			localAreas[1] = "Gavin's Home"; localInput[1] = "gavin";
 			localAreas[2] = "Potion Seller"; localInput[2] = "potions";
