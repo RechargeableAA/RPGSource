@@ -1,5 +1,7 @@
 package com.rech.rpg.item;
 
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 
 import com.rech.rpg.Main;
@@ -9,10 +11,10 @@ import com.rech.rpg.Player;
 public class Inventory{
 	//inventory stored as an array list which is just an array that can dynamically change its size, just a place holder for now
 	private Item[] inventory;
-	private final static int maxInventorySize = 10;
+	private final static int inventorySize = 10;
 	
 	public Inventory() {
-		inventory = new Item[maxInventorySize]; // inventory can store 10 items
+		inventory = new Item[inventorySize]; // inventory can store 10 items
 	}
 	
 	public void pickup(Item item) {
@@ -27,14 +29,7 @@ public class Inventory{
 	
 	
 	public void sortInventory() {
-		for (int item = 0; item < inventory.length; item++) {
-			for (int index = 0; index < inventory.length; ++index) {
-				if(inventory[index] == null) {
-					inventory[index] = inventory[item];
-					inventory[item] = null;
-				}
-			}
-		}
+		inventory = Arrays.stream(inventory).filter(Objects::nonNull).toArray(Item[]::new);
 	}
 	
 	/**
@@ -84,7 +79,6 @@ public class Inventory{
 	public void dropItemMenu(Player player, Scanner input) {
 		Menu dropMenu = new Menu("DROP");
 		
-		int emptySlotCount = 0;
 		while(true) {
 			sortInventory();
 			dropMenu.prompt.clear();
@@ -191,11 +185,8 @@ public class Inventory{
 	}
 
 	public boolean isEmpty() {
-		sortInventory();
-		if(inventory[0] == null) {
-			return true;
-		}
-		return false;
+		return Arrays.stream(inventory).filter(Objects::nonNull).toArray(Item[]::new).length == 0;
+		//left side effectively uses java's Array util to read the array, filter out null values, convert back to an array, and get it's length
 	}
 	
 	public Item getSlot(int i) {
@@ -206,12 +197,13 @@ public class Inventory{
 		return inventory.length;
 	}
 	
-	public boolean isFull() { //purely for checking if inv is full
-		if (this.inventory[maxInventorySize-1] != null) {
-			return true;
-		}else {
-			return false;
-		}
+	/**
+	 * Determine if inventory is full
+	 * @return true - if full; false - contains empty slots
+	 */
+	public boolean isFull() { // Arrays cannot reference a null index
+		return Arrays.stream(inventory).filter(Objects::nonNull).toArray(Item[]::new).length == inventorySize;
+		//left side effectively uses java's Array util to read the array, filter out null values, convert back to an array, and get it's length
 	}
 
 	public void setSlot(int slot, Item item) {

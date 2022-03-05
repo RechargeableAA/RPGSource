@@ -25,73 +25,73 @@ public class PotionShop extends Shop{
 				Potion.majorMana
 		};
 		
-		// bool to keep the shopping look going
 		Menu potShop = new Menu(shopName);
-		boolean stillShopping = true;
-		do {
-			potShop.prompt.add("\n\nHello "+player.getName()+"... A potion for all your needs..."); // quest?
-			potShop.prompt.add("------------Potions-----------");
+		while(true) {
+			potShop.prompt.clear();
+			potShop.prompt.add("Hello "+player.getName()+"... A potion for all your needs..."); // quest?
+			potShop.prompt.add("------------Potions-------------");
 			potShop.prompt.add("[1] + "+shopInventory[0].getName()
 							+"\n[2] + "+shopInventory[1].getName()
 							+"\n[3] + "+shopInventory[2].getName());
-	
 			potShop.prompt.add("\nWhich would you like to buy? [1-3] [back]");
 			potShop.display();
+			potShop.clearMessage();
 			
 			String in = input.nextLine(); //has to be taken as a string to catch the 'back' command. is parsed as an int after.
-			int selection = 0;
 			
-			try {
-				selection = Integer.parseInt(in)-1;// subtract 1 to correspond with array index
-			}catch (Exception InputMismatchException) {
-				if (in.equals("back")) {
-					return; //TownGenerator class isnt finished. so this is a placeholder for now. not sure where to return the player to
-				}else {
-					System.out.println("I'm sorry, I didnt catch that.");
-					interact(input, player);
-				}
-			}
-			
-			try {
-				
-				if (player.getCoins() >= shopInventory[selection].getCost()) {
-					potShop.prompt.add("\n\nAh, a " + shopInventory[selection].getName() + " that'll be " + shopInventory[selection].getCost() + " coins.");
-					potShop.prompt.add("Pay the shopkeep " + shopInventory[selection].getCost() + " coins? [y/n]\nYou have "+player.getCoins()+" coins right now.");
-					potShop.display();
+			switch(in.toUpperCase()) {
+			case "BACK":
+				return;
+			default:
+				if(in.matches("[0-9]+")) { // selection was an item
+					int selection = Integer.parseInt(in)-1; // -1 to match starting with 0 in arrays
 					
-					if(input.nextLine().equalsIgnoreCase("y")) {
-						while(true)	{
-							if (Main.player.getInventory().isFull() == false) { 
-								player.getInventory().pickup(shopInventory[selection]);
-								player.loseCoins(shopInventory[selection].getCost());
-								potShop.message("\n\nYou give the shopkeep "+shopInventory[selection].getCost()+" coins and recieve the " + shopInventory[selection].getName() + ".");
-								break;
-							}else {
-								potShop.message("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]");
-								in = input.nextLine();
+					if(selection < shopInventory.length && selection != -1) {
+					
+						if (player.getCoins() >= shopInventory[selection].getCost()) {
+							potShop.prompt.clear();
+							potShop.prompt.add("Ah, a " + shopInventory[selection].getName() + " that'll be " + shopInventory[selection].getCost() + " coins.");
+							potShop.prompt.add("You have "+player.getCoins()+" coins right now.");
+							potShop.prompt.add("\nPay the shopkeep " + shopInventory[selection].getCost() + " coins? [y/n]");
+							potShop.display();
+							
+							if(input.nextLine().equalsIgnoreCase("y")) {
+								while(true)	{
+									if (!Main.player.getInventory().isFull()) { 
+										player.getInventory().pickup(shopInventory[selection]);
+										player.loseCoins(shopInventory[selection].getCost());
+										potShop.message("\n\nYou give the shopkeep "+shopInventory[selection].getCost()+" coins and receive the " + shopInventory[selection].getName() + ".");
+										break;
+									}else {
+										potShop.prompt.clear();
+										potShop.message("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]");
+										in = input.nextLine();
+										
+										if (in.equalsIgnoreCase("y")){
+											player.getInventory().dropItemMenu(player, input);
+										}else if (in.equalsIgnoreCase("n") || in.equalsIgnoreCase("back")){
+											potShop.clearMessage();
+											break;
+										}else {
+											potShop.message("I'm not sure what you mean by " + in.toUpperCase() + ".");
+										}
+									}
+								}	
+							}else { // player responded something other than y to "do you want to buy"
 								
-								if (in.equalsIgnoreCase("y")){
-									player.getInventory().dropItemMenu(player, input);
-								}else if (in.equalsIgnoreCase("n") || in.equalsIgnoreCase("back")){
-									break;
-								}else {
-									potShop.message("I'm not sure what you mean by " + in.toUpperCase() + ".");
-								}
 							}
-						}	
+						}else { // player does not have enough money
+							potShop.message("You can't afford that!");
+						}
+					
+					}else { // selection was not within the shop's item array
+						potShop.message("I'm afraid that this is all I have to offer you right now.");
 					}
-				}else {
-					potShop.message("You can't afford that!");
+				}else { // selection was not an item
+					potShop.message("I'm sorry, I didnt catch that.");
 				}
-			}catch (Exception e) { //catches if player enters a word instead of a number, or if index-outofbounds
-				potShop.message("\nI'm afraid that this is all I have to offer you right now.");
-				e.printStackTrace();
-				interact(input, player);
+				break;
 			}
-			
-			System.out.println("Keep shopping? [y/n]");
-			stillShopping = input.nextLine().equalsIgnoreCase("y"); // quick way to set still shopping to true/false
-		}while(stillShopping);
-		
+		}
 	}			
 }
