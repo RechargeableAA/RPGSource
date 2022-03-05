@@ -3,6 +3,7 @@ package com.rech.rpg.map.shop;
 import java.util.Scanner;
 
 import com.rech.rpg.Main;
+import com.rech.rpg.Menu;
 import com.rech.rpg.Player;
 import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Potion;
@@ -14,6 +15,8 @@ public class PotionShop extends Shop{
 		super(shopName, potions);
 	}
 
+	
+	
 	@Override
 	public void interact(Scanner input, Player player) {
 		Potion shopInventory[] = {
@@ -23,15 +26,17 @@ public class PotionShop extends Shop{
 		};
 		
 		// bool to keep the shopping look going
+		Menu potShop = new Menu(shopName);
 		boolean stillShopping = true;
 		do {
-			System.out.println("\n\nHello "+player.getName()+"... A potion for all your needs..."); // quest?
-			System.out.println("------------Potions-----------");
-			System.out.println("[1] + "+shopInventory[0].getName()
+			potShop.prompt.add("\n\nHello "+player.getName()+"... A potion for all your needs..."); // quest?
+			potShop.prompt.add("------------Potions-----------");
+			potShop.prompt.add("[1] + "+shopInventory[0].getName()
 							+"\n[2] + "+shopInventory[1].getName()
 							+"\n[3] + "+shopInventory[2].getName());
 	
-			System.out.println("\nWhich would you like to buy? [1-3] [back]");
+			potShop.prompt.add("\nWhich would you like to buy? [1-3] [back]");
+			potShop.display();
 			
 			String in = input.nextLine(); //has to be taken as a string to catch the 'back' command. is parsed as an int after.
 			int selection = 0;
@@ -48,26 +53,39 @@ public class PotionShop extends Shop{
 			}
 			
 			try {
-				// the beauty of using objects! every selection contained into one code block
-				System.out.println("Ah, a " + shopInventory[selection].getName() + " that'll be " + shopInventory[selection].getCost() + " coins.");
-				System.out.println("Pay the shopkeep " + shopInventory[selection].getCost() + " coins? [y/n]\nYou have "+player.getCoins()+" coins right now.");
-				if(input.next().equalsIgnoreCase("y")) {
-					if (player.getCoins() >= shopInventory[selection].getCost()) { //need to see if theres room in the inventory before taking money
-						if (Main.player.getInventory().isFull() == false) {
-							player.getInventory().pickup(shopInventory[selection]);
-							player.loseCoins(shopInventory[selection].getCost());
-							System.out.println("You give the shopkeep "+shopInventory[selection].getCost()+" coins and recieve the " + shopInventory[selection] + ".");	
-						}
-					}else {
-						System.out.println("You can't afford that!");
-					}
+				
+				if (player.getCoins() >= shopInventory[selection].getCost()) {
+					potShop.prompt.add("\n\nAh, a " + shopInventory[selection].getName() + " that'll be " + shopInventory[selection].getCost() + " coins.");
+					potShop.prompt.add("Pay the shopkeep " + shopInventory[selection].getCost() + " coins? [y/n]\nYou have "+player.getCoins()+" coins right now.");
+					potShop.display();
 					
+					if(input.nextLine().equalsIgnoreCase("y")) {
+						while(true)	{
+							if (Main.player.getInventory().isFull() == false) { 
+								player.getInventory().pickup(shopInventory[selection]);
+								player.loseCoins(shopInventory[selection].getCost());
+								potShop.message("\n\nYou give the shopkeep "+shopInventory[selection].getCost()+" coins and recieve the " + shopInventory[selection].getName() + ".");
+								break;
+							}else {
+								potShop.message("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]");
+								in = input.nextLine();
+								
+								if (in.equalsIgnoreCase("y")){
+									player.getInventory().dropItemMenu(player, input);
+								}else if (in.equalsIgnoreCase("n") || in.equalsIgnoreCase("back")){
+									break;
+								}else {
+									potShop.message("I'm not sure what you mean by " + in.toUpperCase() + ".");
+								}
+							}
+						}	
+					}
+				}else {
+					potShop.message("You can't afford that!");
 				}
-			}
-			catch (Exception indexOutOfBounds) { //catches if player enters a word instead of a number, or if index-outofbounds
-				//if (selection > shopInventory.length+1 || selection < shopInventory.length+1)  {
-					System.out.println("\nI'm afraid that this is all I have to offer you right now.");
-				//}
+			}catch (Exception e) { //catches if player enters a word instead of a number, or if index-outofbounds
+				potShop.message("\nI'm afraid that this is all I have to offer you right now.");
+				e.printStackTrace();
 				interact(input, player);
 			}
 			

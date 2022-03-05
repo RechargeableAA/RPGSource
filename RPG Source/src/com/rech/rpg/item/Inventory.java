@@ -207,7 +207,7 @@ public class Inventory{
 	}
 	
 	public boolean isFull() { //purely for checking if inv is full
-		if (this.inventory[maxInventorySize] != null) {
+		if (this.inventory[maxInventorySize-1] != null) {
 			return true;
 		}else {
 			return false;

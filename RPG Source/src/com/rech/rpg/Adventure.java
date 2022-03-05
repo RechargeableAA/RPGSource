@@ -369,7 +369,7 @@ public class Adventure{
 									+ "\nHe slowly backs away as you sheath your sword.");
 							return;
 						}else{
-							System.out.println("Your "+main.inventory[0]+" meets his weapon, blocking his attack.\nYou kick his wrist, knocking the sword out of his hand, but dropping yours in the process.\nYou both scramble to pick your weapons back up.\nHe growls. That just made him angry...");
+						//	System.out.println("Your "+main.inventory[0]+" meets his weapon, blocking his attack.\nYou kick his wrist, knocking the sword out of his hand, but dropping yours in the process.\nYou both scramble to pick your weapons back up.\nHe growls. That just made him angry...");
 							fight(player, enemy, enemyWeapon, true);
 						}
 					}

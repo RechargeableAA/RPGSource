@@ -72,7 +72,13 @@ public class Player extends Entity{
 			System.out.println("\n!!NOTICE!!\nGame will not procede properly.");
 			name = "ERROR";
 		}else if (name.equals("invtest")) {
-			coins = 100;
+			coins = 99100;
+			inventory.pickup(Weapon.testWeapon);
+			inventory.pickup(Weapon.testWeapon);
+			inventory.pickup(Weapon.testWeapon);
+			inventory.pickup(Weapon.testWeapon);
+			inventory.pickup(Weapon.testWeapon);
+			inventory.pickup(Weapon.testWeapon);
 			inventory.pickup(Weapon.testWeapon);
 			inventory.pickup(Weapon.testWeapon);
 			inventory.pickup(Weapon.testWeapon);

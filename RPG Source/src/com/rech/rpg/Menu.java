@@ -8,7 +8,9 @@ import java.util.ArrayList;
  *
  */
 public class Menu {
-	//Options to be displayed
+	/**
+	 * Messages appearing above extra dialogue, like options or questions.
+	 */
 	public ArrayList<String> prompt;
 	//Informational message printed after options, this is usually "You dont know what..." when user enters an incorrect input
 	private String message = "";
@@ -37,7 +39,8 @@ public class Menu {
 	}
 	
 	/**
-	 * Creates a message and displays the menu again
+	 * Messages that appear after menus/options.
+	 * EX: "You payed 5 gp for that."
 	 * @param message
 	 */
 	public void message(String message) {
