@@ -3,6 +3,7 @@ package com.rech.rpg.map;
 import java.util.Scanner;
 
 import com.rech.rpg.Player;
+import com.rech.rpg.map.Map.Direction;
 
 
 /**
@@ -18,7 +19,7 @@ public class Wilderness extends Location{
 	}
 
 	@Override
-	public void interact(Scanner input, Player player) {
+	public void interact(Scanner input, Direction directionSelection, Player player) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -50,7 +50,7 @@ public class PotionShop extends Shop{
 			}
 			
 			System.out.println("Keep shopping? [y/n]");
-			stillShopping = input.next().equalsIgnoreCase("y"); // quick way to set still shopping to true/false
+			stillShopping = input.nextLine().equalsIgnoreCase("y"); // quick way to set still shopping to true/false
 		}while(stillShopping);
 		
 	}			

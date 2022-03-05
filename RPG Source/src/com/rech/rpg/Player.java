@@ -5,34 +5,24 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import com.rech.rpg.entity.Entity;
 import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Weapon;
+import com.rech.rpg.map.Map.Direction;
 import com.rech.rpg.map.Town; //temporary!!! - for debugging purposes
 
 
 /*
  * Player class to store player info
  */
-public class Player {
+public class Player extends Entity{
 	
 	//stats
 	private static int 
-	level,
 	exp, 
 	points,
-	coins,
-	health,
-	maxHealth,
-	strength,
-	defense,
-	dodge,
-	luck,
-	magic,
-	mana,
-	maxMana,
-	resistance;
-	private static String name;
-	
+	coins;
+
 	private int sector = 1;
 	private String location = Main.worldMap[sector];
 	
@@ -80,7 +70,7 @@ public class Player {
 				//System.out.println(out);
 			}
 			System.out.println("\n!!NOTICE!!\nGame will not procede properly.");
-			Player.name = "ERROR";
+			name = "ERROR";
 		}else if (name.equals("invtest")) {
 			coins = 100;
 			inventory.pickup(Weapon.testWeapon);
@@ -330,6 +320,18 @@ public class Player {
 		return sector;
 	}
 	
+	public void travel(Direction direction) {
+		switch(direction) {
+		case EAST:
+			sector += 1;
+			break;
+		case WEST:
+			sector -= 1;
+			break;
+		}
+	}
+	
+	
 	public boolean isDead() {
 		if(health <= 0) {
 			return true;
@@ -438,9 +440,5 @@ public class Player {
 	public void levelUp() {
 		level++;
 		exp = 0;
-	}
-
-	public void setSector(int i) {
-		sector = i;
 	}
 }

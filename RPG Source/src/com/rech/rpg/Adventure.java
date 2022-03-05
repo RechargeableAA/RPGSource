@@ -23,9 +23,9 @@ public class Adventure{
 			--events;
 		}while(events > 0);
 		if (nextTown == true) { //whether or not to go to the next town or previous town.
-			player.setSector(player.getSector()+1);;
+			//player.setSector(player.getSector()+1);;
 		}else {
-			player.setSector(player.getSector()-1);;
+			//player.setSector(player.getSector()-1);;
 		}
 		player.teleport(Main.worldMap[player.getSector()]);
 

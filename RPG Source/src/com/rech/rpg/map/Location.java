@@ -3,6 +3,7 @@ package com.rech.rpg.map;
 import java.util.Scanner;
 
 import com.rech.rpg.Player;
+import com.rech.rpg.map.Map.Direction;
 
 /**
  * Locations are points on the map. Can be Towns, Random events, or Wild
@@ -10,12 +11,6 @@ import com.rech.rpg.Player;
 public abstract class Location {
 	String name;
 	String description;
-	public static enum Direction{
-		NORTH,
-		SOUTH,
-		EAST,
-		WEST
-	}
 	
 	public Location(String name, String description) {
 		this.name = name;
@@ -54,7 +49,23 @@ public abstract class Location {
 		}
 	}
 	
-	public abstract void interact(Scanner input, Player player);
+	
+	/**
+	 * Test if Directions contain a string
+	 * @param rawDirection - string to test
+	 * @return True - Direction contains string; False - Direction does not contain String
+	 */
+	public static boolean directionEnumContains(String rawDirection) {
+	    for (Direction d : Direction.values()) {
+	        if (d.name().equals(rawDirection)) {
+	            return true;
+	        }
+	    }
+
+	    return false;
+	}
+	
+	public abstract void interact(Scanner input, Direction directionSelection, Player player);
 	
 	public abstract String getSurroundings();
 
