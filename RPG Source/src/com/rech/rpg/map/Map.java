@@ -42,11 +42,15 @@ public class Map {
 			locationMenu.prompt.add(currentLocation.getDescription());
 			locationMenu.prompt.add(currentLocation.getSurroundings());
 			locationMenu.prompt.add("[TRAVEL] to another location"); // move forward in map array
+			locationMenu.prompt.add("[BACK]");
 			
 			locationMenu.display();
 			String optionSelection = input.nextLine().toUpperCase();
 			
 			switch(optionSelection) {
+			
+				case "BACK":
+					return;
 				case "TRAVEL":
 					travelMenu(player, input);
 					//update menu
