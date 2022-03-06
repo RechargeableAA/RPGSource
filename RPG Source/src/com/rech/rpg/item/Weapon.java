@@ -48,6 +48,39 @@ public class Weapon extends Item{
 		}
 	}
 	
+	
+	/**
+	 *  @param 
+	 *  dropChance - fractional chance out of 100 ex 75 means if a number rolls from 0 to 75 (out of 100), it'll drop
+	 *  @param
+	 *  quality - 0 to 100 quality will randomly return a weapon based on the number. higher the better.
+	 */
+	public static Weapon generateChanceWeapon(int dropChance, int quality) {
+	//	try {
+			Random rand = new Random();
+			if (rand.nextInt(99)+1 < dropChance) { //WARNING COMPLEX MATHS HERE :: math finds what 0-100 corresponds to in the materials/type array (without using java-arrays)
+				System.out.println(rand.nextInt(99)+1);
+				System.out.println((int) Math.ceil((rand.nextInt(100)+1)/(100/Material.allMaterials.size())));
+				Type weaponType = Type.allWeaponTypes.get((int) Math.ceil((rand.nextInt(100)+1)/(100/Material.allMaterials.size())));
+				Material weaponMat = Material.allMaterials.get((int) Math.ceil((rand.nextInt(100)+1)/(100/Type.allWeaponTypes.size())));
+				String weaponNam = weaponMat.getName() + " " + weaponType.getName();
+				int damage = weaponMat.damageModifier + weaponType.damageModifier;
+				int cost = weaponMat.costModifier + weaponType.costModifier;
+				return new Weapon(weaponNam, cost, weaponMat, weaponType, damage);
+					
+			}else {
+				return Weapon.testWeapon; //needs to return nothing. may have to use this method in a try catch to properly call it.
+			}
+			//else {
+				//return null; //gives nothing.
+		//	}
+	//	}catch(ArrayIndexOutOfBoundsException IOB) { //Returns nothing;
+	//		IOB.printStackTrace();
+	//		return Weapon.testWeapon;
+	//	}
+		
+	}
+	
 	public int getDamage() {
 		return dmg;
 	}
@@ -166,12 +199,13 @@ public class Weapon extends Item{
 		protected static final Type rapier = new Type("Rapier", 2, 6);
 		protected static final Type shortSword = new Type("Short sword", 2, 10);
 		protected static final Type mace = new Type("Mace", 3, 14);
+		protected static final Type hatchet = new Type("Hatchet", 3, 15);
 		protected static final Type scimitar = new Type("Scimitar", 4, 15);
 		protected static final Type longSword = new Type("Long Sword", 5, 21);
-		protected static final Type greatSword = new Type("Greatsword", 8, 36);
-		protected static final Type katana = new Type("Katana", 7, 27);
-		protected static final Type hatchet = new Type("Hatchet", 3, 15);
 		protected static final Type battleAxe = new Type("Battle-axe", 6, 30);
+		protected static final Type katana = new Type("Katana", 7, 27);
 		protected static final Type greatAxe = new Type("Great Hammer", 8, 35);
+		protected static final Type greatSword = new Type("Greatsword", 8, 36);
+
 	}
 }

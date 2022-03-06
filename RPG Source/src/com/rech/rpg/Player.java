@@ -10,6 +10,7 @@ import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Weapon;
 import com.rech.rpg.map.Map.Direction;
 import com.rech.rpg.map.Town; //temporary!!! - for debugging purposes
+import com.rech.rpg.map.event.AmbushEvent;
 
 
 /*
@@ -63,27 +64,28 @@ public class Player extends Entity{
 			inventory.pickup(Weapon.adminBlade);
 			health = 10000;
 			maxHealth = 10000;
-		}else if (name.equals("town")) {
+		/*}else if (name.equals("town")) {
 			String out;
 			for (int i = 0; i < 10; ++i) {
-				//out = Town.generateTown(0,0);
-				//System.out.println(out);
+				out = Town.generateTown(0,0);
+				System.out.println(out);
 			}
 			System.out.println("\n!!NOTICE!!\nGame will not procede properly.");
 			name = "ERROR";
+			*/
 		}else if (name.equals("invtest")) {
 			coins = 99100;
-			inventory.pickup(Weapon.testWeapon);
-			inventory.pickup(Weapon.testWeapon);
-			inventory.pickup(Weapon.testWeapon);
-			inventory.pickup(Weapon.testWeapon);
-			inventory.pickup(Weapon.testWeapon);
-			inventory.pickup(Weapon.testWeapon);
-			inventory.pickup(Weapon.testWeapon);
-			inventory.pickup(Weapon.testWeapon);
-			inventory.pickup(Weapon.testWeapon);
+			inventory.pickup(Weapon.generateChanceWeapon(100, 30));
+			inventory.pickup(Weapon.generateChanceWeapon(100, 40));
+			inventory.pickup(Weapon.generateChanceWeapon(100, 50));
+			inventory.pickup(Weapon.generateChanceWeapon(100, 60));
+			inventory.pickup(Weapon.generateChanceWeapon(100, 70));
+			inventory.pickup(Weapon.generateChanceWeapon(100, 80));
+			inventory.pickup(Weapon.generateChanceWeapon(100, 90));
+			inventory.pickup(Weapon.generateChanceWeapon(100, 100));
 			health = 10;
 			maxHealth = 10;
+			
 		}
 		
 		
@@ -307,7 +309,7 @@ public class Player extends Entity{
 	 * @param destination
 	 */
 	public void teleport(String destination) {
-		setlocation(destination);
+		setLocation(destination);
 		System.out.println("\n\nYou arrive at "+getLocation()+". What would you like to do?");
 	}
 
@@ -424,7 +426,7 @@ public class Player extends Entity{
 	}
 
 
-	public void setlocation(String destination) {
+	public void setLocation(String destination) {
 		location = destination;
 	}
 

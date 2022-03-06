@@ -2,6 +2,7 @@ package com.rech.rpg.map.event;
 
 import java.util.Scanner;
 
+import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
 import com.rech.rpg.Player;
 import com.rech.rpg.item.Item;
@@ -22,6 +23,10 @@ public class AmbushEvent extends Event{
 		super(name, description);
 		this.enemy = enemy;
 		this.coinReward = coinReward;
+	}
+	
+	public String getEnemy() {
+		return enemy;
 	}
 
 	@Override
@@ -49,10 +54,10 @@ public class AmbushEvent extends Event{
 	
 	
 	public static final AmbushEvent HUMANAMBUSH1 = new AmbushEvent("Human Ambush", 
-			"\"You walk outside of the gates of \"+player.getLocation()+\", when you hear a desparate cry for help.\\n\"\r\n"
-			+ "You dash over to see who is in trouble.\\nYou see a \"+enemy+\" slouched against the wall of a building.\\nAs you reach out to see if he has a pulse, \"\r\n"
-			+ "he punches you in the face (-1 HP)!\\nYou Stagger back as the \"+enemy+\" stands up revealing a \"+enemyWeapon.getName()+\". \\n\\n'Ha ha ha, the look on your face,'\\nhe laughs,\\n\\n\"\r\n"
-			+ "'Why don't you hand over the gold in that backpack of yours?'\\n\\n", 
+			"You walk outside of the gates of" + Main.player.getLocation() +", when you hear a desparate cry for help.\n"
+			+ "You dash over to see who is in trouble.\nYou see a \"+ PLACEHOLDER: ENEMY +\" slouched against the wall of a building.\nAs you reach out to see if he has a pulse, \r\n"
+			+ "he punches you in the face (-1 HP)!\nYou Stagger back as the \"+ PLACEHOLDER: ENEMY +\" stands up revealing a \"+ PLACEHOLDER: ENEMY WEAPON +\".\n\n'Ha ha ha, the look on your face,'\nhe laughs,\n\n\r\n"
+			+ "'Why don't you hand over the gold in that backpack of yours?'\n\n", 
 			"human", 100);
 	
 	public static final AmbushEvent HUMANAMBUSH2 = new AmbushEvent("Human Ambush", 
