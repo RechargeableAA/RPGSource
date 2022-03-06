@@ -38,5 +38,9 @@ public class Enemy extends Entity{ //do I have to extend enemy? not sure how you
 	//I so badly just want to make anything. I can't keep up with what objects are named what, what method does what. I have 8-10 classes open at a time whenever I want to find a single variable. :(
 
 
+	String[] humanList = new String[]{"Beggar", "Thief", "Bandit", "Raider", "Marauder"};
+	String[] knightList = new String[]{"Guard", "Bronze Knight", "Wrought Knight", "Royal Knight", "Dark Knight"};
+	String[] orcList = new String[]{"Orc Bandit", "Orc Warrior", "Orc Bezerker", "Orc Juggernaught", "Orc Warlord"};
+	String[] beastList = new String[]{"Boar", "Wolf", "Alpha Wolf", "Bobcat", "Bear", "Sepeant", "Prowler"}; //not sure how to make these into objects, because i dont know how entity works.
 	
 }
