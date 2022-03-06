@@ -5,14 +5,19 @@ import com.rech.rpg.item.Weapon;
 import com.rech.rpg.item.Inventory;
 import com.rech.rpg.Player;
 
-public class Enemy extends Entity{
+public class Enemy extends Entity{ //do I have to extend enemy? not sure how you want me to code this
 	
-
+	private String race; //do I need a race object? does everything have to be an object? Am I allowed to use arrays? are object-arrays a thing?
 	
-	private String name; //is this necessary? does it pull from entity? how do I tell?
+	private String metalResistance; //is there still a metal array? or is it a player.getEquipped().weapon.material sort of thing?
+	//private String magicResistance; have to figure out this class before I try to figure out a magic class with elements. 
+	
+	private String name; //is this necessary? does it pull from entity? how do I tell? am I supposed to make specific monsters in the entity class or in here?
 
+	// How do i make an inventory? or do I just import an inventory object? or is it an entity inventory? or a new object?
+	
 	/*protected Beast(String primary, String secondary) {
-		i want to assign the primary and secondary 'weapon action' so i can make another entity. for ex, jaguar("bite", "scratch") do I have to make another class just for this to work?
+		i want to assign the primary and secondary 'weapon action' so i can make another entity. for ex, jaguar("bite", "scratch") do you want me to make another class for this?
 	}*/
 	
 	
@@ -30,6 +35,7 @@ public class Enemy extends Entity{
 	
 	//I dont know if I'd have to make an object to make a class that returns a weapon object... 
 	
+	//I so badly just want to make anything. I can't keep up with what objects are named what, what method does what. I have 8-10 classes open at a time whenever I want to find a single variable. :(
 
 
 	
