@@ -11,6 +11,7 @@ import com.rech.rpg.item.Weapon;
 import com.rech.rpg.map.Map.Direction;
 import com.rech.rpg.map.Town; //temporary!!! - for debugging purposes
 import com.rech.rpg.map.event.AmbushEvent;
+import com.rech.rpg.entity.Enemy;
 
 
 /*
@@ -86,6 +87,8 @@ public class Player extends Entity{
 			health = 10;
 			maxHealth = 10;
 			
+		}else if (name.equals("test")) {
+			//Enemy n = new Enemy();
 		}
 		
 		

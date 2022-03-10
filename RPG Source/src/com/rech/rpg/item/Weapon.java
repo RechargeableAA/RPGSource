@@ -3,6 +3,8 @@ package com.rech.rpg.item;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.rech.rpg.Player;
+
 /*
  * Weapon class are items that are equippable and usable as weapons
  */
@@ -69,7 +71,7 @@ public class Weapon extends Item{
 				return new Weapon(weaponNam, cost, weaponMat, weaponType, damage);
 					
 			}else {
-				return Weapon.testWeapon; //needs to return nothing. may have to use this method in a try catch to properly call it.
+				return null; //needs to return nothing. may have to use this method in a try catch to properly call it.
 			}
 			//else {
 				//return null; //gives nothing.
@@ -90,8 +92,6 @@ public class Weapon extends Item{
 	public static final Weapon fist = new Weapon("fists", 0, Material.unarmed, Type.unarmed, 1);
 	public static final Weapon testWeapon = new Weapon("testWeapon", 1, Material.blueSteel, Type.greatSword, 1);
 	public static final Weapon adminBlade = new Weapon("Admin Blade", 9999999, Material.shadowSteel, Type.dagger, 99999);
-	
-	
 	
 	
 	
@@ -152,6 +152,7 @@ public class Weapon extends Item{
 		protected static final Material demonite = new Material("Demonite", 16, 88);
 		protected static final Material luminium = new Material("Luminium", 18, 94);
 		protected static final Material mortemMetal = new Material("Mortem-Metal", 22, 135);
+		
 	}
 	
 	// Type - used only within weapon, identical to materials atm, though gives room to add other modifiers ei. damage speed
@@ -208,4 +209,9 @@ public class Weapon extends Item{
 		protected static final Type greatSword = new Type("Greatsword", 8, 36);
 
 	}
+	
+	public static String getEquippedMaterial(Player player) {
+		return player.getEquipped().material.getName();
+	}
+	
 }
