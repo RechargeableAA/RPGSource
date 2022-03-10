@@ -2,6 +2,7 @@ package com.rech.rpg.map.event;
 
 import java.util.Scanner;
 
+import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
 import com.rech.rpg.Player;
 import com.rech.rpg.item.Item;
@@ -22,6 +23,10 @@ public class AmbushEvent extends Event{
 		super(name, description);
 		this.enemy = enemy;
 		this.coinReward = coinReward;
+	}
+	
+	public String getEnemy() {
+		return enemy;
 	}
 
 	@Override

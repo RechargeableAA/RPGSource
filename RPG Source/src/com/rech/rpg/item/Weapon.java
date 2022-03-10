@@ -3,6 +3,8 @@ package com.rech.rpg.item;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.rech.rpg.Player;
+
 /*
  * Weapon class are items that are equippable and usable as weapons
  */
@@ -48,6 +50,32 @@ public class Weapon extends Item{
 		}
 	}
 	
+	
+	/**
+	 *  @param 
+	 *  dropChance - fractional chance out of 100 ex 75 means if a number rolls from 0 to 75 (out of 100), it'll drop
+	 *  @param
+	 *  quality - 0 to 100 quality will randomly return a weapon based on the number. higher the better.
+	 */
+	public static Weapon generateChanceWeapon(int dropChance, int quality) {
+	//	try {
+			Random rand = new Random();
+			if (rand.nextInt(99)+1 < dropChance) { //WARNING COMPLEX MATHS HERE :: math finds what 0-100 corresponds to in the materials/type array (without using java-arrays)
+				System.out.println(rand.nextInt(99)+1);
+				System.out.println((int) Math.ceil((rand.nextInt(100)+1)/(100/Material.allMaterials.size())));
+				Type weaponType = Type.allWeaponTypes.get((int) Math.ceil((rand.nextInt(100)+1)/(100/Material.allMaterials.size())));
+				Material weaponMat = Material.allMaterials.get((int) Math.ceil((rand.nextInt(100)+1)/(100/Type.allWeaponTypes.size())));
+				String weaponNam = weaponMat.getName() + " " + weaponType.getName();
+				int damage = weaponMat.damageModifier + weaponType.damageModifier;
+				int cost = weaponMat.costModifier + weaponType.costModifier;
+				return new Weapon(weaponNam, cost, weaponMat, weaponType, damage);
+					
+			}else {
+				return null; //needs to return nothing. may have to use this method in a try catch to properly call it.
+			}
+
+	}
+	
 	public int getDamage() {
 		return dmg;
 	}
@@ -57,8 +85,6 @@ public class Weapon extends Item{
 	public static final Weapon fist = new Weapon("fists", 0, Material.unarmed, Type.unarmed, 1);
 	public static final Weapon testWeapon = new Weapon("testWeapon", 1, Material.blueSteel, Type.greatSword, 1);
 	public static final Weapon adminBlade = new Weapon("Admin Blade", 9999999, Material.shadowSteel, Type.dagger, 99999);
-	
-	
 	
 	
 	
@@ -119,6 +145,7 @@ public class Weapon extends Item{
 		protected static final Material demonite = new Material("Demonite", 16, 88);
 		protected static final Material luminium = new Material("Luminium", 18, 94);
 		protected static final Material mortemMetal = new Material("Mortem-Metal", 22, 135);
+		
 	}
 	
 	// Type - used only within weapon, identical to materials atm, though gives room to add other modifiers ei. damage speed
@@ -166,12 +193,18 @@ public class Weapon extends Item{
 		protected static final Type rapier = new Type("Rapier", 2, 6);
 		protected static final Type shortSword = new Type("Short sword", 2, 10);
 		protected static final Type mace = new Type("Mace", 3, 14);
+		protected static final Type hatchet = new Type("Hatchet", 3, 15);
 		protected static final Type scimitar = new Type("Scimitar", 4, 15);
 		protected static final Type longSword = new Type("Long Sword", 5, 21);
-		protected static final Type greatSword = new Type("Greatsword", 8, 36);
-		protected static final Type katana = new Type("Katana", 7, 27);
-		protected static final Type hatchet = new Type("Hatchet", 3, 15);
 		protected static final Type battleAxe = new Type("Battle-axe", 6, 30);
+		protected static final Type katana = new Type("Katana", 7, 27);
 		protected static final Type greatAxe = new Type("Great Hammer", 8, 35);
+		protected static final Type greatSword = new Type("Greatsword", 8, 36);
+
 	}
+	
+	public static String getEquippedMaterial(Player player) {
+		return player.getEquipped().material.getName();
+	}
+	
 }

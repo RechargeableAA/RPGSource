@@ -6,8 +6,8 @@ import com.rech.rpg.item.Potion;
 import com.rech.rpg.item.Weapon;
 
 public class Adventure{
-
-
+	
+	
 	public static int strike = 0;
 	
 	public static void travel(Player player, boolean nextTown) {
