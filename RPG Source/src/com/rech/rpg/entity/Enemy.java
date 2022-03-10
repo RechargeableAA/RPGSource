@@ -12,40 +12,64 @@ public class Enemy extends Entity{
 	private String magicResist;
 	private String metalResist;
 	
-	private String[] humanList = new String[]{"Beggar", "Thief", "Bandit", "Raider", "Marauder"};
-	private String[] knightList = new String[]{"Guard", "Bronze Knight", "Wrought Knight", "Royal Knight", "Dark Knight", "Juggernaught Knight"};
-	private String[] orcList = new String[]{"Orc Bandit", "Orc Warrior", "Orc Bezerker", "Orc Juggernaught", "Orc Warlord"};
-	private String[] beastList = new String[]{"Boar", "Wolf", "Alpha Wolf", "Bobcat", "Bear", "Sepeant", "Prowler"}; 
+	//private String[] humanList = new String[]{"Beggar", "Thief", "Bandit", "Raider", "Marauder"};
+	//private String[] knightList = new String[]{"Guard", "Bronze Knight", "Wrought Knight", "Royal Knight", "Dark Knight", "Juggernaught Knight"};
+	//private String[] orcList = new String[]{"Orc Bandit", "Orc Warrior", "Orc Bezerker", "Orc Juggernaught", "Orc Warlord"};
+	//private String[] beastList = new String[]{"Boar", "Wolf", "Alpha Wolf", "Bobcat", "Bear", "Sepeant", "Prowler"}; 
 	
-	public Enemy (String name, String race, String metalResist, String magicResist){ //contructor enemy with resistances
+	public Enemy (String name, String race, String metalResist, String magicResist){ //contructor enemy with both resistances
+		super.name = name;
+		this.race = race; 
+		this.metalResist = metalResist; //these will need to be moved to methods, like how getRandLevel works.
+		this.magicResist = magicResist;
+		super.level = getRandLevel(race);
+	}
+	
+	public Enemy (String name, String race, String metalResist){ //contructor enemy with only metal resistances
 		super.name = name;
 		this.race = race; 
 		this.metalResist = metalResist;
-		this.magicResist = magicResist;
+		super.level = getRandLevel(race);
 	}
 	
 	
 	public Enemy (String name, String race){ //this enemy has no resistances
 		super.name = name;
 		this.race = race; 
+		super.level = getRandLevel(race);
+		
 	}
 	
-	public static Enemy beggar = new Enemy("Beggar", "human");
+	// ***   ENEMYS   ***
+	//Humans
+	public static final Enemy beggar = new Enemy("Beggar", "human");
+	public static final Enemy thief = new Enemy("Thief", "human");
+	public static final Enemy bandit = new Enemy("Bandit", "human");
+	public static final Enemy raider = new Enemy("Raider", "human");
+	public static final Enemy marauder = new Enemy("Marauder", "human");
+	
+	//Orcs
+	public static final Enemy orcBandit = new Enemy("Orc Bandit", "orc", "steel", "wind"); //temp syntax until methods are introduced.
+	
+	//knights
+	public static final Enemy guard = new Enemy("Guard", "knight", "bronze");
+	
+	//beasts
+	public static final Enemy boar = new Enemy("Boar", "beast");
 	
 	
-	private void getRandLevel(String race) { //presets (temporary values)
+	private int getRandLevel(String race) { //presets (temporary values)
+		Random r = new Random();
 		if (race.equals("human")) {
-			Random r = new Random();
-			super.level = r.nextInt(5)+1; 
+			return r.nextInt(5)+1; //1 - 5
 		}else if (race.equals("orc")) {
-			Random r = new Random();
-			super.level = r.nextInt(10)+5; 
+			return r.nextInt(5)+5; //5 - 10
 		}else if (race.equals("knight")) {
-			Random r = new Random();
-			super.level = r.nextInt(20)+10; 
+			return r.nextInt(10)+10; //10 - 20 
 		}else if (race.equals("beast")) {
-			Random r = new Random();
-			super.level = r.nextInt(15)+1; 
+			return r.nextInt(15)+1; //1 - 15
+		}else {
+			return 1;
 		}
 	}
 	
@@ -58,6 +82,10 @@ public class Enemy extends Entity{
 		super.level = level;
 	}
 	
+	public static void sayTest(Enemy enemy) {
+		System.out.println("Hi, I'm a " + enemy.name + ", and I'm level " + enemy.level + "!");
+	}
+	
 	/*private void findMetalResist(Player player) {
 		String equippedMaterial = Weapon.getEquippedMaterial(player);
 		if (race == "human") {
@@ -66,7 +94,7 @@ public class Enemy extends Entity{
 	} */
 	
 	//Getter and Setters
-	
+
 	public String getRace() {
 		return race;
 	}

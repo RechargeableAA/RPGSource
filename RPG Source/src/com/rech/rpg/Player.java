@@ -88,7 +88,12 @@ public class Player extends Entity{
 			maxHealth = 10;
 			
 		}else if (name.equals("test")) {
-			//Enemy n = new Enemy();
+
+			Enemy.sayTest(Enemy.thief);
+			Enemy.sayTest(Enemy.orcBandit);
+			Enemy.sayTest(Enemy.guard);
+			Enemy.sayTest(Enemy.boar);
+		
 		}
 		
 		

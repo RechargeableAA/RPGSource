@@ -73,14 +73,7 @@ public class Weapon extends Item{
 			}else {
 				return null; //needs to return nothing. may have to use this method in a try catch to properly call it.
 			}
-			//else {
-				//return null; //gives nothing.
-		//	}
-	//	}catch(ArrayIndexOutOfBoundsException IOB) { //Returns nothing;
-	//		IOB.printStackTrace();
-	//		return Weapon.testWeapon;
-	//	}
-		
+
 	}
 	
 	public int getDamage() {
