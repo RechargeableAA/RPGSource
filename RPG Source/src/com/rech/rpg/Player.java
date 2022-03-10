@@ -140,18 +140,18 @@ public class Player extends Entity{
 	
 	public void showStats(Scanner input) {
 		Menu statsMenu = new Menu("STATISTICS");
-		statsMenu.prompt.add("Name: "+name);
-		statsMenu.prompt.add("Level "+level);
-		statsMenu.prompt.add("EXP: "+exp+"/"+level);
-		statsMenu.prompt.add("[Health]: "+health+"/"+maxHealth);
-		statsMenu.prompt.add("[Mana]: "+mana+"/"+maxMana);
-		statsMenu.prompt.add("[Strength]: "+strength);
-		statsMenu.prompt.add("[Defense]: "+defense);
-		statsMenu.prompt.add("[Dodge]: "+dodge);
-		statsMenu.prompt.add("[Luck]: "+luck);
-		statsMenu.prompt.add("[Magic]: "+magic);
-		statsMenu.prompt.add("[Resistance]: "+resistance);
-		statsMenu.prompt.add("[HELP] - show descriptions for each stat.");
+		statsMenu.prompt.add("Name: \t\t"+name);
+		statsMenu.prompt.add("Level: \t\t"+level);
+		statsMenu.prompt.add("EXP: \t\t"+exp+"/"+ getLevelUpXP());
+		statsMenu.prompt.add("\n[Health]: \t"+health+"/"+maxHealth);
+		statsMenu.prompt.add("[Mana]: \t"+mana+"/"+maxMana);
+		statsMenu.prompt.add("\n[Strength]: \t"+strength);
+		statsMenu.prompt.add("[Defense]: \t"+defense);
+		statsMenu.prompt.add("[Dodge]: \t"+dodge);
+		statsMenu.prompt.add("[Luck]: \t"+luck);
+		statsMenu.prompt.add("[Magic]: \t"+magic);
+		statsMenu.prompt.add("[Resistance]: \t"+resistance);
+		statsMenu.prompt.add("\n[HELP] - show descriptions for each stat.");
 		statsMenu.prompt.add("[BACK] - go back to the previous prompt.\n");
 
 		//level up info
@@ -445,5 +445,7 @@ public class Player extends Entity{
 	public void levelUp() {
 		level++;
 		exp = 0;
+		maxHealth = getMaxHealth() + getLevel();
+		maxMana = getMaxMana() + getLevel();
 	}
 }

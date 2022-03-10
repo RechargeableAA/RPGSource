@@ -39,7 +39,7 @@ public class Enemy extends Entity{ //do I have to extend enemy? not sure how you
 
 
 	String[] humanList = new String[]{"Beggar", "Thief", "Bandit", "Raider", "Marauder"};
-	String[] knightList = new String[]{"Guard", "Bronze Knight", "Wrought Knight", "Royal Knight", "Dark Knight"};
+	String[] knightList = new String[]{"Guard", "Bronze Knight", "Wrought Knight", "Royal Knight", "Dark Knight", "Juggernaught Knight"};
 	String[] orcList = new String[]{"Orc Bandit", "Orc Warrior", "Orc Bezerker", "Orc Juggernaught", "Orc Warlord"};
 	String[] beastList = new String[]{"Boar", "Wolf", "Alpha Wolf", "Bobcat", "Bear", "Sepeant", "Prowler"}; //not sure how to make these into objects, because i dont know how entity works.
 	
