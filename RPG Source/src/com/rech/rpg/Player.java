@@ -26,7 +26,7 @@ public class Player extends Entity{
 	coins;
 
 	private int sector = 1;
-	private String location = Main.worldMap[sector];
+	//private String location = Main.worldMap[sector];
 	
 	// Inventory
 	private Inventory inventory;
@@ -119,7 +119,7 @@ public class Player extends Entity{
 		maxMana = 50; 
 		resistance = 1;
 		
-		this.location = location;
+		//this.location = location;
 		this.sector = sector;
 		
 		//initializing inventory
@@ -316,10 +316,10 @@ public class Player extends Entity{
 	 * Teleports player
 	 * @param destination
 	 */
-	public void teleport(String destination) {
-		setLocation(destination);
-		System.out.println("\n\nYou arrive at "+getLocation()+". What would you like to do?");
-	}
+	//public void teleport(String destination) {
+	//	setLocation(destination);
+	//	System.out.println("\n\nYou arrive at "+getLocation()+". What would you like to do?");
+	//}
 
 	//The reason its good to make all of these 'get' commands is for a couple reasons
 	//Controlling how variables are modified gives variables meaning - ie location can only be something we know exists, rather than just a random string
@@ -327,6 +327,10 @@ public class Player extends Entity{
 	
 	public int getSector() {
 		return sector;
+	}
+	
+	public void setSector(int sector) {
+		this.sector = sector;
 	}
 	
 	public void travel(Direction direction) {
@@ -347,10 +351,6 @@ public class Player extends Entity{
 		}else{
 			return false;
 		}
-	}
-	
-	public String getLocation() {
-		return location;
 	}
 	
 	public Weapon getEquipped() {
@@ -431,11 +431,6 @@ public class Player extends Entity{
 
 	public void setPoints(int points) {
 		this.points = points;
-	}
-
-
-	public void setLocation(String destination) {
-		location = destination;
 	}
 
 	public void damage(int damage) {

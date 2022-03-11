@@ -10,26 +10,6 @@ public class Adventure{
 	
 	public static int strike = 0;
 	
-	public static void travel(Player player, boolean nextTown) {
-		if (nextTown == true) {
-			System.out.println("You head out toward "+Main.worldMap[player.getSector()+1]+".");
-		}else {
-			System.out.println("You head out toward "+Main.worldMap[player.getSector()-1]+".");
-		}
-		Random chance = new Random();
-		int events = chance.nextInt(3); //3 events that will happen.
-		do {
-			randomEvent(player);
-			--events;
-		}while(events > 0);
-		if (nextTown == true) { //whether or not to go to the next town or previous town.
-			//player.setSector(player.getSector()+1);;
-		}else {
-			//player.setSector(player.getSector()-1);;
-		}
-		player.teleport(Main.worldMap[player.getSector()]);
-
-	}
 
 	private static void randomEvent(Player player) {
 		Random chance = new Random();
@@ -64,7 +44,7 @@ public class Adventure{
 			if (dialogue == 0) {
 				enemy = getEnemy("human"); 
 				enemyWeapon = Weapon.generateNewWeapon(1, 1);
-				System.out.println("You walk outside of the gates of "+player.getLocation()+", when you hear a desparate cry for help.\n"
+				System.out.println("You walk outside of the gates of \"+player.getLocation()+\", when you hear a desparate cry for help.\n"
 						+ "You dash over to see who is in trouble.\nYou see a "+enemy+" slouched against the wall of a building.\nAs you reach out to see if he has a pulse, "
 						+ "he punches you in the face (-1 HP)!\nYou Stagger back as the "+enemy+" stands up revealing a "+enemyWeapon.getName()+". \n\n'Ha ha ha, the look on your face,'\nhe laughs,\n\n"
 						+ "'Why don't you hand over the gold in that backpack of yours?'\n\nWhat do you do? [attack] [flee] [luck]");
@@ -73,7 +53,7 @@ public class Adventure{
 			}else if (dialogue == 1) {
 				enemy = getEnemy("human"); 
 				enemyWeapon = Weapon.generateNewWeapon(6, 6);
-				System.out.println("As you walk across the bridge just outside of town, you come across a small building made of brick.\nThere aren't many people living just outside of "+player.getLocation()+", so you decide to investigate.\n"
+				System.out.println("As you walk across the bridge just outside of town, you come across a small building made of brick.\nThere aren't many people living just outside of \"+player.getLocation()+\", so you decide to investigate.\n"
 						+ "Just before you get to the entrance you hear a loud scraping noise. You look over to see a "+enemy+", grinding his "+enemyWeapon.getName()+" against the brick as he approaches.\n\n'Not from around here are ya?'\nHe says, grinning.\n\n"
 						+ "He's getting closer,\n\n What do you do? [attack] [flee] [luck]");
 			}else if (dialogue == 2) {

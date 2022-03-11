@@ -22,7 +22,7 @@ public class FileManager{
 			System.out.println("Saving game...");
 			try {
 				FileWriter saveName = new FileWriter(player.getName()+".txt");
-				saveName.write(player.getName()+"\n"+player.getLevel()+"\n"+player.getExp()+"\n"+player.getPoints()+"\n"+player.getLocation()+"\n"+player.getSector()+"\n"+player.getHealth()+"\n"+player.getMaxHealth()+"\n"+player.getMana()+"\n"+player.getMaxMana()
+				saveName.write(player.getName()+"\n"+player.getLevel()+"\n"+player.getExp()+"\n"+player.getPoints()+"\n"+player.getSector()+"\n"+player.getHealth()+"\n"+player.getMaxHealth()+"\n"+player.getMana()+"\n"+player.getMaxMana()
 						+"\n"+player.getStrength()+"\n"+player.getDefense()+"\n"+player.getDodge()+"\n"+player.getLuck()+"\n"+player.getMagic()+"\n"+player.getResistance()+"\n"+player.getCoins());
 						for(int i = 0; i < 10; ++i) {
 							//Inventory can not be saved until i fix potions, spellbooks etc
@@ -31,7 +31,7 @@ public class FileManager{
 				saveName.close();
 				input.close();
 				System.out.println("Save Complete.");	
-				player.teleport(player.getLocation());
+				player.setSector(player.getSector()); //set sector (maybe broken)
 			}catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -95,7 +95,7 @@ public class FileManager{
 						**/
 						System.out.println("Save game '"+in+"' loaded.");
 						save.close();
-						Main.player.teleport(Main.player.getLocation());					
+						//Main.player.teleport(Main.player.getLocation());					
 					}
 				}else {
 					System.out.println("Save game, "+in+" does not exist.");
