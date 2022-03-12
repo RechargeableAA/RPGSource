@@ -16,13 +16,13 @@ public class Enemy extends Entity{
 	
 	private static ArrayList<Enemy> enemyList = new ArrayList<Enemy>(); 
 	
-	public Enemy (String name, String race){ //this enemy has no resistances
+	public Enemy (String name, String race){ 
 		this.name = name;
 		this.race = race; 
 		level = getRandLevel(race);
 		//stat initialization
 		int[] stats = getRandStats();
-		health = super.maxHealth = stats[0];
+		health = maxHealth = stats[0];
 		strength = stats[1];
 		defense = stats[2];
 		dodge = stats[3];
@@ -45,16 +45,18 @@ public class Enemy extends Entity{
 			return 1;
 		}
 	}
-	
-	public void setRandLevel(Enemy enemy, int minLevel, int maxLevel) { //can be for bosses or specific encounters
+	/**
+	 * Make an enemy with a level range, and spends stat points randomly.
+	 * 
+	 * @param minLevel - Lowest possible level
+	 * @param maxLevel - Highest possible level
+	 */
+	public Enemy setRandLevel(int minLevel, int maxLevel) { //can be for bosses or specific encounters
+		maxLevel -= minLevel;
 		Random r = new Random();
-		enemy.level = r.nextInt(maxLevel)+minLevel; 
-		enemy.setRandStats(level);
-	}
-	
-	public void setLevel(Enemy enemy, int level) {
-		super.level = level;
-		enemy.setRandStats(level);
+		level = r.nextInt(maxLevel)+minLevel; 
+		setRandStats(level);
+		return this;
 	}
 	
 	public static void sayTest(Enemy enemy) {
@@ -65,7 +67,7 @@ public class Enemy extends Entity{
 	 * Distributes points randomly between stats. This simulates the enemy leveling and spending 5 points per level.
 	 * ***Returns a 5-long array***!
 	 */
-	private int[] getRandStats() {
+	private int[] getRandStats() { //must remain private
 		Random rand = new Random();
 		int[] report = new int[5];
 		
@@ -96,25 +98,31 @@ public class Enemy extends Entity{
 	}
 	
 	/**
-	 * pass through a preset level and roll the enemy's stats
+	 * pass through a preset level and spend the enemy's statpoints randomly.
 	 * @param level
 	 */
-	private void setRandStats(int level) { 
+	public Enemy setRandStats(int level) { 
+		this.level = level;
 		int[] stats = getRandStats();
-		Enemy.this.health = super.maxHealth = stats[0];
-		Enemy.this.strength = stats[1];
-		Enemy.this.defense = stats[2];
-		Enemy.this.dodge = stats[3];
-		Enemy.this.magic = stats[4];
+		this.health = super.maxHealth = stats[0];
+		this.strength = stats[1];
+		this.defense = stats[2];
+		this.dodge = stats[3];
+		this.magic = stats[4];
+		return this;
 	}
 	
-	private void setFixedStats(int lvl, int maxHP, int str, int def, int dge, int mgc) { 
-		Enemy.this.level = lvl;
-		Enemy.this.health = super.maxHealth = maxHP;
-		Enemy.this.strength = str;
-		Enemy.this.defense = def;
-		Enemy.this.dodge = dge;
-		Enemy.this.magic = mgc;
+	/**
+	 * Sets EXACT stats.
+	 */
+	public Enemy setFixedStats(int lvl, int maxHP, int str, int def, int dge, int mgc) { 
+		this.level = lvl;
+		this.health = this.maxHealth = maxHP;
+		this.strength = str;
+		this.defense = def;
+		this.dodge = dge;
+		this.magic = mgc;
+		return this;
 	}
 	
 	//Getter and Setters

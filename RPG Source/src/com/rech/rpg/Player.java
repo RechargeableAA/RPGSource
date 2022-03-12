@@ -89,9 +89,9 @@ public class Player extends Entity{
 			
 		}else if (name.equals("test")) {
 
-			Enemy.sayTest(Enemy.thief);
-			Enemy.sayTest(Enemy.orcBandit);
-			Enemy.sayTest(Enemy.guard);
+			Enemy.sayTest(Enemy.thief.setRandLevel(10, 40));
+			Enemy.sayTest(Enemy.orcBandit.setRandStats(15));
+			Enemy.sayTest(Enemy.guard.setFixedStats(20, 20, 20, 20, 20, 20));
 			Enemy.sayTest(Enemy.boar);
 		
 		}
