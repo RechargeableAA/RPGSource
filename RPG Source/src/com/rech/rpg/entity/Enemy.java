@@ -21,7 +21,7 @@ public class Enemy extends Entity{
 		this.race = race; 
 		level = getRandLevel(race);
 		//stat initialization
-		int[] stats = getStats();
+		int[] stats = getRandStats();
 		health = super.maxHealth = stats[0];
 		strength = stats[1];
 		defense = stats[2];
@@ -46,39 +46,75 @@ public class Enemy extends Entity{
 		}
 	}
 	
-	public void setRandLevel(int minLevel, int maxLevel) { //can be for bosses or specific encounters
+	public void setRandLevel(Enemy enemy, int minLevel, int maxLevel) { //can be for bosses or specific encounters
 		Random r = new Random();
-		level = r.nextInt(maxLevel)+minLevel; 
-		setStats(level);
+		enemy.level = r.nextInt(maxLevel)+minLevel; 
+		enemy.setRandStats(level);
 	}
 	
-	public void setLevel(int level) {
+	public void setLevel(Enemy enemy, int level) {
 		super.level = level;
-		setStats(level);
+		enemy.setRandStats(level);
 	}
 	
 	public static void sayTest(Enemy enemy) {
-		System.out.println("Hi, I'm a " + enemy.name + ", and I'm level " + enemy.level + "!");
+		System.out.println("Hi, I'm a " + enemy.name + ", and I'm level " + enemy.level + "!\nI have "+ enemy.health + " HP, my STR is " + enemy.strength + ", my DEF is " + enemy.defense + ", my DGE is " + enemy.dodge + ", and my MGC is " + enemy.magic + "\n\n");
 	}
 	
-	private int[] getStats() {
+	/**
+	 * Distributes points randomly between stats. This simulates the enemy leveling and spending 5 points per level.
+	 * ***Returns a 5-long array***!
+	 */
+	private int[] getRandStats() {
 		Random rand = new Random();
 		int[] report = new int[5];
-		report[0] = rand.nextInt(Enemy.this.level*5)+Enemy.this.level*5; //maxHealth
-		report[1] = rand.nextInt(Enemy.this.level)+Enemy.this.level; //strength
-		report[2] = rand.nextInt(Enemy.this.level)+Enemy.this.level; //defense
-		report[3] = rand.nextInt(Enemy.this.level)+Enemy.this.level; //dodge
-		report[4] = rand.nextInt(Enemy.this.level*3)+Enemy.this.level; //magic
+		
+		int distPoints = this.level*5; //5 points earned per level.
+		report[0] = (Enemy.this.level*5)+10; //maxHealth
+		report[1] = 0; report[2] =0; report[3] = 0; report[4] = 0; //preinitialize
+		int pick;
+		
+		while (distPoints > 0) { 
+			pick = rand.nextInt(4)+1;
+			switch (pick) {
+			case 1:
+				++report[1];
+				break;
+			case 2:
+				++report[2];
+				break;
+			case 3:
+				++report[3];
+				break;
+			case 4:
+				++report[4];
+				break;
+			}
+			--distPoints;
+		}
 		return report;
 	}
 	
-	private void setStats(int level) {
-		int[] stats = getStats();
+	/**
+	 * pass through a preset level and roll the enemy's stats
+	 * @param level
+	 */
+	private void setRandStats(int level) { 
+		int[] stats = getRandStats();
 		Enemy.this.health = super.maxHealth = stats[0];
 		Enemy.this.strength = stats[1];
 		Enemy.this.defense = stats[2];
 		Enemy.this.dodge = stats[3];
 		Enemy.this.magic = stats[4];
+	}
+	
+	private void setFixedStats(int lvl, int maxHP, int str, int def, int dge, int mgc) { 
+		Enemy.this.level = lvl;
+		Enemy.this.health = super.maxHealth = maxHP;
+		Enemy.this.strength = str;
+		Enemy.this.defense = def;
+		Enemy.this.dodge = dge;
+		Enemy.this.magic = mgc;
 	}
 	
 	//Getter and Setters
