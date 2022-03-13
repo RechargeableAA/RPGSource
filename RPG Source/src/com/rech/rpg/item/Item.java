@@ -1,4 +1,7 @@
 package com.rech.rpg.item;
+
+import com.rech.rpg.entity.Entity;
+
 /*
  * This class defines things that can be stored in inventory, picked up, dropped, equipped
  * 
@@ -14,6 +17,9 @@ public abstract class Item{
 		this.stackable = stackable;
 	}
 	
+	protected Item() {
+	}
+	
 	public String getName() {
 		return itemName;
 	}
@@ -21,4 +27,5 @@ public abstract class Item{
 	public int getCost() {
 		return cost;
 	}
+	
 }

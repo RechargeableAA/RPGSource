@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.rech.rpg.Player;
+import com.rech.rpg.entity.Entity;
 
 /*
  * Weapon class are items that are equippable and usable as weapons
@@ -13,7 +14,7 @@ public class Weapon extends Item{
 	//Attributes specific to weapons
 	private int dmg;
 	private Material material;
-	private Type type;
+	Type type;
 	protected Weapon(String itemName, int cost, Material material, Type type, int dmg) {
 		super(itemName, cost, false);
 		
@@ -149,7 +150,7 @@ public class Weapon extends Item{
 	}
 	
 	// Type - used only within weapon, identical to materials atm, though gives room to add other modifiers ei. damage speed
-	private static class Type{
+	protected static class Type{
 		String name;
 		int damageModifier;
 		int costModifier;
@@ -198,13 +199,22 @@ public class Weapon extends Item{
 		protected static final Type longSword = new Type("Long Sword", 5, 21);
 		protected static final Type battleAxe = new Type("Battle-axe", 6, 30);
 		protected static final Type katana = new Type("Katana", 7, 27);
-		protected static final Type greatAxe = new Type("Great Hammer", 8, 35);
+		protected static final Type greatHammer = new Type("Great Hammer", 8, 35);
 		protected static final Type greatSword = new Type("Greatsword", 8, 36);
+
 
 	}
 	
-	public static String getEquippedMaterial(Player player) {
-		return player.getEquipped().material.getName();
+	
+	public static Material getEquippedMaterial(Entity entity) {
+		return entity.getEquipped().material;
 	}
+	
+	public static Type getEquippedType(Entity entity) {
+		return entity.getEquipped().type;
+	}
+	
+
+	
 	
 }

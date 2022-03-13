@@ -4,10 +4,11 @@ import java.util.Scanner;
 
 import com.rech.rpg.item.Potion;
 import com.rech.rpg.item.Weapon;
+import com.rech.rpg.item.Inventory;
 
 public class Adventure{
 	
-	
+	/*
 	public static int strike = 0;
 	
 
@@ -116,13 +117,13 @@ public class Adventure{
 					Main.health = Main.health - 3;
 					testHealth();
 				}
-			}**//**else**/ if (dialogue == 2) {
+			}e if (dialogue == 2) {
 				Random rand = new Random();
 				int toll = rand.nextInt(12)+12;
 				System.out.println("You pass through an old village that seems run down at best at the gate. A guard stands by.\n'Pay the toll to pass, "+toll+"gp...'\nOdd, I don't remember a toll here. You pull out your coin pouch.\n");
 				if (player.getCoins() >= toll) {
 					System.out.println("You pay the toll,");
-					player.setCoins(player.getCoins()-toll);
+					player.setCoins(playe.getCoins()-toll);
 				}else {
 					System.out.println("You stare into your pouch... The guard sighs. \n'Just give me what you DO have...'\n You give him your pouch,");
 					player.setCoins(0);
@@ -187,13 +188,13 @@ public class Adventure{
 		case 5: //find item
 			if (dialogue == 0) {
 				System.out.println("You find a satchel on the side of the path near what looks like an abandondoned camp site.\nYou find a Standard Mana Potion and 8gp!");
-				player.setCoins(player.getCoins()+8);
+				player.setCoins(entity.getCoins()+8);
 				player.getInventory().pickup(Potion.standardMana);
 			}else if (dialogue == 1) {
 				Random rand = new Random();
 				int payout = rand.nextInt(10)+(player.getLuck()*3);
 				System.out.println("You find a skeleton in a some old rusty armor. His... or her, arm is around a dusty, old crate. Well, it's not much use to them anymore.\nYou open the crate to find "+payout+"gp!");
-				player.setCoins(player.getCoins()+payout);
+				player.setCoins(entity.getCoins()+payout);
 			}else if (dialogue == 2) {
 				System.out.println("You find a dusty container with a door in the side of a mountain. You've never seen something like it before.\nYou grab the handle on the white door, it feels cold..."
 						+ " here...\nIt's clearly some sort of elven made magic box.\nYou open it to a cool breeze and discover it emits light from a smokeless torch at the top of the inside, and clear shelves hinged on the sides.\n"
@@ -303,7 +304,7 @@ public class Adventure{
 							roll = rand.nextInt(12)+6;
 							System.out.println("You sheath your sword. The "+enemy+" looks at you, puzzled.\n'I'd call you brave if you knew who I am'\n you say,\n'Ive killed many more for much less than that.'\nThe "+enemy+" looks around, worried. \n'I ugh...'\n he runs off, forgetting his stash of coins on the ground.");
 							System.out.println("You find "+roll+"gp.");
-							player.setCoins(player.getCoins()+roll);
+							player.setCoins(player.()+roll);
 							return;
 						}else{
 							System.out.println("You sheath your sword. Before you can speak, the "+enemy+" swings his "+enemyWeapon+", narrowly missing you.");
@@ -417,7 +418,7 @@ public class Adventure{
 		sword = swordList[roll.nextInt(limit)];
 		return sword;
 	}
-	*/
+	
 
 	private static void testHealth(Player player) {
 		int percent = (int) Math.floor((player.getHealth()/player.getMaxHealth())*100);
@@ -443,5 +444,5 @@ public class Adventure{
 	private static void death() {
 		System.out.println("-end of stream-"); //this is just a placeholder for now
 		//TODO what happens when HP = 0;
-	}
+	} */
 }

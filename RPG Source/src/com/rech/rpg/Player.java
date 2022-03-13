@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import com.rech.rpg.entity.Entity;
 import com.rech.rpg.item.Inventory;
+import com.rech.rpg.item.Spellbook;
 import com.rech.rpg.item.Weapon;
 import com.rech.rpg.map.Map.Direction;
 import com.rech.rpg.map.Town; //temporary!!! - for debugging purposes
@@ -30,11 +31,7 @@ public class Player extends Entity{
 	
 	// Inventory
 	private Inventory inventory;
-	
-	//Equipped item
-	private Weapon equipped;
-
-	
+		
 	public Player(String name) {
 		//setting stat defaults
 		level = 1;
@@ -54,7 +51,7 @@ public class Player extends Entity{
 		
 		//initializing inventory
 		inventory = new Inventory();
-		equipped = null;
+		this.equipped = null;
 		
 		// God mode for name "admin" and "no name" for null name input
 		this.name = name;
@@ -65,15 +62,6 @@ public class Player extends Entity{
 			inventory.pickup(Weapon.adminBlade);
 			health = 10000;
 			maxHealth = 10000;
-		/*}else if (name.equals("town")) {
-			String out;
-			for (int i = 0; i < 10; ++i) {
-				out = Town.generateTown(0,0);
-				System.out.println(out);
-			}
-			System.out.println("\n!!NOTICE!!\nGame will not procede properly.");
-			name = "ERROR";
-			*/
 		}else if (name.equals("invtest")) {
 			coins = 99100;
 			inventory.pickup(Weapon.generateChanceWeapon(100, 30));
@@ -89,15 +77,11 @@ public class Player extends Entity{
 			
 		}else if (name.equals("test")) {
 
-			Enemy.sayTest(Enemy.thief.setRandLevel(10, 40));
-			Enemy.sayTest(Enemy.orcBandit.setRandStats(15));
-			Enemy.sayTest(Enemy.guard.setFixedStats(20, 20, 20, 20, 20, 20));
-			Enemy.sayTest(Enemy.boar);
+			Spellbook.fireBallSB.sayTest();
 		
 		}
 		
-		
-
+	
 	}
 	
 	
@@ -124,7 +108,7 @@ public class Player extends Entity{
 		
 		//initializing inventory
 		inventory = new Inventory();
-		equipped = null;
+		this.equipped = null;
 	}
 	
 	protected void godMode() {
@@ -140,8 +124,8 @@ public class Player extends Entity{
 	}
 	
 	public void equip(int slot) { // this should be re-written to only equip items from inventory
-		inventory.pickup(equipped);
-		equipped = (Weapon) inventory.getSlot(slot);
+		inventory.pickup(this.equipped);
+		this.equipped = (Weapon) inventory.getSlot(slot);
 		inventory.drop(slot);
 	}
 	
@@ -353,14 +337,6 @@ public class Player extends Entity{
 		}
 	}
 	
-	public Weapon getEquipped() {
-		return equipped;
-	}
-	
-	public int getLevel() {
-		return level;
-	}
-	
 	public int getExp() {
 		return exp;
 	}
@@ -371,59 +347,7 @@ public class Player extends Entity{
 	
 	public int getPoints() {
 		return points;
-	}
-	
-	public int getCoins() {
-		return coins;
-	}
-	
-	public void setCoins(int amount) {
-		coins = amount;
-	}
-	
-	public void loseCoins(int amount) {
-		coins = coins-amount;
-	}
-	
-	public int getHealth() {
-		return health;
-	}
-	
-	public int getMaxHealth() {
-		return maxHealth;
-	}
-	
-	public int getStrength() {
-		return strength;
-	}
-	
-	public int getDefense() {
-		return defense;
-	}
-	
-	public int getDodge() {
-		return dodge;
-	}
-	
-	public int getLuck() {
-		return luck;
-	}
-	
-	public int getMagic() {
-		return magic;
-	}
-	
-	public int getMana() {
-		return mana;
-	}
-	
-	public int getMaxMana() {
-		return maxMana;
-	}
-	
-	public int getResistance() {
-		return resistance;
-	}
+	}	
 
 	public String getName() {
 		return name;
@@ -433,13 +357,6 @@ public class Player extends Entity{
 		this.points = points;
 	}
 
-	public void damage(int damage) {
-		health -= damage;
-	}
-	
-	public void heal(int heal) {
-		health += heal;
-	}
 	
 	public void grantXP(int xp) {
 		exp += xp;

@@ -10,6 +10,7 @@ import com.rech.rpg.Player;
 
 public class Inventory{
 	//inventory stored as an array list which is just an array that can dynamically change its size, just a place holder for now
+	private int coins;
 	private Item[] inventory;
 	private final static int inventorySize = 10;
 	
@@ -52,7 +53,7 @@ public class Inventory{
 			}
 			invMenu.prompt.add("Your "+player.getEquipped().getName()+" is equipped.");
 			invMenu.prompt.add(occupiedSlots+"/10 backpack slots used.\n");
-			invMenu.prompt.add("Coins: "+String.format("%,d",player.getCoins())+"gp\n");
+			invMenu.prompt.add("Coins: "+String.format("%,d", getCoins())+"gp\n");
 			invMenu.prompt.add("[EQUIP] [DROP] [BACK]");
 			
 			invMenu.display();
@@ -196,6 +197,19 @@ public class Inventory{
 	public int getSize() {
 		return inventory.length;
 	}
+	
+	public int getCoins() {
+		return coins;
+	}
+	
+	public void setCoins(int amount) {
+		coins = amount;
+	}
+	
+	public void loseCoins(int amount) {
+		coins = coins-amount;
+	}
+	
 	
 	/**
 	 * Determine if inventory is full

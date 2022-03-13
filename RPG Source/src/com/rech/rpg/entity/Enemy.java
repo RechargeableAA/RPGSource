@@ -59,9 +59,9 @@ public class Enemy extends Entity{
 		return this;
 	}
 	
-	public static void sayTest(Enemy enemy) {
-		System.out.println("Hi, I'm a " + enemy.name + ", and I'm level " + enemy.level + "!\nI have "+ enemy.health + " HP, my STR is " + enemy.strength + ", my DEF is " + enemy.defense + ", my DGE is " + enemy.dodge + ", and my MGC is " + enemy.magic + "\n\n");
-	}
+	/*public static void sayTest(Enemy enemy) {
+		System.out.println("Hi, I'm a " + enemy.name + ", and I'm level " + enemy.level + "!\nI have "+ enemy.health + " HP, my STR is " + enemy.strength + ", my DEF is " + enemy.defense + ", my DGE is " + enemy.dodge + ", and my MGC is " + enemy.magic + ".\n\n");
+	}*/
 	
 	/**
 	 * Distributes points randomly between stats. This simulates the enemy leveling and spending 5 points per level.
@@ -69,27 +69,24 @@ public class Enemy extends Entity{
 	 */
 	private int[] getRandStats() { //must remain private
 		Random rand = new Random();
-		int[] report = new int[5];
-		
+		int[] report = new int[] {(Enemy.this.level*5)+10, 1, 1, 1, 1}; //preinitialize
 		int distPoints = this.level*5; //5 points earned per level.
-		report[0] = (Enemy.this.level*5)+10; //maxHealth
-		report[1] = 0; report[2] =0; report[3] = 0; report[4] = 0; //preinitialize
 		int pick;
 		
 		while (distPoints > 0) { 
 			pick = rand.nextInt(4)+1;
 			switch (pick) {
 			case 1:
-				++report[1];
+				++report[1]; //str
 				break;
 			case 2:
-				++report[2];
+				++report[2]; //def
 				break;
 			case 3:
-				++report[3];
+				++report[3]; //dge
 				break;
 			case 4:
-				++report[4];
+				++report[4]; //mgc
 				break;
 			}
 			--distPoints;

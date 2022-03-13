@@ -10,14 +10,11 @@ TODO:
 - Make a save file to return to previous position - DONE
 - integrate inventory - DONE
 - integrate shops - DONE
-- integrate story
 - make an method that makes random names for enemies
-- make separate methods for different locations
-- make loot tables with crafting materials
 - side quests and main quest
 - fast traveling
 - make a max level cap for skills
-- Turn menus into objects
+- level restrictions?
 
 - Shields
 - Spells (attacks + enchantment)

@@ -23,7 +23,7 @@ public class FileManager{
 			try {
 				FileWriter saveName = new FileWriter(player.getName()+".txt");
 				saveName.write(player.getName()+"\n"+player.getLevel()+"\n"+player.getExp()+"\n"+player.getPoints()+"\n"+player.getSector()+"\n"+player.getHealth()+"\n"+player.getMaxHealth()+"\n"+player.getMana()+"\n"+player.getMaxMana()
-						+"\n"+player.getStrength()+"\n"+player.getDefense()+"\n"+player.getDodge()+"\n"+player.getLuck()+"\n"+player.getMagic()+"\n"+player.getResistance()+"\n"+player.getCoins());
+						+"\n"+player.getStrength()+"\n"+player.getDefense()+"\n"+player.getDodge()+"\n"+player.getLuck()+"\n"+player.getMagic()+"\n"+player.getResistance()+"\n"+player.getInventory().getCoins());
 						for(int i = 0; i < 10; ++i) {
 							//Inventory can not be saved until i fix potions, spellbooks etc
 							//saveName.write("\n"+player.getInventory().getSlot(i)+"\n"+"\n"+player.spellBooks[i]+"\n"+player.mgcInventory[i]+"\n"+player.mgcInvElement[i]);
