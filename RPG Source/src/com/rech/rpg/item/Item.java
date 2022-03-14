@@ -17,9 +17,6 @@ public abstract class Item{
 		this.stackable = stackable;
 	}
 	
-	protected Item() {
-	}
-	
 	public String getName() {
 		return itemName;
 	}

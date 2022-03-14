@@ -6,16 +6,17 @@ import com.rech.rpg.item.Weapon;
 
 public class ItemPhrase extends Item{
 			
+		protected ItemPhrase(String itemName, int cost, boolean stackable) {
+		super(itemName, cost, stackable);
+		// TODO Goal is to be able to do Weapon.this.ItemPhrase.getActionPhrase
+	}
+
 		String actionPhrase;
 		String contactPhrase;
 		
 		//TODO finisher phrases?
 
-		protected ItemPhrase(Item item) {
 
-			this.actionPhrase = null; //TODO
-			this.contactPhrase = null; //TODO
-		}
 		
 		/**
 		 * Verbiage used when using the item. 

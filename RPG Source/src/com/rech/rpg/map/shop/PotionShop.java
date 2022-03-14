@@ -48,10 +48,10 @@ public class PotionShop extends Shop{
 					
 					if(selection < shopInventory.length && selection != -1) {
 					
-						if (player.getCoins() >= shopInventory[selection].getCost()) {
+						if (player.getInventory().getCoins() >= shopInventory[selection].getCost()) {
 							potShop.prompt.clear();
 							potShop.prompt.add("Ah, a " + shopInventory[selection].getName() + " that'll be " + shopInventory[selection].getCost() + " coins.");
-							potShop.prompt.add("You have "+player.getCoins()+" coins right now.");
+							potShop.prompt.add("You have "+player.getInventory().getCoins()+" coins right now.");
 							potShop.prompt.add("\nPay the shopkeep " + shopInventory[selection].getCost() + " coins? [y/n]");
 							potShop.display();
 							
@@ -59,7 +59,7 @@ public class PotionShop extends Shop{
 								while(true)	{
 									if (!Main.player.getInventory().isFull()) { 
 										player.getInventory().pickup(shopInventory[selection]);
-										player.loseCoins(shopInventory[selection].getCost());
+										player.getInventory().loseCoins(shopInventory[selection].getCost());
 										potShop.message("You give the shopkeep "+shopInventory[selection].getCost()+" coins and receive the " + shopInventory[selection].getName() + ".");
 										break;
 									}else {

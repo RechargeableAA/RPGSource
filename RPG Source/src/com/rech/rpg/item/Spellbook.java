@@ -32,8 +32,8 @@ public class Spellbook extends Item{
 			
 		private enum Element{
 			FIRE, 		EARTH, 		WIND, 		WATER, 	//tier 1
-			LIGHTNING, 	METAL, 		GRAVITY, 	ICE, 	//tier 2
-			PLASMA, 	QUANTUM, 	VOID, 		TIME  	//tier 3
+			LIGHTNING, 	METAL, 		KENESIS, 	ICE, 	//tier 2
+			PLASMA, 	QUANTUM, 	GRAVITY,	TIME  	//tier 3
 		}
 		
 		private Element element;

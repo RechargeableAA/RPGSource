@@ -6,17 +6,18 @@ import java.util.Random;
 
 public class Enemy extends Entity{ 
 	
-	private String race; 
+	//private String race; //TODO I want to turn this into ENUM!
 	//private String magicResist;
 		
-	//private String[] humanTier = new String[]{"Beggar", "Thief", "Bandit", "Raider", "Marauder"};
-	//private String[] knightTier = new String[]{"Guard", "Bronze Knight", "Wrought Knight", "Royal Knight", "Dark Knight"};
-	//private String[] orcTier = new String[]{"Orc Bandit", "Orc Warrior", "Orc Bezerker", "Orc Juggernaught", "Orc Warlord"};
-	//private String[] beast = new String[]{"Boar", "Wolf", "Alpha Wolf", "Bobcat", "Bear", "Serpent", "Prowler"}; 
+	private enum Race{
+		HUMAN, ORC, KNIGHT, BEAST; 
+	}
 	
+	private Race race;
+		
 	private static ArrayList<Enemy> enemyList = new ArrayList<Enemy>(); 
 	
-	public Enemy (String name, String race){ 
+	public Enemy (String name, Race race){ 
 		this.name = name;
 		this.race = race; 
 		level = getRandLevel(race);
@@ -31,17 +32,18 @@ public class Enemy extends Entity{
 		enemyList.add(this);
 	}	
 	
-	private int getRandLevel(String race) { //presets (temporary values), the commented arrays are in the order of difficulty
+	private int getRandLevel(Race race) { //presets (temporary values),
 		Random r = new Random();
-		if (race.equals("human")) {
+		switch (race) {
+		case HUMAN:
 			return r.nextInt(5)+1; //1 - 5
-		}else if (race.equals("orc")) {
+		case ORC:
 			return r.nextInt(5)+5; //5 - 10
-		}else if (race.equals("knight")) {
-			return r.nextInt(10)+10; //10 - 20 
-		}else if (race.equals("beast")) {
+		case KNIGHT:
+			return r.nextInt(10)+10; //10 - 20
+		case BEAST:
 			return r.nextInt(15)+1; //1 - 15
-		}else {
+		default:
 			return 1;
 		}
 	}
@@ -59,9 +61,9 @@ public class Enemy extends Entity{
 		return this;
 	}
 	
-	/*public static void sayTest(Enemy enemy) {
-		System.out.println("Hi, I'm a " + enemy.name + ", and I'm level " + enemy.level + "!\nI have "+ enemy.health + " HP, my STR is " + enemy.strength + ", my DEF is " + enemy.defense + ", my DGE is " + enemy.dodge + ", and my MGC is " + enemy.magic + ".\n\n");
-	}*/
+	public static void sayTest(Enemy enemy) {
+		System.out.println("Hi, I'm a " + enemy.name + ". I'm a " + enemy.getRace().toString() + ", and I'm level " + enemy.level + "!\nI have "+ enemy.health + " HP, my STR is " + enemy.strength + ", my DEF is " + enemy.defense + ", my DGE is " + enemy.dodge + ", and my MGC is " + enemy.magic + ".\n\n");
+	}
 	
 	/**
 	 * Distributes points randomly between stats. This simulates the enemy leveling and spending 5 points per level.
@@ -86,7 +88,11 @@ public class Enemy extends Entity{
 				++report[3]; //dge
 				break;
 			case 4:
-				++report[4]; //mgc
+				if (this.getRace().equals(Race.BEAST)) { //no magic beasts (yet)
+					++distPoints;
+				}else {
+					++report[4]; //mgc
+				}
 				break;
 			}
 			--distPoints;
@@ -124,41 +130,41 @@ public class Enemy extends Entity{
 	
 	//Getter and Setters
 
-	public String getRace() {
+	public Race getRace() {
 		return race;
 	}
 	
-	public void setRace(String race) {
+	public void setRace(Race race) {
 		this.race = race;
 	}
 	
 	// ***   ENEMYS   ***
 	//Humans
-	public static final Enemy beggar = new Enemy("Beggar", "human");
-	public static final Enemy thief = new Enemy("Thief", "human");
-	public static final Enemy bandit = new Enemy("Bandit", "human");
-	public static final Enemy raider = new Enemy("Raider", "human");
-	public static final Enemy marauder = new Enemy("Marauder", "human");
+	public static final Enemy beggar = new Enemy("Beggar", Race.HUMAN);
+	public static final Enemy thief = new Enemy("Thief", Race.HUMAN);
+	public static final Enemy bandit = new Enemy("Bandit", Race.HUMAN);
+	public static final Enemy raider = new Enemy("Raider", Race.HUMAN);
+	public static final Enemy marauder = new Enemy("Marauder", Race.HUMAN);
 	
 	//Orcs
-	public static final Enemy orcBandit = new Enemy("Orc Bandit", "orc"); 
-	public static final Enemy orcWarrior = new Enemy("Orc Warrior", "orc");
-	public static final Enemy orcBezerker = new Enemy("Orc Bezerker", "orc");
-	public static final Enemy orcJuggernaught = new Enemy("Orc Juggernaught", "orc"); 
-	public static final Enemy orcWarlord = new Enemy("Orc Warlord", "orc"); 
+	public static final Enemy orcBandit = new Enemy("Orc Bandit", Race.ORC); 
+	public static final Enemy orcWarrior = new Enemy("Orc Warrior", Race.ORC);
+	public static final Enemy orcBezerker = new Enemy("Orc Bezerker", Race.ORC);
+	public static final Enemy orcJuggernaught = new Enemy("Orc Juggernaught", Race.ORC); 
+	public static final Enemy orcWarlord = new Enemy("Orc Warlord", Race.ORC); 
 	
 	//knights
-	public static final Enemy guard = new Enemy("Guard", "knight");
-	public static final Enemy bronzeKnight = new Enemy("Bronze Knight", "knight");
-	public static final Enemy wroughtKnight = new Enemy("Wrought Knight", "knight");
-	public static final Enemy royalKnight = new Enemy("Royal Knight", "knight");
-	public static final Enemy darkKnight = new Enemy("Dark Knight", "knight");
+	public static final Enemy guard = new Enemy("Guard", Race.KNIGHT);
+	public static final Enemy bronzeKnight = new Enemy("Bronze Knight", Race.KNIGHT);
+	public static final Enemy wroughtKnight = new Enemy("Wrought Knight", Race.KNIGHT);
+	public static final Enemy royalKnight = new Enemy("Royal Knight", Race.KNIGHT);
+	public static final Enemy darkKnight = new Enemy("Dark Knight", Race.KNIGHT);
 	
 	//beasts
-	public static final Enemy boar = new Enemy("Boar", "beast");
-	public static final Enemy wolf = new Enemy("Wolf", "beast");
-	public static final Enemy bobcat = new Enemy("Bobcat", "beast");
-	public static final Enemy bear = new Enemy("Bear", "beast");
-	public static final Enemy serpent = new Enemy("Serpent", "beast");
+	public static final Enemy boar = new Enemy("Boar", Race.BEAST);
+	public static final Enemy wolf = new Enemy("Wolf", Race.BEAST);
+	public static final Enemy bobcat = new Enemy("Bobcat", Race.BEAST);
+	public static final Enemy bear = new Enemy("Bear", Race.BEAST);
+	public static final Enemy serpent = new Enemy("Serpent", Race.BEAST);
 	
 }

@@ -51,7 +51,7 @@ public class Player extends Entity{
 		
 		//initializing inventory
 		inventory = new Inventory();
-		this.equipped = null;
+		equipped = null;
 		
 		// God mode for name "admin" and "no name" for null name input
 		this.name = name;
@@ -76,7 +76,14 @@ public class Player extends Entity{
 			maxHealth = 10;
 			
 		}else if (name.equals("test")) {
-
+			Enemy.sayTest(Enemy.beggar);
+			Enemy.sayTest(Enemy.bear.setRandLevel(8, 15));
+			Enemy.sayTest(Enemy.serpent.setRandLevel(8, 15));
+			Enemy.sayTest(Enemy.serpent.setRandLevel(8, 15));
+			Enemy.sayTest(Enemy.serpent.setRandLevel(8, 15));
+			Enemy.sayTest(Enemy.serpent.setRandLevel(8, 15));
+			Enemy.sayTest(Enemy.serpent.setRandLevel(8, 15));
+			Enemy.sayTest(Enemy.serpent.setRandLevel(8, 15));
 			Spellbook.fireBallSB.sayTest();
 		
 		}
