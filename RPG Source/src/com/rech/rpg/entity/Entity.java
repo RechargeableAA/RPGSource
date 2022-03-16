@@ -74,17 +74,17 @@ public class Entity {
 	 * @return entity's calculate level
 	 */
 	public int getLevel() {
-		int skillPointsSpent = 1;
+		float skillPointsSpent = 1;
 		for(Stats stat : Stats.values()) {
-			if(!stat.equals(MAXHEALTH) || !stat.equals(MAXMANA)) { // max health and max mana are calculated differently
-				skillPointsSpent += (getStat(stat)/getStatDefault(stat));
-			}else if(stat.equals(MAXHEALTH)){ 
-				skillPointsSpent += (getStat(stat)/HEALLEVELINC);
-			}else if(stat.equals(MAXMANA)) {
-				skillPointsSpent += (getStat(stat)/MANALEVELINC);
+			if(stat != (Stats.MAXHEALTH) && stat != (Stats.MAXMANA)) { // max health and max mana are calculated differently
+				skillPointsSpent += (getStat(stat)/getStatDefault(stat))-1; // -1 to not count default as level
+			}else if(stat == (Stats.MAXHEALTH)){ 
+				skillPointsSpent += (getStat(stat)/HEALLEVELINC)-1;
+			}else if(stat == (Stats.MAXMANA)) {
+				skillPointsSpent += (getStat(stat)/MANALEVELINC)-1;
 			}
 		}
-		return skillPointsSpent/POINTSPERLEVEL; // rounds down
+		return (int) Math.ceil(skillPointsSpent/POINTSPERLEVEL); // rounds down
 	}
 	
 	public void levelUpStat(Stats stat) {

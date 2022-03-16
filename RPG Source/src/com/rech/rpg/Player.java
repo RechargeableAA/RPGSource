@@ -83,8 +83,8 @@ public class Player extends Entity{
 		}else if (name.equals("test")) {
 			Enemy.beggar.sayTest();
 			Enemy.bear.sayTest();
-			new Enemy("cat", 10, 1, Enemy.Race.HUMAN).sayTest();
-			new Enemy("big cat", 10, 2, Enemy.Race.HUMAN).sayTest();
+			new Enemy("cat", 10, 1, Enemy.Race.BEAST).sayTest();
+			new Enemy("big cat", 10, 2, Enemy.Race.BEAST).sayTest();
 			Enemy.serpent.sayTest();
 			Enemy.serpent.sayTest();
 			Spellbook.fireBallSB.sayTest();
@@ -136,15 +136,14 @@ public class Player extends Entity{
 		statsMenu.prompt.add("[BACK] - go back to the previous prompt.\n");
 
 		//level up info
-		if (points < 0) { 
+		if (points > 0) { 
 			statsMenu.message("You have \"+points+\" skill points to spend!  [LEVELUP] - to spend points.");
 		}else {
-			skillMenu(input);
+		//	skillMenu(input);
 		}
 		
-		statsMenu.display();
-		
 		while(true) {
+			statsMenu.display();
 			String selection = input.nextLine();
 			
 			switch(selection.toUpperCase()){
