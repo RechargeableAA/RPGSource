@@ -3,34 +3,90 @@ package com.rech.rpg.entity;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.rech.rpg.entity.Entity.Stats;
+
 
 public class Enemy extends Entity{ 
 	
 	//private String race; //TODO I want to turn this into ENUM!
 	//private String magicResist;
 		
-	private enum Race{
+	public enum Race{
 		HUMAN, ORC, KNIGHT, BEAST; 
 	}
+	private static final int DEFAULTENEMYHEALTH = 10;
 	
-	private Race race;
-		
 	private static ArrayList<Enemy> enemyList = new ArrayList<Enemy>(); 
 	
+	private Race race;
+	
+	/**
+	 * Create a new enemy; Determine this enemy's level based off of its race; It's levels are randomly allocated
+	 * @param name
+	 * @param race
+	 */
 	public Enemy (String name, Race race){ 
-		this.name = name;
+		//enemy defaults
+		super(name, DEFAULTENEMYHEALTH);
 		this.race = race; 
-		level = getRandLevel(race);
 		//stat initialization
-		int[] stats = getRandStats();
-		health = maxHealth = stats[0];
-		strength = stats[1];
-		defense = stats[2];
-		dodge = stats[3];
-		magic = stats[4];
+		allocateRandomLevels(getRandLevel(race));
 		
 		enemyList.add(this);
-	}	
+	}
+	
+	/**
+	 * Create a new enemy with a specific race and level; It's levels are randomly allocated
+	 * @param name
+	 * @param level
+	 * @param race
+	 */
+	public Enemy (String name, int maxHealth, int level, Race race){ 
+		//enemy defaults
+		super(name, maxHealth);
+		this.race = race; 
+		//stat initialization
+		allocateRandomLevels(level);
+		
+		enemyList.add(this);
+	}
+	
+	/**
+	 * Create a specific enemy
+	 * @param name
+	 * @param level
+	 * @param health
+	 * @param maxHealth
+	 * @param mana
+	 * @param maxMana
+	 * @param strength
+	 * @param defense
+	 * @param dodge
+	 * @param luck
+	 * @param magic
+	 * @param resistance
+	 * @param race
+	 */
+	public Enemy (String name, int level, int health, int maxHealth, int mana, int maxMana, int strength, int defense, int dodge, int luck, int magic, int resistance, Race race){ 
+		//enemy defaults
+		super(
+				name,
+				maxHealth,
+				strength,
+				defense,
+				dodge,
+				luck,
+				magic,
+				maxMana,
+				resistance	
+			);
+		this.race = race; 
+		enemyList.add(this);
+	}
+	
+	public void sayTest() {
+		System.out.println("Hi, I'm a " + name + ". I'm a " + getRace().toString() + ", and I'm level " + getLevel() + "!\nI have "+ getHealth() + " HP, my STR is " + getStat(Stats.STRENGTH) + ", my DEF is " + getStat(Stats.DEFENSE) + ", my DGE is " + getStat(Stats.DODGE) + ", and my MGC is " + getStat(Stats.MAGIC) + ".\n\n");
+	}
 	
 	private int getRandLevel(Race race) { //presets (temporary values),
 		Random r = new Random();
@@ -47,85 +103,40 @@ public class Enemy extends Entity{
 			return 1;
 		}
 	}
-	/**
-	 * Make an enemy with a level range, and spends stat points randomly.
-	 * 
-	 * @param minLevel - Lowest possible level
-	 * @param maxLevel - Highest possible level
-	 */
-	public Enemy setRandLevel(int minLevel, int maxLevel) { //can be for bosses or specific encounters
-		maxLevel -= minLevel;
-		Random r = new Random();
-		level = r.nextInt(maxLevel)+minLevel; 
-		setRandStats(level);
-		return this;
-	}
-	
-	public static void sayTest(Enemy enemy) {
-		System.out.println("Hi, I'm a " + enemy.name + ". I'm a " + enemy.getRace().toString() + ", and I'm level " + enemy.level + "!\nI have "+ enemy.health + " HP, my STR is " + enemy.strength + ", my DEF is " + enemy.defense + ", my DGE is " + enemy.dodge + ", and my MGC is " + enemy.magic + ".\n\n");
-	}
 	
 	/**
 	 * Distributes points randomly between stats. This simulates the enemy leveling and spending 5 points per level.
 	 * ***Returns a 5-long array***!
 	 */
-	private int[] getRandStats() { //must remain private
+	private void allocateRandomLevels(int levels) { //must remain private
 		Random rand = new Random();
-		int[] report = new int[] {(Enemy.this.level*5)+10, 1, 1, 1, 1}; //preinitialize
-		int distPoints = this.level*5; //5 points earned per level.
-		int pick;
+		int distPoints = (levels-1)*POINTSPERLEVEL; // -1 because level 1 shouldn't count
 		
-		while (distPoints > 0) { 
-			pick = rand.nextInt(4)+1;
-			switch (pick) {
+		while(distPoints > 0) {
+			int pick = rand.nextInt(5)+1;
+			switch(pick){
 			case 1:
-				++report[1]; //str
+				this.levelUpStat(Stats.STRENGTH);
 				break;
 			case 2:
-				++report[2]; //def
+				this.levelUpStat(Stats.DEFENSE);
 				break;
 			case 3:
-				++report[3]; //dge
+				this.levelUpStat(Stats.DODGE);
 				break;
 			case 4:
-				if (this.getRace().equals(Race.BEAST)) { //no magic beasts (yet)
+				if (this.getRace().equals(Race.BEAST)) { //no magic beasts (yet) // Beasts are gonna be pretty op if we add a sp for every case 4
 					++distPoints;
 				}else {
-					++report[4]; //mgc
+					this.levelUpStat(Stats.MAGIC); //mgc
 				}
 				break;
+			case 5:
+				this.levelUpStat(Stats.MAXHEALTH);
+				break;
 			}
-			--distPoints;
+			distPoints--;
 		}
-		return report;
-	}
-	
-	/**
-	 * pass through a preset level and spend the enemy's statpoints randomly.
-	 * @param level
-	 */
-	public Enemy setRandStats(int level) { 
-		this.level = level;
-		int[] stats = getRandStats();
-		this.health = super.maxHealth = stats[0];
-		this.strength = stats[1];
-		this.defense = stats[2];
-		this.dodge = stats[3];
-		this.magic = stats[4];
-		return this;
-	}
-	
-	/**
-	 * Sets EXACT stats.
-	 */
-	public Enemy setFixedStats(int lvl, int maxHP, int str, int def, int dge, int mgc) { 
-		this.level = lvl;
-		this.health = this.maxHealth = maxHP;
-		this.strength = str;
-		this.defense = def;
-		this.dodge = dge;
-		this.magic = mgc;
-		return this;
 	}
 	
 	//Getter and Setters
