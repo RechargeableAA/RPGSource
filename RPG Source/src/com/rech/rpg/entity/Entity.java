@@ -32,7 +32,7 @@ public class Entity {
 		RESISTANCE
 	}
 	
-	// Managed by entity, Level determines max health, and by affiliation its health
+	// Managed by entity
 	private int
 	health = MAXHEALTH,
 	maxHealth = MAXHEALTH,
