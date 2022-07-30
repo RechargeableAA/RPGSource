@@ -14,9 +14,12 @@ import com.rech.rpg.map.Map.Direction;
 import com.rech.rpg.map.shop.PotionShop;
 import com.rech.rpg.map.shop.Shop;
 
+/**
+ * Towns are civilized locations stored on the map. They contain shops, and quests in the future. Enemy interactions are non-existent (or very rare maybe?)
+ * @author Nolan DeMatteis
+ *
+ */
 public class Town extends Location{
-
-	public static ArrayList<Town> allTowns = new ArrayList<Town>();
 	
 	String townName;
 	String surroundings;
@@ -26,16 +29,12 @@ public class Town extends Location{
 		super(name, description);
 		this.surroundings = surroundings;
 		this.shops = shops;
-		allTowns.add(this);
-		
 	}
 	
 	@Override
 	public String getSurroundings() {
 		return surroundings;
 	}
-	
-	
 	
 	@Override
 	public void interact(Scanner input, Direction directionSelection, Player player) {

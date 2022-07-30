@@ -22,18 +22,19 @@ TODO:
 
 public class Main {
 
+	//Player object instance, used to reference everything about the player, ie inventory, map position
 	public static Player player;
 	
+	//Map object instance, used to reference anything in or about the map, ie map size, locations on the map
 	public static Map map;
 	
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		
-		introMenu(input);
+		intro(input);
 		
 		input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
 		mainMenu(input);
-		
 		input.close();
 	}
 
@@ -43,12 +44,12 @@ public class Main {
 	 */
 	public static void mainMenu(Scanner input) {
 		Menu mainMenu = new Menu("Main Menu");
-		mainMenu.prompt.add("[stats] - check your statistics");
-		mainMenu.prompt.add("[backpack] - look at, potions, coins, and equip weapons that you own");
-		mainMenu.prompt.add("[spells] - look at and equip spellbooks owned");
-		mainMenu.prompt.add("[look] - examine your surroundings");
-		mainMenu.prompt.add("[travel] - move to another location");
-		mainMenu.prompt.add("[OPTIONS] - load or save your game");
+		mainMenu.addPrompt("STATS", "check your statistics");
+		mainMenu.addPrompt("BACKPACK", "look at, potions, coins, and equip weapons that you own");
+		mainMenu.addPrompt("SPELLS", "look at and equip spellbooks owned");
+		mainMenu.addPrompt("LOOK", "examine your surroundings");
+		mainMenu.addPrompt("TRAVEL", "move to another location");
+		mainMenu.addPrompt("OPTIONS", "load or save your game");
 
 		while(true) {
 			mainMenu.display();
@@ -100,7 +101,7 @@ public class Main {
 	 * @param input - Input Scanner
 	 * @return True if player selects new game, otherwise returns false
 	 */
-	private static boolean introMenu(Scanner input) {
+	private static boolean intro(Scanner input) {
 		while(true) {
 			System.out.println("[NEW] Game");
 			System.out.println("[LOAD] Game");
@@ -138,7 +139,7 @@ public class Main {
 		player.equip(0); // give player random weapon
 		
 		clearScreen();
-		System.out.println("\n"+player.getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. This is " + map.getLocation(player.getSector()).getName()
+		System.out.println("\n"+player.getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. This is " + map.getLocation(player.getPosition()).getName()
 				+ ".\nI'll let you rest in my home just down the way.\nIt's not much, but I bet it'll work until you can sort yourself out.\n"
 				+ "\nHere, you can have my old "+player.getEquipped().getName()+".\nYou're gonna need it. Watch yourself out there.");
 	}

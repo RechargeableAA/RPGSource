@@ -41,21 +41,22 @@ public class Inventory{
 		
 		while(true) {
 			sortInventory();
-			invMenu.prompt.clear();
+			invMenu.clearPrompts();
 			//print occupied inventory slots
 			int occupiedSlots = 0;
 			for(int inventorySlot = 0; inventorySlot < getSize(); inventorySlot++) {
 				if(getSlot(inventorySlot) != null) {
-					invMenu.prompt.add("["+inventorySlot+"] " + getSlot(inventorySlot).getName());
+					invMenu.addPrompt(""+inventorySlot, ""+ getSlot(inventorySlot).getName());
 					System.out.println();
 					occupiedSlots++;
 				}
 			}
-			invMenu.prompt.add("Your "+player.getEquipped().getName()+" is equipped.");
-			invMenu.prompt.add(occupiedSlots+"/10 backpack slots used.\n");
-			invMenu.prompt.add("Coins: "+String.format("%,d", getCoins())+"gp\n");
-			invMenu.prompt.add("[EQUIP] [DROP] [BACK]");
-			
+			invMenu.setMenuInfo("Your "+player.getEquipped().getName()+" is equipped.\n" + 
+								occupiedSlots+"/10 backpack slots used.\n" +
+								"Coins: "+String.format("%,d", getCoins())+"gp\n");
+			invMenu.addPrompt("EQUIP");
+			invMenu.addPrompt("DROP");	
+			invMenu.addPrompt("BACK");	
 			invMenu.display();
 			
 			
@@ -82,20 +83,21 @@ public class Inventory{
 		
 		while(true) {
 			sortInventory();
-			dropMenu.prompt.clear();
+			dropMenu.clearPrompts();
 			
 			//show inventory again
-			dropMenu.prompt.add("Your " + player.getEquipped().getName() + " is equipped.");
+			dropMenu.setMenuInfo("Your " + player.getEquipped().getName() + " is equipped.");
 			for(int inventorySlot = 0; inventorySlot < getSize(); inventorySlot++) {
 				if(getSlot(inventorySlot) != null) {
-					dropMenu.prompt.add("["+inventorySlot+"] " + getSlot(inventorySlot).getName());
+					dropMenu.addPrompt(""+inventorySlot, ""+getSlot(inventorySlot).getName());
 				}
 			}
 			
 			if (this.isEmpty()) { // if this(inventory) is empty
 				dropMenu.message("You have nothing in your backpack. [BACK]");
 			}else {
-				dropMenu.prompt.add("Which slot do you want to drop? [0-9] [BACK]");
+				dropMenu.addPrompt("0-9", "Which slot do you want to drop?");
+				dropMenu.addPrompt("BACK");
 			}
 			
 			dropMenu.display();
@@ -111,13 +113,13 @@ public class Inventory{
 					if(optionSelection.matches("[0-9]+")) { // check if string input is an integer
 						int slot = Integer.parseInt(optionSelection);
 							if(inventory[slot] != null) {
-								dropMenu.prompt.clear();
+								dropMenu.clearPrompts();
 								dropMenu.clearMessage();
-								dropMenu.prompt.add("Are you sure you want to drop " + getSlot(slot).getName() + "? [y/n]");
+								dropMenu.addPrompt("y/n", "Are you sure you want to drop " + getSlot(slot).getName() + "?");
 								dropMenu.display();
 								if(input.nextLine().equalsIgnoreCase("y")) {
-									dropMenu.prompt.clear();
-									dropMenu.prompt.add("You drop your " + getSlot(slot).getName() + ".");
+									dropMenu.clearPrompts();
+									dropMenu.message("You drop your " + getSlot(slot).getName() + ".");
 									dropMenu.display();
 									input.nextLine();
 									drop(slot);
@@ -141,17 +143,18 @@ public class Inventory{
 		while(true) {
 			//adding inventory to menu
 			sortInventory();
-			equipMenu.prompt.clear();
+			equipMenu.clearPrompts();
 			for(int inventorySlot = 0; inventorySlot < getSize(); inventorySlot++) {
 				if(getSlot(inventorySlot) != null) {
-					equipMenu.prompt.add("["+inventorySlot+"] " + getSlot(inventorySlot).getName());
+					equipMenu.addPrompt(""+inventorySlot,  getSlot(inventorySlot).getName());
 				}
 			}
 			
 			if (this.isEmpty()) { // if this(inventory) is empty
 				equipMenu.message("You have nothing in your backpack. [BACK]");
 			}else {
-				equipMenu.prompt.add("Which slot do you want to equip? [0-9] [back]");
+				equipMenu.addPrompt("0-9", "Which slot do you want to equip? [back]");
+				equipMenu.addPrompt("back");
 			}
 			
 			equipMenu.display();

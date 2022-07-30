@@ -24,13 +24,13 @@ public class StatusEffectEvent extends Event{
 	public void runEvent(Scanner input, Player player) {
 		Menu eventMenu = new Menu("EVENT");
 		
-		eventMenu.prompt.add(description);
+		eventMenu.setMenuInfo(description);
 		switch(effect) {
 		case POISON:
-			eventMenu.prompt.add("You are poisoned!");
+			eventMenu.message("You are poisoned!");
 			break;
 		case DAMAGE:
-			eventMenu.prompt.add("You take " + effectValue + " damage.");
+			eventMenu.message("You take " + effectValue + " damage.");
 			player.damage(effectValue);
 			break;
 		}

@@ -33,8 +33,8 @@ public class AmbushEvent extends Event{
 	public void runEvent(Scanner input, Player player) {
 		Menu eventMenu = new Menu("EVENT");
 		
-		eventMenu.prompt.add(description);
-		eventMenu.prompt.add("[RUN][DIE]");
+		eventMenu.setMenuInfo(description);
+		eventMenu.addPrompt("[RUN][DIE]");
 		//What do you do? [attack] [flee] [luck]
 		
 		while(true) {

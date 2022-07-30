@@ -27,13 +27,15 @@ public class PotionShop extends Shop{
 		
 		Menu potShop = new Menu(shopName);
 		while(true) {
-			potShop.prompt.clear();
-			potShop.prompt.add("Hello "+player.getName()+"... A potion for all your needs..."); // quest?
-			potShop.prompt.add("------------Potions-------------");
-			potShop.prompt.add("[1] + "+shopInventory[0].getName()
-							+"\n[2] + "+shopInventory[1].getName()
-							+"\n[3] + "+shopInventory[2].getName());
-			potShop.prompt.add("\nWhich would you like to buy? [1-3] [back]");
+			potShop.clearPrompts();
+			potShop.setMenuInfo("Hello "+player.getName()+"... A potion for all your needs... \n" +
+								"------------Potions-------------"); // quest?
+			potShop.addPrompt("1", shopInventory[0].getName());
+			potShop.addPrompt("2", shopInventory[1].getName());
+			potShop.addPrompt("3", shopInventory[2].getName());
+							
+			potShop.addPrompt("1-3", "\nWhich would you like to buy?");
+			potShop.addPrompt("back");
 			potShop.display();
 			potShop.clearMessage();
 			
@@ -49,10 +51,10 @@ public class PotionShop extends Shop{
 					if(selection < shopInventory.length && selection != -1) {
 					
 						if (player.getInventory().getCoins() >= shopInventory[selection].getCost()) {
-							potShop.prompt.clear();
-							potShop.prompt.add("Ah, a " + shopInventory[selection].getName() + " that'll be " + shopInventory[selection].getCost() + " coins.");
-							potShop.prompt.add("You have "+player.getInventory().getCoins()+" coins right now.");
-							potShop.prompt.add("\nPay the shopkeep " + shopInventory[selection].getCost() + " coins? [y/n]");
+							potShop.clearPrompts();
+							potShop.setMenuInfo("Ah, a " + shopInventory[selection].getName() + " that'll be " + shopInventory[selection].getCost() + " coins.\n" + 
+												"You have "+player.getInventory().getCoins()+" coins right now.");
+							potShop.addPrompt("y/n", "Pay the shopkeep " + shopInventory[selection].getCost() + " coins?");
 							potShop.display();
 							
 							if(input.nextLine().equalsIgnoreCase("y")) {
@@ -63,7 +65,7 @@ public class PotionShop extends Shop{
 										potShop.message("You give the shopkeep "+shopInventory[selection].getCost()+" coins and receive the " + shopInventory[selection].getName() + ".");
 										break;
 									}else {
-										potShop.prompt.clear();
+										potShop.clearPrompts();
 										potShop.message("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]");
 										in = input.nextLine();
 										

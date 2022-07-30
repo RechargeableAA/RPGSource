@@ -69,4 +69,5 @@ public abstract class Location {
 	
 	public abstract String getSurroundings();
 
+
 }

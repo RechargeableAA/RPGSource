@@ -40,7 +40,7 @@ public class ItemPhrase extends Item{
 				entity.getEquipped().type.equals(Weapon.Type.greatSword)){
 				actionPhrase = " swing ";
 			}else if (entity.getEquipped().type.equals(Weapon.Type.dagger) ||
-					  entity.getEquipped().type.equals(Weapon.Type.rapier)) {
+					  entity.getEquipped().type.equals(Weapon.Type.rapier)){
 				actionPhrase = " lunge ";
 			}
 			

@@ -15,7 +15,7 @@ public class LoseItemEvent extends Event{
 	public void runEvent(Scanner input, Player player) {
 		Menu eventMenu = new Menu("EVENT");
 		
-		eventMenu.prompt.add(description);
+		eventMenu.setMenuInfo(description);
 		eventMenu.display();	
 		
 		input.nextLine();		

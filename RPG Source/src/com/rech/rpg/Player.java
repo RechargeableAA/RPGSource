@@ -1,5 +1,6 @@
 package com.rech.rpg;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Player extends Entity{
 	points,
 	coins;
 
-	private int sector = 1;
+	private Point mapPosition;
 	//private String location = Main.worldMap[sector];
 	
 	// Inventory
@@ -45,6 +46,8 @@ public class Player extends Entity{
 				50,	//maxMana
 				1	//resistance
 			);
+		//Default map position
+		mapPosition = new Point(0,0);
 		//setting player stat defaults
 		exp = 0;
 		points = 0;
@@ -94,7 +97,7 @@ public class Player extends Entity{
 
 
 	//used during loading, this is an alternate constructor for created a player object
-	public Player(String name, int level, int exp, int points, String location, int sector, int health, int maxHealth, int mana, int maxMana, int strength, int defense, int dodge, int luck, int magic, int resistance, int coins) {
+	public Player(String name, int level, int exp, int points, String location, Point mapPosition, int health, int maxHealth, int mana, int maxMana, int strength, int defense, int dodge, int luck, int magic, int resistance, int coins) {
 		super(
 				name,
 				maxHealth,
@@ -112,7 +115,7 @@ public class Player extends Entity{
 		this.coins = coins;
 		
 		//this.location = location;
-		this.sector = sector;
+		this.mapPosition = mapPosition;
 		
 		//initializing inventory
 		inventory = new Inventory();
@@ -121,20 +124,22 @@ public class Player extends Entity{
 	
 	public void showStats(Scanner input) {
 		Menu statsMenu = new Menu("STATISTICS");
-		statsMenu.prompt.add("Name: \t\t"+name);
-		statsMenu.prompt.add("Level: \t\t"+getLevel());
-		statsMenu.prompt.add("EXP: \t\t"+exp+"/"+ getLevelUpXP());
-		statsMenu.prompt.add("\n[Health]: \t"+getHealth()+"/"+getStat(Stats.MAXHEALTH));
-		statsMenu.prompt.add("[Mana]: \t"+getMana()+"/"+getStat(Stats.MAXMANA));
-		statsMenu.prompt.add("\n[Strength]: \t"+getStat(Stats.STRENGTH));
-		statsMenu.prompt.add("[Defense]: \t"+getStat(Stats.DEFENSE));
-		statsMenu.prompt.add("[Dodge]: \t"+getStat(Stats.DODGE));
-		statsMenu.prompt.add("[Luck]: \t"+getStat(Stats.LUCK));
-		statsMenu.prompt.add("[Magic]: \t"+getStat(Stats.MAGIC));
-		statsMenu.prompt.add("[Resistance]: \t"+getStat(Stats.RESISTANCE));
-		statsMenu.prompt.add("\n[HELP] - show descriptions for each stat.");
-		statsMenu.prompt.add("[BACK] - go back to the previous prompt.\n");
-
+		statsMenu.setMenuInfo("Name: \t\t"+name + 
+							"\nLevel: \t\t"+getLevel() + 
+							"\nEXP: \t\t"+exp+"/"+ getLevelUpXP() + "\n" +
+							"Health | Mana | Strength | Defense | Dodge | Luck | Magic | Resistance \n"
+						  + getHealth()+"/"+getStat(Stats.MAXHEALTH) + "   " //the spacing here will be fucked up as soon as a number goes to 10s, need to make a feature in menu class to handle this
+						  + getMana()+"/"+getStat(Stats.MAXMANA) + "      "
+						  + getStat(Stats.STRENGTH) + "          "
+						  + getStat(Stats.DEFENSE) + "        "
+						  + getStat(Stats.DODGE) + "      "
+						  + getStat(Stats.LUCK) + "       "
+						  + getStat(Stats.MAGIC) + "         "
+						  + getStat(Stats.RESISTANCE)); // this menu feature needs to be explicitly created in the menu class, since numbers will move the entire line when going from 0-10 10-100 etc
+							
+		
+		statsMenu.addPrompt("HELP", "show descriptions for each stat.");
+		statsMenu.addPrompt("BACK", "go back to the previous prompt.");
 		//level up info
 		if (points > 0) { 
 			statsMenu.message("You have \"+points+\" skill points to spend!  [LEVELUP] - to spend points.");
@@ -210,11 +215,11 @@ public class Player extends Entity{
 	 */
 	public void skillMenu(Scanner input) {
 		Menu skillsMenu = new Menu("SKILLS MENU");
-		skillsMenu.prompt.add("You have \"+getPoints()+\" skill point(s) to spend. Enter the name of the skill you want to add points to.");
-		skillsMenu.prompt.add("Once added, they cannot be reset, without a fee.");
-		skillsMenu.prompt.add("[STR][DEF][DGE][LCK][MGC][RST]");
-		skillsMenu.prompt.add("[HELP] - show descriptions for each stat.");
-		skillsMenu.prompt.add("[BACK] - go back to the previous prompt.");
+		skillsMenu.setMenuInfo("You have \"+getPoints()+\" skill point(s) to spend. Enter the name of the skill you want to add points to. \n"
+							 + "Once added, they cannot be reset, without a fee. \n"
+							 + "[STR][DEF][DGE][LCK][MGC][RST]");
+		skillsMenu.addPrompt("HELP", "show descriptions for each stat.");
+		skillsMenu.addPrompt("BACK", "go back to the previous prompt.");
 		
 		while(true) {
 			String selection = input.next().toString();
@@ -264,21 +269,27 @@ public class Player extends Entity{
 		return inventory;
 	}
 	
-	public int getSector() {
-		return sector;
+	public Point getPosition() {
+		return mapPosition;
 	}
 	
-	public void setSector(int sector) {
-		this.sector = sector;
+	public void setPosition(int sector) {
+		this.mapPosition = mapPosition;
 	}
 	
 	public void travel(Direction direction) {
 		switch(direction) {
 		case EAST:
-			sector += 1;
+			mapPosition = new Point(mapPosition.x+1, mapPosition.y);
 			break;
 		case WEST:
-			sector -= 1;
+			mapPosition = new Point(mapPosition.x-1, mapPosition.y);
+			break;
+		case NORTH:
+			mapPosition = new Point(mapPosition.x, mapPosition.y+1);
+			break;
+		case SOUTH:
+			mapPosition = new Point(mapPosition.x, mapPosition.y-1);
 			break;
 		}
 	}

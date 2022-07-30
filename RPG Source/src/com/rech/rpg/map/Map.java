@@ -1,5 +1,8 @@
 package com.rech.rpg.map;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -15,36 +18,66 @@ public class Map {
 		WEST
 	}
 	
-	private Location[] map;
 	private static final int MAPSIZE = 50;
 	private static final int eventProbability = 100; // 30 out of 100
+	
+	//ArrayList containing an arraylist of locations, top array is x contained arrays are y
+	private HashMap<Point, Location> map;
 	/**
 	 * Map contains an array of locations the player can move between.
 	 */
 	public Map() {
-		map = new Location[MAPSIZE];
+		map = new HashMap<Point, Location>();
 		//Setting town locations
-		map[0] = Town.generateTown(); // default town
-		map[1] = Town.generateTown(); // default town
-		map[2] = Town.generateTown(); // default town
-		map[3] = Town.generateTown(); // default town
+		setLocation(new Point(0,0), Town.generateTown()); // default town
+		setLocation(new Point(1,0), Town.generateTown()); // default town
+		setLocation(new Point(2,0), Town.generateTown()); // default town
+		setLocation(new Point(3,0), Town.generateTown()); // default town
 		
 	}
 	
-	public Location getLocation(int locationIndex) {
-		return map[locationIndex];
+	/**
+	 * Method for modifying map locations
+	 * @param position - position of location on map
+	 * @param location - the new location
+	 */
+	private void setLocation(Point position, Location location) {
+		map.put(position, location);
+	}
+	
+	/**
+	 * get location object of a position on map
+	 * @param position - requested position
+	 * @return location on the map at requested position
+	 */
+	public Location getLocation(Point position) {
+		if(map.get(position) == null) {
+			return new Wilderness("Location doesn't exist. This is an error.", "Location doesn't exist. This is an error.");
+		}
+		return map.get(position);
+	}
+	/**
+	 * Get location object of a x and y position on the map
+	 * @param x
+	 * @param y
+	 * @return location on the map at requested x and y
+	 */
+	public Location getLocation(int x, int y) {
+		if(map.get(new Point(x, y)) == null) {
+			return new Wilderness("Location doesn't exist. This is an error.", "Location doesn't exist. This is an error.");
+		}
+		return map.get(new Point(x, y));
 	}
 
 	public void locationMenu(Player player, Scanner input) {
-		Location currentLocation = getLocation(player.getSector());
+		Location currentLocation = getLocation(player.getPosition());
 		Menu locationMenu = new Menu(currentLocation.getName().toUpperCase());
 		
 		while(true) {
-			locationMenu.prompt.clear();
-			locationMenu.prompt.add(currentLocation.getDescription());
-			locationMenu.prompt.add(currentLocation.getSurroundings());
-			locationMenu.prompt.add("[TRAVEL] to another location"); // move forward in map array
-			locationMenu.prompt.add("[BACK]");
+			locationMenu.clearPrompts();
+			locationMenu.setMenuInfo(currentLocation.getDescription() + " " + currentLocation.getSurroundings());;
+			locationMenu.addPrompt("TRAVEL", "to another location"); // move forward in map array
+			locationMenu.addPrompt("BACK");
 			
 			locationMenu.display();
 			String optionSelection = input.nextLine().toUpperCase();
@@ -56,7 +89,7 @@ public class Map {
 				case "TRAVEL":
 					travelMenu(player, input);
 					//update menu
-					currentLocation = getLocation(player.getSector());
+					currentLocation = getLocation(player.getPosition());
 					locationMenu = new Menu(currentLocation.getName().toUpperCase());
 					break;
 				default: 
@@ -75,10 +108,12 @@ public class Map {
 	
 	private void travelMenu(Player player, Scanner input) {
 		Menu travelMenu = new Menu("TRAVEL");
-		travelMenu.prompt.add("Where do you want travel?");
-		travelMenu.prompt.add("[EAST] to " + map[player.getSector()+1].name);
-		travelMenu.prompt.add("[WEST] to " + map[player.getSector()-1].name);
-		travelMenu.prompt.add("[BACK]");
+		travelMenu.setMenuInfo("Where do you want travel?");
+		travelMenu.addPrompt("NORTH", "to " + getLocation(player.getPosition().x, player.getPosition().y+1).name);
+		travelMenu.addPrompt("EAST", "to " + getLocation(player.getPosition().x+1, player.getPosition().y).name);
+		travelMenu.addPrompt("SOUTH", "to " + getLocation(player.getPosition().x, player.getPosition().y-1).name);
+		travelMenu.addPrompt("WEST", "to " + getLocation(player.getPosition().x-1, player.getPosition().y).name);
+		travelMenu.addPrompt("BACK");
 		travelMenu.display();
 		
 		while(true) {
@@ -90,9 +125,10 @@ public class Map {
 			default:
 				if(Location.directionEnumContains(optionSelection)) {
 					Direction direction = Direction.valueOf(optionSelection);
-					travelMenu.prompt.clear();
+					travelMenu.clearPrompts();
+					travelMenu.clearMenuInfo();
 					player.travel(direction);
-					travelMenu.message("You begin to travel " + direction.name() + " towards " + map[player.getSector()].name);
+					travelMenu.message("You begin to travel " + direction.name() + " towards " + getLocation(player.getPosition()).name);
 					input.nextLine();
 					procEvent(input, player);
 					return;
