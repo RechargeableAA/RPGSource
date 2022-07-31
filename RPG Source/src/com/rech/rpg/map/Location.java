@@ -2,6 +2,7 @@ package com.rech.rpg.map;
 
 import java.util.Scanner;
 
+import com.rech.rpg.Menu;
 import com.rech.rpg.Player;
 import com.rech.rpg.map.Map.Direction;
 
@@ -23,6 +24,33 @@ public abstract class Location {
 	
 	public String getDescription() {
 		return description;
+	}
+	
+	public void locationMenu(Player player, Scanner input) {
+		Menu locationMenu = new Menu(getName().toUpperCase());
+		
+		while(true) {
+			locationMenu.clearPrompts();
+			locationMenu.setMenuInfo(getDescription() + " " + getSurroundings());;
+			locationMenu.addPrompt("BACK");
+			
+			locationMenu.display();
+			String optionSelection = input.nextLine().toUpperCase();
+			
+			switch(optionSelection) {
+			
+				case "BACK":
+					return;
+				default: 
+					if(Location.directionEnumContains(optionSelection)) {
+						Direction direction = Direction.valueOf(optionSelection);
+						interact(input, direction, player); // I dont like having to pass the direction to the next menu, but thats the only solution i have atm
+					}else {
+						locationMenu.message("You don't know what " + optionSelection + " means.");
+					}
+					break;
+			}
+		}
 	}
 	
 	/**

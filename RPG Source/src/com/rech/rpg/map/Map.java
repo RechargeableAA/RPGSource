@@ -1,7 +1,6 @@
 package com.rech.rpg.map;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
@@ -18,22 +17,29 @@ public class Map {
 		WEST
 	}
 	
-	private static final int MAPSIZE = 50;
 	private static final int eventProbability = 100; // 30 out of 100
 	
 	//ArrayList containing an arraylist of locations, top array is x contained arrays are y
-	private HashMap<Point, Location> map;
+	private HashMap<Point, Location> hashMap;
 	/**
 	 * Map contains an array of locations the player can move between.
 	 */
 	public Map() {
-		map = new HashMap<Point, Location>();
-		//Setting town locations
-		setLocation(new Point(0,0), Town.generateTown()); // default town
-		setLocation(new Point(1,0), Town.generateTown()); // default town
-		setLocation(new Point(2,0), Town.generateTown()); // default town
-		setLocation(new Point(3,0), Town.generateTown()); // default town
-		
+		hashMap = new HashMap<Point, Location>();
+	}
+	
+	/**
+	 * Tests for uninitialized locations around the player, then generates them. Does not overwrite already generated locations
+	 * @param player
+	 */
+	public void generateEmptySurroundingLocations(Player player) {
+		for(int x = player.getPosition().x-1; x <= player.getPosition().x+1; x++) {
+			for(int y = player.getPosition().y-1; y <= player.getPosition().y+1; y++) {
+				if(!hashMap.containsKey(new Point(x,y))) {
+					setLocation(new Point(x,y), Town.generateTown()); // default town
+				}
+			}	
+		}
 	}
 	
 	/**
@@ -42,7 +48,7 @@ public class Map {
 	 * @param location - the new location
 	 */
 	private void setLocation(Point position, Location location) {
-		map.put(position, location);
+		hashMap.put(position, location);
 	}
 	
 	/**
@@ -51,10 +57,10 @@ public class Map {
 	 * @return location on the map at requested position
 	 */
 	public Location getLocation(Point position) {
-		if(map.get(position) == null) {
+		if(hashMap.get(position) == null) {
 			return new Wilderness("Location doesn't exist. This is an error.", "Location doesn't exist. This is an error.");
 		}
-		return map.get(position);
+		return hashMap.get(position);
 	}
 	/**
 	 * Get location object of a x and y position on the map
@@ -63,50 +69,18 @@ public class Map {
 	 * @return location on the map at requested x and y
 	 */
 	public Location getLocation(int x, int y) {
-		if(map.get(new Point(x, y)) == null) {
+		if(hashMap.get(new Point(x, y)) == null) {
 			return new Wilderness("Location doesn't exist. This is an error.", "Location doesn't exist. This is an error.");
 		}
-		return map.get(new Point(x, y));
+		return hashMap.get(new Point(x, y));
 	}
 
-	public void locationMenu(Player player, Scanner input) {
-		Location currentLocation = getLocation(player.getPosition());
-		Menu locationMenu = new Menu(currentLocation.getName().toUpperCase());
-		
-		while(true) {
-			locationMenu.clearPrompts();
-			locationMenu.setMenuInfo(currentLocation.getDescription() + " " + currentLocation.getSurroundings());;
-			locationMenu.addPrompt("TRAVEL", "to another location"); // move forward in map array
-			locationMenu.addPrompt("BACK");
-			
-			locationMenu.display();
-			String optionSelection = input.nextLine().toUpperCase();
-			
-			switch(optionSelection) {
-			
-				case "BACK":
-					return;
-				case "TRAVEL":
-					travelMenu(player, input);
-					//update menu
-					currentLocation = getLocation(player.getPosition());
-					locationMenu = new Menu(currentLocation.getName().toUpperCase());
-					break;
-				default: 
-					if(Location.directionEnumContains(optionSelection)) {
-						Direction direction = Direction.valueOf(optionSelection);
-						currentLocation.interact(input, direction, player); // I dont like having to pass the direction to the next menu, but thats the only solution i have atm
-					}else {
-						locationMenu.message("You don't know what " + optionSelection + " means.");
-					}
-					break;
-			}
-		}
-	}
-	
-	
-	
-	private void travelMenu(Player player, Scanner input) {
+	/**
+	 * Menu used to travel to locations on the map
+	 * @param player
+	 * @param input
+	 */
+	public void travelMenu(Player player, Scanner input) {
 		Menu travelMenu = new Menu("TRAVEL");
 		travelMenu.setMenuInfo("Where do you want travel?");
 		travelMenu.addPrompt("NORTH", "to " + getLocation(player.getPosition().x, player.getPosition().y+1).name);
@@ -128,6 +102,7 @@ public class Map {
 					travelMenu.clearPrompts();
 					travelMenu.clearMenuInfo();
 					player.travel(direction);
+					generateEmptySurroundingLocations(player);
 					travelMenu.message("You begin to travel " + direction.name() + " towards " + getLocation(player.getPosition()).name);
 					input.nextLine();
 					procEvent(input, player);
@@ -139,7 +114,12 @@ public class Map {
 			}
 		}
 	}
-
+	
+	/**
+	 * MODIFY LATER SHOULD BE MOVED SOMEWHERE ELSE. Randomly tests for an event, rarity is eventprobabilty/100
+	 * @param input
+	 * @param player
+	 */
 	private void procEvent(Scanner input, Player player) {
 		Random random = new Random();
 		if(random.nextInt(100) <= eventProbability) {

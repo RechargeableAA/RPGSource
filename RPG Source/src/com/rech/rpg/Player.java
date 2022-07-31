@@ -46,8 +46,8 @@ public class Player extends Entity{
 				50,	//maxMana
 				1	//resistance
 			);
-		//Default map position
-		mapPosition = new Point(0,0);
+		//Default map position, short's max value 32,767 so we just jump to the middle of that, so we can move left or right without entering negatives
+		mapPosition = new Point(Short.MAX_VALUE/2, Short.MAX_VALUE/2);
 		//setting player stat defaults
 		exp = 0;
 		points = 0;

@@ -60,8 +60,8 @@ public class Main {
 			if(optionSelection.equalsIgnoreCase("stats")) { player.showStats(input); }
 			else if (optionSelection.equalsIgnoreCase("backpack") || optionSelection.equalsIgnoreCase("inv")) { player.getInventory().showInventory(player, input); }
 			else if (optionSelection.equalsIgnoreCase("spellbooks") || optionSelection.equalsIgnoreCase("spells")) { player.getInventory().showInventory(player, input); }
-			else if (optionSelection.equalsIgnoreCase("look")) { map.locationMenu(player, input); }
-			else if (optionSelection.equalsIgnoreCase("travel")) { map.locationMenu(player, input); }
+			else if (optionSelection.equalsIgnoreCase("look")) { map.getLocation(player.getPosition()).locationMenu(player, input); }
+			else if (optionSelection.equalsIgnoreCase("travel")) { map.travelMenu(player, input); }
 			else if (optionSelection.equalsIgnoreCase("options")) { optionsMenu(input); }
 			else {
 				mainMenu.message("\nYou don't know what '"+optionSelection+"' means.\n");
@@ -132,11 +132,12 @@ public class Main {
 
 		System.out.println("\n\nYou awake in a strange land. You have no recollection of how you got here.\nYou notice a man standing over you.\n\nHello stranger...\nYou seem like you're not from around here.\nDo you have a name?\n");
 		
-		map = new Map();
-		
 		player = new Player(input.nextLine()); // creates new player with name input
 		player.getInventory().pickup(Weapon.generateNewWeapon(2, 2));
 		player.equip(0); // give player random weapon
+		
+		map = new Map();
+		map.generateEmptySurroundingLocations(player);
 		
 		clearScreen();
 		System.out.println("\n"+player.getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. This is " + map.getLocation(player.getPosition()).getName()

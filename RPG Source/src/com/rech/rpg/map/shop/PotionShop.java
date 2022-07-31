@@ -34,7 +34,6 @@ public class PotionShop extends Shop{
 			potShop.addPrompt("2", shopInventory[1].getName());
 			potShop.addPrompt("3", shopInventory[2].getName());
 							
-			potShop.addPrompt("1-3", "\nWhich would you like to buy?");
 			potShop.addPrompt("back");
 			potShop.display();
 			potShop.clearMessage();
