@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.rech.rpg.item.Weapon;
 import com.rech.rpg.map.Map;
+import com.rech.rpg.map.event.Event;
 
 /*
 TODO:
@@ -22,19 +23,34 @@ TODO:
 
 public class Main {
 
+	//game shutoff variable
+	private static boolean running = true;
+
 	//Player object instance, used to reference everything about the player, ie inventory, map position
-	public static Player player;
+	private static Player player;
 	
 	//Map object instance, used to reference anything in or about the map, ie map size, locations on the map
 	public static Map map;
 	
+	//Menu
+	private static Menu mainMenu;
+	
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
+		mainMenu  = new Menu("Main Menu");
+		mainMenu.addPrompt("STATS", "check your statistics");
+		mainMenu.addPrompt("BACKPACK", "look at, potions, coins, and equip weapons that you own");
+		mainMenu.addPrompt("SPELLS", "look at and equip spellbooks owned");
+		mainMenu.addPrompt("LOOK", "examine your surroundings");
+		mainMenu.addPrompt("TRAVEL", "move to another location");
+		mainMenu.addPrompt("OPTIONS", "load or save your game");
 		
 		intro(input);
 		
 		input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
-		mainMenu(input);
+		while(running) {
+			mainMenu(input);
+		}
 		input.close();
 	}
 
@@ -43,29 +59,19 @@ public class Main {
 	 * @param input - Input scanner
 	 */
 	public static void mainMenu(Scanner input) {
-		Menu mainMenu = new Menu("Main Menu");
-		mainMenu.addPrompt("STATS", "check your statistics");
-		mainMenu.addPrompt("BACKPACK", "look at, potions, coins, and equip weapons that you own");
-		mainMenu.addPrompt("SPELLS", "look at and equip spellbooks owned");
-		mainMenu.addPrompt("LOOK", "examine your surroundings");
-		mainMenu.addPrompt("TRAVEL", "move to another location");
-		mainMenu.addPrompt("OPTIONS", "load or save your game");
+		mainMenu.display();
+		
+		String optionSelection = input.nextLine().toString();
 
-		while(true) {
-			mainMenu.display();
-			
-			String optionSelection = input.nextLine().toString();
-
-			//Logic for menu
-			if(optionSelection.equalsIgnoreCase("stats")) { player.showStats(input); }
-			else if (optionSelection.equalsIgnoreCase("backpack") || optionSelection.equalsIgnoreCase("inv")) { player.getInventory().showInventory(player, input); }
-			else if (optionSelection.equalsIgnoreCase("spellbooks") || optionSelection.equalsIgnoreCase("spells")) { player.getInventory().showInventory(player, input); }
-			else if (optionSelection.equalsIgnoreCase("look")) { map.getLocation(player.getPosition()).locationMenu(player, input); }
-			else if (optionSelection.equalsIgnoreCase("travel")) { map.travelMenu(player, input); }
-			else if (optionSelection.equalsIgnoreCase("options")) { optionsMenu(input); }
-			else {
-				mainMenu.message("\nYou don't know what '"+optionSelection+"' means.\n");
-			}
+		//Logic for menu
+		if(optionSelection.equalsIgnoreCase("stats")) { player.showStats(input); }
+		else if (optionSelection.equalsIgnoreCase("backpack") || optionSelection.equalsIgnoreCase("inv")) { player.getInventory().showInventory(player, input); }
+		else if (optionSelection.equalsIgnoreCase("spellbooks") || optionSelection.equalsIgnoreCase("spells")) { player.getInventory().showInventory(player, input); }
+		else if (optionSelection.equalsIgnoreCase("look")) { map.getLocation(player.getPosition()).locationMenu(player, input); }
+		else if (optionSelection.equalsIgnoreCase("travel")) { map.travelMenu(player, input); }
+		else if (optionSelection.equalsIgnoreCase("options")) { optionsMenu(input); }
+		else {
+			mainMenu.message("\nYou don't know what '"+optionSelection+"' means.\n");
 		}
 	}
 

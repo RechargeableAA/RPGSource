@@ -20,14 +20,21 @@ public class Menu {
 	private String menuInfo;
 	private String menuTitle;
 	
+	private static int maxLineLength = 50;
+	
+	
+	private String menuBorder = "|";
+	private String titleDivider = "-";
 	/**
-	 * 			menuTitle
-	 * 			menuInfo
-	 * [prompt] - prompt description
-	 * [prompt] - prompt description	 
-	 * [prompt] - prompt description
-	 * 
-	 * message message message message
+	 * 		|			menuTitle
+	 * 		--------------------------------
+	 * 		|			menuInfo
+	 * 		|
+	 * 		|[prompt] - prompt description
+	 * 		|[prompt] - prompt description	 
+	 * 		|[prompt] - prompt description
+	 *		|
+	 * 		|message message message message
 	 * 
 	 * 
 	 */
@@ -49,10 +56,31 @@ public class Menu {
 	 */
 	public void display() {
 		Main.clearScreen();
-		System.out.println("\t" + menuTitle);
-		if(menuInfo != null && menuInfo != ""){ System.out.println(menuInfo); }
+		
+		//Menu title
+		System.out.print(new String(new char[(maxLineLength/2)-(menuTitle.length()/2)-1]).replace("\0", " ")); // center menu title with spaces
+		System.out.println(menuTitle);
+		
+		//Menu info
+		if(menuInfo != null && menuInfo != ""){ 
+			for(String wrappedInfo : wordWrappedString(menuInfo, maxLineLength, 0, false)) {
+				System.out.println(wrappedInfo);
+			}
+		}
+		
+		//Menu prompts
 		for(Prompt prompt : prompts) {
-			System.out.println(prompt.title + prompt.description);
+			System.out.print(prompt.title);
+			for(String wrappedPrompt : wordWrappedString(prompt.description, maxLineLength, prompt.title.length(), false)) {
+				System.out.println(wrappedPrompt);
+			}
+		}
+		
+		//Messages
+		if(message != null && message != ""){ 
+			for(String wrappedInfo : wordWrappedString(message, maxLineLength, 0, false)) {
+				System.out.println(wrappedInfo);
+			}
 		}
 		System.out.println(message);
 	}
@@ -78,7 +106,7 @@ public class Menu {
 	 * @param promptDescription
 	 */
 	public void addPrompt(String promptTitle, String promptDescription) {
-		prompts.add(new Prompt("["+promptTitle.toUpperCase()+"]", " - "+promptDescription));
+		prompts.add(new Prompt("["+promptTitle.toUpperCase()+"] - ", promptDescription));
 	}
 	public void addPrompt(String promptTitle) {
 		prompts.add(new Prompt("["+promptTitle.toUpperCase()+"]", ""));
@@ -109,7 +137,47 @@ public class Menu {
 		message = "";
 	}
 	
-	
+	/**
+	 * Word wrap the menu by restricting its length to a value. Allows for word wrapping to be indented by a specific amount
+	 * @param rawString - raw unwrapped string, should not contain \n
+	 * @param maxLineLength - The bounds to wrap the text around
+	 * @param firstLineBias - Give the first line a shorter max length to account for any text that might proceed it
+	 * @param biasIndent - Give lines after the first line, the same indent
+	 * @return
+	 */
+	private String[] wordWrappedString(String rawString, int maxLineLength, int firstLineBias, boolean biasIndent) {
+		String stringSplit = rawString;
+		ArrayList<String> wrappedStrings = new ArrayList<String>();
+		int lastSpaceIndex = 0;
+		for(int charc = 0; charc < stringSplit.length(); charc++) {
+			if(stringSplit.charAt(charc) == ' ') {
+				lastSpaceIndex = charc;
+			}
+			
+			if(charc >= maxLineLength-firstLineBias) {
+				if(wrappedStrings.size() == 0) {
+					wrappedStrings.add(stringSplit.substring(0, lastSpaceIndex));
+				}else {
+					String indent = new String(new char[firstLineBias]).replace("\0", " ");
+					wrappedStrings.add(indent + stringSplit.substring(0, lastSpaceIndex));
+				}
+				stringSplit = stringSplit.substring(lastSpaceIndex+1);
+				charc = 0;
+				if(!biasIndent) {
+					firstLineBias = 0;
+				}
+			}
+		}
+		//add remainder of text
+		if(wrappedStrings.size() > 0) {
+			String indent = new String(new char[firstLineBias]).replace("\0", " ");
+			wrappedStrings.add(indent + stringSplit);
+		}else {
+			wrappedStrings.add(stringSplit);
+		}
+		
+		return wrappedStrings.toArray(new String[wrappedStrings.size()]);
+	}
 	
 	
 	

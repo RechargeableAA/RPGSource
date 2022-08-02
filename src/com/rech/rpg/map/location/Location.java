@@ -1,4 +1,4 @@
-package com.rech.rpg.map;
+package com.rech.rpg.map.location;
 
 import java.util.Scanner;
 
@@ -10,8 +10,8 @@ import com.rech.rpg.map.Map.Direction;
  * Locations are points on the map. Can be Towns, Random events, or Wild
  */
 public abstract class Location {
-	String name;
-	String description;
+	private String name;
+	private String description;
 	
 	public Location(String name, String description) {
 		this.name = name;
@@ -31,24 +31,15 @@ public abstract class Location {
 		
 		while(true) {
 			locationMenu.clearPrompts();
-			locationMenu.setMenuInfo(getDescription() + " " + getSurroundings());;
+			locationMenu.setMenuInfo("There is nothing to do here");
 			locationMenu.addPrompt("BACK");
 			
 			locationMenu.display();
 			String optionSelection = input.nextLine().toUpperCase();
 			
 			switch(optionSelection) {
-			
 				case "BACK":
 					return;
-				default: 
-					if(Location.directionEnumContains(optionSelection)) {
-						Direction direction = Direction.valueOf(optionSelection);
-						interact(input, direction, player); // I dont like having to pass the direction to the next menu, but thats the only solution i have atm
-					}else {
-						locationMenu.message("You don't know what " + optionSelection + " means.");
-					}
-					break;
 			}
 		}
 	}

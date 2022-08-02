@@ -1,6 +1,7 @@
 package com.rech.rpg.map.event;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import com.rech.rpg.Player;
@@ -20,6 +21,7 @@ public abstract class Event{
 	description;
 	private static ArrayList<Event> eventList = new ArrayList<Event>();
 	
+	private static final int eventProbability = 100; // 30 out of 100
 	
 	public Event(String name, String description) {
 		this.name = name;
@@ -31,6 +33,18 @@ public abstract class Event{
 	
 	public static ArrayList<Event> getEvents() {
 		return eventList;
+	}
+	
+	/**
+	 * Randomly tests for an event, rarity is eventprobabilty/100
+	 * @param input
+	 * @param player
+	 */
+	public static void procEvent(Scanner input, Player player) {
+		Random random = new Random();
+		if(random.nextInt(100) <= eventProbability) {
+			Event.getEvents().get(random.nextInt(Event.getEvents().size())).runEvent(input, player);
+		}
 	}
 	
 	/**

@@ -1,13 +1,10 @@
-package com.rech.rpg.map;
+package com.rech.rpg.map.location;
 
-import java.util.ArrayList;
 
 import java.util.Scanner;
 import java.util.Random;
 
-import java.util.Random;
-import java.util.Scanner;
-
+import com.rech.rpg.Menu;
 import com.rech.rpg.Player;
 import com.rech.rpg.item.Potion;
 import com.rech.rpg.map.Map.Direction;
@@ -25,7 +22,7 @@ public class Town extends Location{
 	String surroundings;
 	Shop shops[];
 	
-	public Town(String name, String description, String surroundings, Shop[] shops) {
+	private Town(String name, String description, String surroundings, Shop[] shops) {
 		super(name, description);
 		this.surroundings = surroundings;
 		this.shops = shops;
@@ -35,10 +32,38 @@ public class Town extends Location{
 	public String getSurroundings() {
 		return surroundings;
 	}
-	
+
 	@Override
 	public void interact(Scanner input, Direction directionSelection, Player player) {
-		System.out.println("No interactions set for town " + this.name);
+		System.out.println("No interactions set for town " + this.getName());
+	}
+	
+	@Override
+	public void locationMenu(Player player, Scanner input) {
+		Menu locationMenu = new Menu(getName().toUpperCase());
+		
+		while(true) {
+			locationMenu.clearPrompts();
+			locationMenu.setMenuInfo(getDescription() + " " + getSurroundings());
+			locationMenu.addPrompt("BACK");
+			
+			locationMenu.display();
+			String optionSelection = input.nextLine().toUpperCase();
+			
+			switch(optionSelection) {
+			
+				case "BACK":
+					return;
+				default: 
+					if(Location.directionEnumContains(optionSelection)) {
+						Direction direction = Direction.valueOf(optionSelection);
+						interact(input, direction, player); // I dont like having to pass the direction to the next menu, but thats the only solution i have atm
+					}else {
+						locationMenu.message("You don't know what " + optionSelection + " means.");
+					}
+					break;
+			}
+		}
 	}
 	
 	/**
@@ -52,7 +77,9 @@ public class Town extends Location{
 				"You are currently in the town of "+name, // description
 				"There is a shop to the [NORTH].", // whats around
 				new Shop[] { // array of shops
-						new PotionShop("Alman's Potions", new Potion[] { // a potion shop with an array for inventory
+						new Shop("Alman's Potions",
+								"A potion for all your needs...", 
+								new Potion[] { // a potion shop with an array for inventory
 								Potion.minorHealth, 
 								Potion.standardHealth, 
 								Potion.minorMana
@@ -101,25 +128,4 @@ public class Town extends Location{
 		}
 		
 	}
-	
-	/** to be completed
-	public static String generateTown(int firstName, int lastName) {
-		String[] stringA = new String[] {"Gray", "Green", "Kil", "Bleak", "Dusk", "Storm", "Summer", "Never", "Dire", "North", "East", "South", "West"}; //13 total
-		String[] stringB = new String[] {"drift", "ville", "rock", "stone", "host", "wood", "valley", "felt", "shore", "beach", "port", "watch"}; //12 total
-		Random rand = new Random(); //can change to 13, figured length of A would always be larger than B
-		String townName;
-		
-		try {
-			if (firstName == 0 && lastName == 0) { //0,0 will ask to make a random town. any other number will pick a specific name based on the arrays
-				townName = stringA[rand.nextInt(stringA.length)]+stringB[rand.nextInt(stringB.length)];
-			}else {
-				townName = stringA[firstName]+stringB[lastName];//placeholder for final name
-			}
-			return townName;
-		}catch (ArrayIndexOutOfBoundsException IOB){
-			IOB.printStackTrace();
-			return "ERROR"; //can set to GrayDrift if preferred.
-		}
-	}
-	**/
 }

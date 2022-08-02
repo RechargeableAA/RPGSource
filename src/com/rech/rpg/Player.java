@@ -11,8 +11,8 @@ import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Spellbook;
 import com.rech.rpg.item.Weapon;
 import com.rech.rpg.map.Map.Direction;
-import com.rech.rpg.map.Town; //temporary!!! - for debugging purposes
 import com.rech.rpg.map.event.AmbushEvent;
+import com.rech.rpg.map.location.Town;
 import com.rech.rpg.entity.Enemy;
 
 

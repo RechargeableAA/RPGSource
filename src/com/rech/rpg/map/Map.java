@@ -8,6 +8,9 @@ import java.util.Scanner;
 import com.rech.rpg.Menu;
 import com.rech.rpg.Player;
 import com.rech.rpg.map.event.Event;
+import com.rech.rpg.map.location.Location;
+import com.rech.rpg.map.location.Town;
+import com.rech.rpg.map.location.Wilderness;
 
 public class Map {
 	public static enum Direction{
@@ -17,15 +20,22 @@ public class Map {
 		WEST
 	}
 	
-	private static final int eventProbability = 100; // 30 out of 100
+	//IDK if its really necessary to list the types here, but imma do it anyways
+	private static enum locationType {
+			TOWN,
+			WILDERNESS
+	};
 	
 	//ArrayList containing an arraylist of locations, top array is x contained arrays are y
 	private HashMap<Point, Location> hashMap;
+	
 	/**
 	 * Map contains an array of locations the player can move between.
 	 */
 	public Map() {
 		hashMap = new HashMap<Point, Location>();
+		//default location is a town
+		hashMap.put(new Point(Short.MAX_VALUE/2, Short.MAX_VALUE/2), Town.generateTown());
 	}
 	
 	/**
@@ -36,7 +46,18 @@ public class Map {
 		for(int x = player.getPosition().x-1; x <= player.getPosition().x+1; x++) {
 			for(int y = player.getPosition().y-1; y <= player.getPosition().y+1; y++) {
 				if(!hashMap.containsKey(new Point(x,y))) {
-					setLocation(new Point(x,y), Town.generateTown()); // default town
+					Random rand = new Random();
+					locationType randomLocationType = locationType.values()[rand.nextInt(locationType.values().length)];
+					
+					//bad way to determine what location type to use imo
+					switch(randomLocationType) {
+					case TOWN:
+						setLocation(new Point(x,y), Town.generateTown()); // default town
+						break;
+					case WILDERNESS:
+						setLocation(new Point(x,y), Wilderness.generateWilderness()); // default town
+						break;
+					}
 				}
 			}	
 		}
@@ -58,7 +79,7 @@ public class Map {
 	 */
 	public Location getLocation(Point position) {
 		if(hashMap.get(position) == null) {
-			return new Wilderness("Location doesn't exist. This is an error.", "Location doesn't exist. This is an error.");
+			return Wilderness.generateWilderness();
 		}
 		return hashMap.get(position);
 	}
@@ -70,7 +91,7 @@ public class Map {
 	 */
 	public Location getLocation(int x, int y) {
 		if(hashMap.get(new Point(x, y)) == null) {
-			return new Wilderness("Location doesn't exist. This is an error.", "Location doesn't exist. This is an error.");
+			return Wilderness.generateWilderness();
 		}
 		return hashMap.get(new Point(x, y));
 	}
@@ -83,10 +104,10 @@ public class Map {
 	public void travelMenu(Player player, Scanner input) {
 		Menu travelMenu = new Menu("TRAVEL");
 		travelMenu.setMenuInfo("Where do you want travel?");
-		travelMenu.addPrompt("NORTH", "to " + getLocation(player.getPosition().x, player.getPosition().y+1).name);
-		travelMenu.addPrompt("EAST", "to " + getLocation(player.getPosition().x+1, player.getPosition().y).name);
-		travelMenu.addPrompt("SOUTH", "to " + getLocation(player.getPosition().x, player.getPosition().y-1).name);
-		travelMenu.addPrompt("WEST", "to " + getLocation(player.getPosition().x-1, player.getPosition().y).name);
+		travelMenu.addPrompt("NORTH", "to " + getLocation(player.getPosition().x, player.getPosition().y+1).getName());
+		travelMenu.addPrompt("EAST", "to " + getLocation(player.getPosition().x+1, player.getPosition().y).getName());
+		travelMenu.addPrompt("SOUTH", "to " + getLocation(player.getPosition().x, player.getPosition().y-1).getName());
+		travelMenu.addPrompt("WEST", "to " + getLocation(player.getPosition().x-1, player.getPosition().y).getName());
 		travelMenu.addPrompt("BACK");
 		travelMenu.display();
 		
@@ -103,27 +124,15 @@ public class Map {
 					travelMenu.clearMenuInfo();
 					player.travel(direction);
 					generateEmptySurroundingLocations(player);
-					travelMenu.message("You begin to travel " + direction.name() + " towards " + getLocation(player.getPosition()).name);
+					travelMenu.message("You begin to travel " + direction.name() + " towards " + getLocation(player.getPosition()).getName());
 					input.nextLine();
-					procEvent(input, player);
+					Event.procEvent(input, player);
 					return;
 				}else {
 					travelMenu.message("You don't know what " + optionSelection + " means.");
 				}
 				break;
 			}
-		}
-	}
-	
-	/**
-	 * MODIFY LATER SHOULD BE MOVED SOMEWHERE ELSE. Randomly tests for an event, rarity is eventprobabilty/100
-	 * @param input
-	 * @param player
-	 */
-	private void procEvent(Scanner input, Player player) {
-		Random random = new Random();
-		if(random.nextInt(100) <= eventProbability) {
-			Event.getEvents().get(random.nextInt(Event.getEvents().size())).runEvent(input, player);
 		}
 	}
 }
