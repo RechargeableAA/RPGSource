@@ -82,7 +82,6 @@ public class Menu {
 				System.out.println(wrappedInfo);
 			}
 		}
-		System.out.println(message);
 	}
 	
 	/**
