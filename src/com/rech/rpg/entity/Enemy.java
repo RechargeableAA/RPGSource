@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.rech.rpg.entity.Entity.Stats;
+import com.rech.rpg.item.Weapon;
 
 
 public class Enemy extends Entity{ 
@@ -32,6 +33,7 @@ public class Enemy extends Entity{
 		//stat initialization
 		allocateRandomLevels(getRandLevel(race));
 		
+		this.equipped = Weapon.fist;
 		enemyList.add(this);
 	}
 	

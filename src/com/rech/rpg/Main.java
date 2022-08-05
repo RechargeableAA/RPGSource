@@ -150,6 +150,7 @@ public class Main {
 		System.out.println("\n"+player.getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. This is " + map.getLocation(player.getPosition()).getName()
 				+ ".\nI'll let you rest in my home just down the way.\nIt's not much, but I bet it'll work until you can sort yourself out.\n"
 				+ "\nHere, you can have my old "+player.getEquipped().getName()+".\nYou're gonna need it. Watch yourself out there.");
+		input.nextLine(); // wait for enter key
 	}
 	
 	/**

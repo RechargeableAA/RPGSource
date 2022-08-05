@@ -9,6 +9,9 @@ public class Entity {
 	//5 points earned per level.
 	public static final int POINTSPERLEVEL = 5;
 	
+	//Equipped item
+	protected Weapon equipped;
+	
 	private static final int //default stats constants, used to determine an entity's level, also determines the stat's increment when leveling, besides MAXHEALTH and MAXMANA
 	STRENGTH = 1,
 	MAXHEALTH = 50,
@@ -198,9 +201,6 @@ public class Entity {
 	}
 
 	
-	//Equipped item
-	protected Weapon equipped;
-	
 	public Weapon getEquipped() {
 		return equipped;
 	}
@@ -235,6 +235,10 @@ public class Entity {
 	
 	public int getResistance() {
 		return resistance;
+	}
+	
+	public int attackDamage() {
+		return equipped.getDamage() + (equipped.getDamage()*(strength/10));
 	}
 	
 	public void damage(int damage) {

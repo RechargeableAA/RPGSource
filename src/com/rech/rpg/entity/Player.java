@@ -302,6 +302,7 @@ public class Player extends Entity{
 		}
 	}
 	
+	
 	public int getExp() {
 		return exp;
 	}

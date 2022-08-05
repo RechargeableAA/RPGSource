@@ -5,6 +5,7 @@ import java.util.Scanner;
 import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Enemy;
 import com.rech.rpg.entity.Player;
+import com.rech.rpg.entity.combat.Combat;
 import com.rech.rpg.map.Map.Direction;
 
 
@@ -23,7 +24,16 @@ public class Wilderness extends Location{
 
 	@Override
 	public void interact(Scanner input, Direction directionSelection, Player player) {
-		
+		switch(directionSelection) {
+		case NORTH:
+			Combat combat = new Combat();
+			combat.enterCombat(player, enemies[0], input);
+		break;
+		default:
+			System.out.println("There's nothing in that direction.");
+		break;
+	
+		}
 	}
 
 	@Override
