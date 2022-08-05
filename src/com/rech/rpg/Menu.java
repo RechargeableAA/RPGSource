@@ -41,7 +41,6 @@ public class Menu {
 	
 	
 	
-	
 	/**
 	 * Create an empty menu
 	 * @param menuTitle - Name displayed above options

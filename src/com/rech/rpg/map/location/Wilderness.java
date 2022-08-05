@@ -3,8 +3,8 @@ package com.rech.rpg.map.location;
 import java.util.Scanner;
 
 import com.rech.rpg.Menu;
-import com.rech.rpg.Player;
 import com.rech.rpg.entity.Enemy;
+import com.rech.rpg.entity.Player;
 import com.rech.rpg.map.Map.Direction;
 
 

@@ -1,4 +1,4 @@
-package com.rech.rpg;
+package com.rech.rpg.entity;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -6,14 +6,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import com.rech.rpg.entity.Entity;
+import com.rech.rpg.Menu;
 import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Spellbook;
 import com.rech.rpg.item.Weapon;
 import com.rech.rpg.map.Map.Direction;
 import com.rech.rpg.map.event.AmbushEvent;
 import com.rech.rpg.map.location.Town;
-import com.rech.rpg.entity.Enemy;
 
 
 /*
@@ -225,7 +224,7 @@ public class Player extends Entity{
 			String selection = input.next().toString();
 
 			if (selection.equals("back")) {
-				Main.mainMenu(input);
+				return;
 			}else if (isStat(selection)) { //verifies if input was a stat
 				addSkillPoint(Stats.valueOf(selection));
 			}else if (selection.equals("help")) {//checking input for menu related navigation

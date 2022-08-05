@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import com.rech.rpg.Player;
+import com.rech.rpg.entity.Player;
 import com.rech.rpg.item.Item;
 import com.rech.rpg.map.event.StatusEffectEvent.statusEffect;
 

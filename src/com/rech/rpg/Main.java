@@ -2,6 +2,7 @@ package com.rech.rpg;
 
 import java.util.Scanner;
 
+import com.rech.rpg.entity.Player;
 import com.rech.rpg.item.Weapon;
 import com.rech.rpg.map.Map;
 import com.rech.rpg.map.event.Event;

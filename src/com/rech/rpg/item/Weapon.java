@@ -3,8 +3,8 @@ package com.rech.rpg.item;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.rech.rpg.Player;
 import com.rech.rpg.entity.Entity;
+import com.rech.rpg.entity.Player;
 
 /*
  * Weapon class are items that are equippable and usable as weapons

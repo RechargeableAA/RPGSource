@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.util.Random;
 
 import com.rech.rpg.Menu;
-import com.rech.rpg.Player;
+import com.rech.rpg.entity.Player;
 import com.rech.rpg.item.Potion;
 import com.rech.rpg.map.Map.Direction;
 import com.rech.rpg.map.shop.PotionShop;

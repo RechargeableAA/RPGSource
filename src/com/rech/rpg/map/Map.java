@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import com.rech.rpg.Menu;
-import com.rech.rpg.Player;
+import com.rech.rpg.entity.Player;
 import com.rech.rpg.map.event.Event;
 import com.rech.rpg.map.location.Location;
 import com.rech.rpg.map.location.Town;
