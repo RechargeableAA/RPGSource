@@ -13,9 +13,6 @@ public class Menu {
 	 */
 	private ArrayList<Prompt> prompts;
 	
-	//Informational message printed after options, this is usually "You dont know what..." when user enters an incorrect input
-	private String message = "";
-	
 	//Information important to menu options, like the location you're in
 	private String menuInfo;
 	private String menuTitle;
@@ -75,12 +72,6 @@ public class Menu {
 			}
 		}
 		
-		//Messages
-		if(message != null && message != ""){ 
-			for(String wrappedInfo : wordWrappedString(message, maxLineLength, 0, false)) {
-				System.out.println(wrappedInfo);
-			}
-		}
 	}
 	
 	/**
@@ -95,6 +86,14 @@ public class Menu {
 	 * Clear the menu's info
 	 */
 	public void clearMenuInfo() {
+		menuInfo = "";
+	}
+	
+	/**
+	 * Clears menuinfo, prompts, and messages
+	 */
+	public void clearAll() {
+		prompts.clear();
 		menuInfo = "";
 	}
 	
@@ -119,20 +118,16 @@ public class Menu {
 	}
 	
 	/**
-	 * Messages that appear after menus/options.
+	 * Messages that appear after menu, displayed instantly
 	 * EX: "You payed 5 gp for that."
 	 * @param message
 	 */
 	public void message(String message) {
-		this.message = message;
-		display();
-	}
-	
-	/**
-	 * Clears the menu message line
-	 */
-	public void clearMessage() {
-		message = "";
+		if(message != null && message != ""){ 
+			for(String wrappedInfo : wordWrappedString(message, maxLineLength, 0, false)) {
+				System.out.println(wrappedInfo);
+			}
+		}
 	}
 	
 	/**
