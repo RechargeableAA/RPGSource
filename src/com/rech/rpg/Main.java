@@ -60,7 +60,7 @@ public class Main {
 	 * @param input - Input scanner
 	 */
 	public static void mainMenu(Scanner input) {
-		mainMenu.display();
+		mainMenu.display(false);
 		
 		String optionSelection = input.nextLine().toString();
 

@@ -65,7 +65,7 @@ public class Wilderness extends Location{
 			
 			locationMenu.addPrompt("BACK");
 			
-			locationMenu.display();
+			locationMenu.display(true);
 			String optionSelection = input.nextLine().toUpperCase();
 			
 			switch(optionSelection) {

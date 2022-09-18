@@ -47,7 +47,7 @@ public class Town extends Location{
 			locationMenu.setMenuInfo(getDescription() + " " + getSurroundings());
 			locationMenu.addPrompt("BACK");
 			
-			locationMenu.display();
+			locationMenu.display(true);
 			String optionSelection = input.nextLine().toUpperCase();
 			
 			switch(optionSelection) {

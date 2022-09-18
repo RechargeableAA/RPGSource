@@ -134,8 +134,7 @@ public class Player extends Entity{
 						  + getStat(Stats.DODGE) + "      "
 						  + getStat(Stats.LUCK) + "       "
 						  + getStat(Stats.MAGIC) + "         "
-						  + getStat(Stats.RESISTANCE)); // this menu feature needs to be explicitly created in the menu class, since numbers will move the entire line when going from 0-10 10-100 etc
-							
+						  + getStat(Stats.RESISTANCE)); // this menu feature needs to be explicitly created in the menu class, since numbers will move the entire line when going from 0-10 10-100 etc			
 		
 		statsMenu.addPrompt("HELP", "show descriptions for each stat.");
 		statsMenu.addPrompt("BACK", "go back to the previous prompt.");
@@ -147,7 +146,7 @@ public class Player extends Entity{
 		}
 		
 		while(true) {
-			statsMenu.display();
+			statsMenu.display(false);
 			String selection = input.nextLine();
 			
 			switch(selection.toUpperCase()){

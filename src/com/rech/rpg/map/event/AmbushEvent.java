@@ -38,7 +38,7 @@ public class AmbushEvent extends Event{
 		//What do you do? [attack] [flee] [luck]
 		
 		while(true) {
-			eventMenu.display();
+			eventMenu.display(true);
 			
 			String optionSelection = input.nextLine();
 			switch(optionSelection.toUpperCase()) {

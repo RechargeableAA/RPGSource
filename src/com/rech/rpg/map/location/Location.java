@@ -34,7 +34,7 @@ public abstract class Location {
 			locationMenu.setMenuInfo("There is nothing to do here");
 			locationMenu.addPrompt("BACK");
 			
-			locationMenu.display();
+			locationMenu.display(true);
 			String optionSelection = input.nextLine().toUpperCase();
 			
 			switch(optionSelection) {

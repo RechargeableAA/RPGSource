@@ -21,7 +21,7 @@ public class Combat {
 			cbMenu.addPrompt("Attack");
 			cbMenu.addPrompt("Backpack");
 			cbMenu.addPrompt("Run");
-			cbMenu.display();
+			cbMenu.display(true);
 			
 			boolean playerTurn = true;
 			while(playerTurn) {

@@ -109,7 +109,7 @@ public class Map {
 		travelMenu.addPrompt("SOUTH", "to " + getLocation(player.getPosition().x, player.getPosition().y-1).getName());
 		travelMenu.addPrompt("WEST", "to " + getLocation(player.getPosition().x-1, player.getPosition().y).getName());
 		travelMenu.addPrompt("BACK");
-		travelMenu.display();
+		travelMenu.display(true);
 		
 		while(true) {
 			String optionSelection = input.nextLine().toUpperCase();
