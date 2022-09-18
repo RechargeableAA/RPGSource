@@ -30,8 +30,12 @@ public class Shop {
 			}
 							
 			shop.addPrompt("back");
+<<<<<<< Updated upstream
 			shop.display();
 			shop.clearMessage();
+=======
+			shop.display(true);
+>>>>>>> Stashed changes
 			
 			String in = input.nextLine(); //has to be taken as a string to catch the 'back' command. is parsed as an int after.
 			
@@ -49,7 +53,7 @@ public class Shop {
 							shop.setMenuInfo("Ah, a " + this.items[selection].getName() + " that'll be " + this.items[selection].getCost() + " coins.\n" + 
 												"You have "+player.getInventory().getCoins()+" coins right now.");
 							shop.addPrompt("y/n", "Pay the shopkeep " + this.items[selection].getCost() + " coins?");
-							shop.display();
+							shop.display(true);
 							
 							if(input.nextLine().equalsIgnoreCase("y")) {
 								while(true)	{

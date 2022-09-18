@@ -57,7 +57,7 @@ public class Inventory{
 			invMenu.addPrompt("EQUIP");
 			invMenu.addPrompt("DROP");	
 			invMenu.addPrompt("BACK");	
-			invMenu.display();
+			invMenu.display(true);
 			
 			
 			String optionSelection = input.nextLine().toString();
@@ -100,7 +100,7 @@ public class Inventory{
 				dropMenu.addPrompt("BACK");
 			}
 			
-			dropMenu.display();
+			dropMenu.display(true);
 			
 			String optionSelection = input.nextLine(); 
 			switch(optionSelection.toUpperCase()) {
@@ -116,11 +116,16 @@ public class Inventory{
 								dropMenu.clearPrompts();
 								dropMenu.clearMessage();
 								dropMenu.addPrompt("y/n", "Are you sure you want to drop " + getSlot(slot).getName() + "?");
-								dropMenu.display();
+								dropMenu.display(true);
 								if(input.nextLine().equalsIgnoreCase("y")) {
 									dropMenu.clearPrompts();
+<<<<<<< Updated upstream
 									dropMenu.message("You drop your " + getSlot(slot).getName() + ".");
 									dropMenu.display();
+=======
+									dropMenu.message("You drop your " + getSlot(slot).getName() + ".", input);
+									dropMenu.display(true);
+>>>>>>> Stashed changes
 									input.nextLine();
 									drop(slot);
 									
@@ -157,7 +162,7 @@ public class Inventory{
 				equipMenu.addPrompt("back");
 			}
 			
-			equipMenu.display();
+			equipMenu.display(true);
 			
 			//error catching string to int
 			String optionSelection = input.nextLine(); 
