@@ -1,9 +1,6 @@
 package com.rech.rpg.entity;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 import com.rech.rpg.Menu;
@@ -11,8 +8,6 @@ import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Spellbook;
 import com.rech.rpg.item.Weapon;
 import com.rech.rpg.map.Map.Direction;
-import com.rech.rpg.map.event.AmbushEvent;
-import com.rech.rpg.map.location.Town;
 
 
 /*
@@ -29,9 +24,6 @@ public class Player extends Entity{
 	private Point mapPosition;
 	//private String location = Main.worldMap[sector];
 	
-	// Inventory
-	private Inventory inventory;
-		
 	public Player(String name) {
 		//player defaults
 		super(
@@ -51,8 +43,6 @@ public class Player extends Entity{
 		exp = 0;
 		points = 0;
 		coins = 0;
-		//initializing inventory
-		inventory = new Inventory();
 		equipped = null;
 		
 		//Certain names give certain attributes ****for testing
@@ -140,7 +130,7 @@ public class Player extends Entity{
 		statsMenu.addPrompt("BACK", "go back to the previous prompt.");
 		//level up info
 		if (points > 0) { 
-			statsMenu.message("You have \"+points+\" skill points to spend!  [LEVELUP] - to spend points.");
+			statsMenu.message("You have \"+points+\" skill points to spend!  [LEVELUP] - to spend points.", input);
 		}else {
 		//	skillMenu(input);
 		}
@@ -152,7 +142,7 @@ public class Player extends Entity{
 			switch(selection.toUpperCase()){
 			case "LEVELUP":
 				if (points <= 0) {
-					statsMenu.message("You don't have any points to spend on skills.");
+					statsMenu.message("You don't have any points to spend on skills.", input);
 				}else{
 					skillMenu(input);
 				}
@@ -166,11 +156,12 @@ public class Player extends Entity{
 					  + "DODGE = chance to negate damage all together\r\n"
 					  + "LUCK = modifies how many coins and materials you can gain.\r\n"
 					  + "MAGIC = how powerful spells will be, will use spell books that work like swords with elemental bonuses and healing\r\n"
-					  + "RESISTANCE = like defense, but against magic/status effects"
+					  + "RESISTANCE = like defense, but against magic/status effects",
+					  input
 				);
 			break;
 			default:
-				statsMenu.message("\nYou don't know what '"+selection+"' means.\n");
+				statsMenu.message("\nYou don't know what '"+selection+"' means.\n", input);
 				break;
 			}
 		}
@@ -233,10 +224,11 @@ public class Player extends Entity{
 						   + "DODGE = chance to negate damage all together\r\n"
 						   + "LUCK = modifies how many coins and materials you can gain.\r\n"
 						   + "MAGIC = how powerful spells will be, will use spell books that work like swords with elemental bonuses and healing\r\n"
-						   + "RESISTANCE = like defense, but against magic/status effects"
+						   + "RESISTANCE = like defense, but against magic/status effects",
+						   input
 						   );
 			}else {
-				skillsMenu.message("You don't know what '\"+selection+\"' means.");
+				skillsMenu.message("You don't know what '\"+selection+\"' means.", input);
 			}
 		}
 	}
@@ -275,24 +267,6 @@ public class Player extends Entity{
 		this.mapPosition = mapPosition;
 	}
 	
-	public void travel(Direction direction) {
-		switch(direction) {
-		case EAST:
-			mapPosition = new Point(mapPosition.x+1, mapPosition.y);
-			break;
-		case WEST:
-			mapPosition = new Point(mapPosition.x-1, mapPosition.y);
-			break;
-		case NORTH:
-			mapPosition = new Point(mapPosition.x, mapPosition.y+1);
-			break;
-		case SOUTH:
-			mapPosition = new Point(mapPosition.x, mapPosition.y-1);
-			break;
-		}
-	}
-	
-	
 	public boolean isDead() {
 		if(getHealth() <= 0) {
 			return true;
@@ -314,12 +288,16 @@ public class Player extends Entity{
 		return points;
 	}	
 
-	public String getName() {
-		return name;
-	}
-
 	public void setPoints(int points) {
 		this.points = points;
+	}
+	
+	public void setMapPosition(Point position) {
+		mapPosition = position;
+	}
+	
+	public Point getMapPosition() {
+		return mapPosition;
 	}
 
 	

@@ -37,17 +37,18 @@ public class Wilderness extends Location{
 	}
 
 	@Override
-	public String getSurroundings() {
+	public String getSurroundings() {			// Currently a place holder
 		String surroundings = "There's ";
 		for(int enCount = 0; enCount < enemies.length; enCount++) {
 			if(enemies.length == 1) {
-				surroundings += "an enemy " + enemies[enCount].getRace() + ".";
+				surroundings += "an enemy " + enemies[enCount].getName();
 			}else if(enCount+1 == enemies.length) {
-				surroundings += "and an enemy " + enemies[enCount].getRace() + ".";
+				surroundings += "and an enemy " + enemies[enCount].getName();
 			}else {
-				surroundings += "an enemy " + enemies[enCount].getRace() + ", ";
+				surroundings += "an enemy " + enemies[enCount].getName() + ", ";
 			}
 		}
+		surroundings += " to the [NORTH].";
 		return surroundings;
 	}
 	
@@ -60,7 +61,7 @@ public class Wilderness extends Location{
 			locationMenu.setMenuInfo(getDescription() + " " + getSurroundings());
 			
 			for(int enCount = 0; enCount < enemies.length; enCount++) {
-				locationMenu.addPrompt(enCount+"", enemies[enCount].getRace().name());
+				locationMenu.addPrompt(enCount+"", enemies[enCount].getName());
 			}
 			
 			locationMenu.addPrompt("BACK");
@@ -77,7 +78,7 @@ public class Wilderness extends Location{
 						Direction direction = Direction.valueOf(optionSelection);
 						interact(input, direction, player); // I dont like having to pass the direction to the next menu, but thats the only solution i have atm
 					}else {
-						locationMenu.message("You don't know what " + optionSelection + " means.");
+						locationMenu.message("You don't know what " + optionSelection + " means.", input);
 					}
 					break;
 			}

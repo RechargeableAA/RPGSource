@@ -9,12 +9,12 @@ import com.rech.rpg.item.Weapon;
 
 public class Enemy extends Entity{ 
 	
-	//private String race; //TODO I want to turn this into ENUM!
 	//private String magicResist;
 		
 	public enum Race{
 		HUMAN, ORC, KNIGHT, BEAST; 
 	}
+	
 	private static final int DEFAULTENEMYHEALTH = 10;
 	
 	private static ArrayList<Enemy> enemyList = new ArrayList<Enemy>(); 

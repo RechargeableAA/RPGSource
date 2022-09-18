@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Player;
+import com.rech.rpg.map.Map.Direction;
 import com.rech.rpg.map.event.Event;
 import com.rech.rpg.map.location.Location;
 import com.rech.rpg.map.location.Town;
@@ -122,17 +123,33 @@ public class Map {
 					Direction direction = Direction.valueOf(optionSelection);
 					travelMenu.clearPrompts();
 					travelMenu.clearMenuInfo();
-					player.travel(direction);
+					travel(player, direction);
 					generateEmptySurroundingLocations(player);
-					travelMenu.message("You begin to travel " + direction.name() + " towards " + getLocation(player.getPosition()).getName());
-					input.nextLine();
+					travelMenu.message("You begin to travel " + direction.name() + " towards " + getLocation(player.getPosition()).getName(), input);
 					Event.procEvent(input, player);
 					return;
 				}else {
-					travelMenu.message("You don't know what " + optionSelection + " means.");
+					travelMenu.message("You don't know what " + optionSelection + " means.", input);
 				}
 				break;
 			}
+		}
+	}
+	
+	public void travel(Player player, Direction direction) {
+		switch(direction) {
+		case EAST:
+			player.setMapPosition(new Point(player.getMapPosition().x+1, player.getMapPosition().y));;
+			break;
+		case WEST:
+			player.setMapPosition(new Point(player.getMapPosition().x-1, player.getMapPosition().y));;
+			break;
+		case NORTH:
+			player.setMapPosition(new Point(player.getMapPosition().x, player.getMapPosition().y+1));;
+			break;
+		case SOUTH:
+			player.setMapPosition(new Point(player.getMapPosition().x, player.getMapPosition().y-1));;
+			break;
 		}
 	}
 }

@@ -29,7 +29,7 @@ public class Combat {
 				String optionSelection = input.nextLine().toString();
 				switch(optionSelection.toUpperCase()) {
 				case "ATTACK":
-					cbMenu.message("You swing your " + player.getEquipped().getName() + " and deal " + attack(player, enemy));
+					cbMenu.message("You swing your " + player.getEquipped().getName() + " and deal " + attack(player, enemy), input);
 					playerTurn = false;
 					break;
 				case "BACKPACK":
@@ -39,30 +39,26 @@ public class Combat {
 				case "RUN":
 					return;
 				default:
-					cbMenu.message("You don't know  what "+optionSelection+" means.");
+					cbMenu.message("You don't know  what "+optionSelection+" means.", input);
 					break;
 				}
 				break;
 			}
 			
 			if(enemy.getHealth() <= 0) {
-				cbMenu.message("The " + enemy.getRace() +" falls to the ground with a loud thud.");
+				cbMenu.message("The " + enemy.getRace() +" falls to the ground with a loud thud.", input);
 				fighting = false;
 				break;
 			}
 			
-			input.nextLine();
-			
-			//Enemy's turn
-			cbMenu.message("The " + enemy.getRace() + " swings their " + enemy.getEquipped().getName() + " at you dealing " + attack(enemy, player) + ".");
+ 			//Enemy's turn
+			cbMenu.message("The " + enemy.getRace() + " swings their " + enemy.getEquipped().getName() + " at you dealing " + attack(enemy, player) + ".", input);
 			
 			if(player.getHealth() <= 0) {
-				cbMenu.message("Oh dear, you are dead.");
+				cbMenu.message("Oh dear, you are dead.", input);
 				fighting = false;
 				break;
 			}
-			
-			input.nextLine();
 		}
 	}
 	

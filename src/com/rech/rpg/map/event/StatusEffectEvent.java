@@ -8,10 +8,7 @@ import com.rech.rpg.entity.Player;
 public class StatusEffectEvent extends Event{
 	protected enum statusEffect{
 		DAMAGE,
-		POISON,
-		DECAY,
-		BINDING,
-		CURSE
+		POISON
 	};
 
 	statusEffect effect;
@@ -28,35 +25,16 @@ public class StatusEffectEvent extends Event{
 		Menu eventMenu = new Menu("EVENT");
 		
 		eventMenu.setMenuInfo(description);
-<<<<<<< Updated upstream
-		switch(effect) {
-		case POISON:
-			eventMenu.message("You are poisoned!");
-			break;
-=======
-		eventMenu.display(true);
+		eventMenu.display();
 		
 		switch(effect) {
->>>>>>> Stashed changes
+		case POISON:
+			eventMenu.message("You are poisoned!", input);
+			break;
 		case DAMAGE:
-			eventMenu.message("You take " + effectValue + " damage.");
+			eventMenu.message("You take " + effectValue + " damage.", input);
 			player.damage(effectValue);
 			break;
-		case POISON:
-			eventMenu.message("You are poisoned!", input); //will damage over time
-			break;
-		case DECAY:
-			eventMenu.message("You are weakened by decay!", input); //will reduce STR and DEF attributes
-			break;
-		case BINDING:
-			eventMenu.message("You are affected by binding!", input); //will reduce MGC and RES attributes
-			break;
-		case CURSE:
-			eventMenu.message("You are cursed!", input); //reduces LUK attribute
-			break;
 		}
-		eventMenu.display();	
-		
-		input.nextLine();
 	}
 }

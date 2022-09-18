@@ -1,6 +1,7 @@
 package com.rech.rpg;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * A standardized way to make menus. The primary purpose is to have the "You dont know what..." messages to appear below the options
@@ -17,8 +18,8 @@ public class Menu {
 	private String menuInfo;
 	private String menuTitle;
 	
-	private static final int defaultMLL = 50; //MLL = Max Line Length
-	private static int maxLineLength = defaultMLL;
+	private static int maxLineLength = 50;
+	
 	
 	private String menuBorder = "|";
 	private String titleDivider = "-";
@@ -49,9 +50,8 @@ public class Menu {
 	
 	/**
 	 * Print the menu name, its options, and any messages in that order
-	 * @param isWrapped - wrap text to default Max Line Limit
 	 */
-	public void display(boolean isWrapped) {
+	public void display() {
 		Main.clearScreen();
 		
 		//Menu title
@@ -59,40 +59,21 @@ public class Menu {
 		System.out.println(menuTitle);
 		
 		//Menu info
-		if (isWrapped == true) {
-			if(menuInfo != null && menuInfo != ""){ 
-				for(String wrappedInfo : wordWrappedString(menuInfo, maxLineLength, 0, false)) {
-					System.out.println(wrappedInfo);
-				}
-			}
-		}else {
-			if(menuInfo != null && menuInfo != ""){ 
-					System.out.println(menuInfo);
+		if(menuInfo != null && menuInfo != ""){ 
+			for(String wrappedInfo : wordWrappedString(menuInfo, maxLineLength, 0, false)) {
+				System.out.println(wrappedInfo);
 			}
 		}
 		
 		//Menu prompts
-		if (isWrapped == true) {
-			for(Prompt prompt : prompts) {
-				System.out.print(prompt.title);
-				for(String wrappedPrompt : wordWrappedString(prompt.description, maxLineLength, prompt.title.length(), false)) {
-					System.out.println(wrappedPrompt);
-				}
-			}
-		}else {
-			for(Prompt prompt : prompts) {
-				System.out.print(prompt.getTitle());
-				System.out.println(prompt.getDescription());
+		for(Prompt prompt : prompts) {
+			System.out.print(prompt.title);
+			for(String wrappedPrompt : wordWrappedString(prompt.description, maxLineLength, prompt.title.length(), false)) {
+				System.out.println(wrappedPrompt);
 			}
 		}
 		
 	}
-	
-
-	public static void setMaxLineLength(int length) {
-		maxLineLength = length;
-	}
-	
 	
 	/**
 	 * Set information about the current menu
@@ -100,7 +81,6 @@ public class Menu {
 	 */
 	public void setMenuInfo(String menuInfo) {
 		this.menuInfo = menuInfo;
-		maxLineLength = defaultMLL;
 	}
 	
 	/**
@@ -143,17 +123,13 @@ public class Menu {
 	 * EX: "You payed 5 gp for that."
 	 * @param message
 	 */
-	public void message(String message) {
+	public void message(String message, Scanner input) {
 		if(message != null && message != ""){ 
 			for(String wrappedInfo : wordWrappedString(message, maxLineLength, 0, false)) {
 				System.out.println(wrappedInfo);
 			}
 		}
-<<<<<<< Updated upstream
-=======
-		maxLineLength = defaultMLL; //this is so you can set the MLL back to default so you can change it dynamically, and it will revert after the message.
 		input.nextLine();
->>>>>>> Stashed changes
 	}
 	
 	/**
