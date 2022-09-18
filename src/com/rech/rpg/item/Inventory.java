@@ -51,13 +51,19 @@ public class Inventory{
 					occupiedSlots++;
 				}
 			}
+			
+			if (occupiedSlots > 0) {
 			invMenu.setMenuInfo("Your "+player.getEquipped().getName()+" is equipped.\n" + 
-								occupiedSlots+"/10 backpack slots used.\n" +
+								occupiedSlots+"/10 backpack slots are being used.\n" +
 								"Coins: "+String.format("%,d", getCoins())+"gp\n");
+			}else {
+				invMenu.setMenuInfo("Your "+player.getEquipped().getName()+" is equipped.\nNone of your backpack slots are being used.\n" +
+						"Coins: "+String.format("%,d", getCoins())+"gp\n");
+			}
 			invMenu.addPrompt("EQUIP");
 			invMenu.addPrompt("DROP");	
 			invMenu.addPrompt("BACK");	
-			invMenu.display(true);
+			invMenu.display(false);
 			
 			
 			String optionSelection = input.nextLine().toString();

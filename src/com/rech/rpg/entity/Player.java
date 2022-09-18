@@ -115,7 +115,7 @@ public class Player extends Entity{
 		Menu statsMenu = new Menu("STATISTICS");
 		statsMenu.setMenuInfo("Name: \t\t"+name + 
 							"\nLevel: \t\t"+getLevel() + 
-							"\nEXP: \t\t"+exp+"/"+ getLevelUpXP() + "\n" +
+							"\nEXP: \t\t"+exp+"/"+ getLevelUpXP() + "\n\n" +
 							"Health | Mana | Strength | Defense | Dodge | Luck | Magic | Resistance \n"
 						  + getHealth()+"/"+getStat(Stats.MAXHEALTH) + "   " //the spacing here will be fucked up as soon as a number goes to 10s, need to make a feature in menu class to handle this
 						  + getMana()+"/"+getStat(Stats.MAXMANA) + "      "
@@ -124,7 +124,7 @@ public class Player extends Entity{
 						  + getStat(Stats.DODGE) + "      "
 						  + getStat(Stats.LUCK) + "       "
 						  + getStat(Stats.MAGIC) + "         "
-						  + getStat(Stats.RESISTANCE)); // this menu feature needs to be explicitly created in the menu class, since numbers will move the entire line when going from 0-10 10-100 etc			
+						  + getStat(Stats.RESISTANCE)+"\n"); // this menu feature needs to be explicitly created in the menu class, since numbers will move the entire line when going from 0-10 10-100 etc			
 		
 		statsMenu.addPrompt("HELP", "show descriptions for each stat.");
 		statsMenu.addPrompt("BACK", "go back to the previous prompt.");
