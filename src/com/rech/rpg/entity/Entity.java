@@ -1,7 +1,7 @@
 package com.rech.rpg.entity;
 
+import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Weapon;
-import com.rech.rpg.map.Map.Direction;
 
 public class Entity {
 	protected String name;
@@ -11,6 +11,9 @@ public class Entity {
 	
 	//Equipped item
 	protected Weapon equipped;
+	
+	// Inventory 		Use for inventory for player, used for drops for enemies
+	protected Inventory inventory;
 	
 	private static final int //default stats constants, used to determine an entity's level, also determines the stat's increment when leveling, besides MAXHEALTH and MAXMANA
 	STRENGTH = 1,
@@ -56,6 +59,9 @@ public class Entity {
 		this.name = name;
 		this.maxHealth = maxHealth;
 		this.health = maxHealth;
+		
+		//initializing inventory
+		inventory = new Inventory();
 	}
 	
 	protected Entity(String name, int maxHealth, int strength, int defense, int dodge, int luck, int magic, int maxMana, int resistance) {
@@ -70,6 +76,9 @@ public class Entity {
 		this.maxMana = maxMana;
 		this.mana = maxMana;
 		this.resistance = resistance;
+		
+		//initializing inventory
+		inventory = new Inventory();
 	}
 	
 	/**
@@ -203,6 +212,10 @@ public class Entity {
 	
 	public Weapon getEquipped() {
 		return equipped;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public int getHealth() {

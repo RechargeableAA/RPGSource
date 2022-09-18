@@ -25,17 +25,16 @@ public class StatusEffectEvent extends Event{
 		Menu eventMenu = new Menu("EVENT");
 		
 		eventMenu.setMenuInfo(description);
+		eventMenu.display();
+		
 		switch(effect) {
 		case POISON:
-			eventMenu.message("You are poisoned!");
+			eventMenu.message("You are poisoned!", input);
 			break;
 		case DAMAGE:
-			eventMenu.message("You take " + effectValue + " damage.");
+			eventMenu.message("You take " + effectValue + " damage.", input);
 			player.damage(effectValue);
 			break;
 		}
-		eventMenu.display();	
-		
-		input.nextLine();
 	}
 }

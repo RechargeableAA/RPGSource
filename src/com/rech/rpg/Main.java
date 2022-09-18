@@ -72,7 +72,7 @@ public class Main {
 		else if (optionSelection.equalsIgnoreCase("travel")) { map.travelMenu(player, input); }
 		else if (optionSelection.equalsIgnoreCase("options")) { optionsMenu(input); }
 		else {
-			mainMenu.message("\nYou don't know what '"+optionSelection+"' means.\n");
+			mainMenu.message("\nYou don't know what '"+optionSelection+"' means.\n", input);
 		}
 	}
 
@@ -151,6 +151,7 @@ public class Main {
 				+ ".\nI'll let you rest in my home just down the way.\nIt's not much, but I bet it'll work until you can sort yourself out.\n"
 				+ "\nHere, you can have my old "+player.getEquipped().getName()+".\nYou're gonna need it. Watch yourself out there.");
 		input.nextLine(); // wait for enter key
+
 	}
 	
 	/**

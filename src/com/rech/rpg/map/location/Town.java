@@ -59,7 +59,7 @@ public class Town extends Location{
 						Direction direction = Direction.valueOf(optionSelection);
 						interact(input, direction, player); // I dont like having to pass the direction to the next menu, but thats the only solution i have atm
 					}else {
-						locationMenu.message("You don't know what " + optionSelection + " means.");
+						locationMenu.message("You don't know what " + optionSelection + " means.", input);
 					}
 					break;
 			}

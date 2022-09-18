@@ -1,6 +1,7 @@
 package com.rech.rpg;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * A standardized way to make menus. The primary purpose is to have the "You dont know what..." messages to appear below the options
@@ -122,12 +123,13 @@ public class Menu {
 	 * EX: "You payed 5 gp for that."
 	 * @param message
 	 */
-	public void message(String message) {
+	public void message(String message, Scanner input) {
 		if(message != null && message != ""){ 
 			for(String wrappedInfo : wordWrappedString(message, maxLineLength, 0, false)) {
 				System.out.println(wrappedInfo);
 			}
 		}
+		input.nextLine();
 	}
 	
 	/**

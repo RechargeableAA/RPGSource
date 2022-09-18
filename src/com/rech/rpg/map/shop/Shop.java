@@ -31,7 +31,6 @@ public class Shop {
 							
 			shop.addPrompt("back");
 			shop.display();
-			shop.clearMessage();
 			
 			String in = input.nextLine(); //has to be taken as a string to catch the 'back' command. is parsed as an int after.
 			
@@ -56,20 +55,19 @@ public class Shop {
 									if (!player.getInventory().isFull()) { 
 										player.getInventory().pickup(this.items[selection]);
 										player.getInventory().loseCoins(this.items[selection].getCost());
-										shop.message("You give the shopkeep "+this.items[selection].getCost()+" coins and receive the " + this.items[selection].getName() + ".");
+										shop.message("You give the shopkeep "+this.items[selection].getCost()+" coins and receive the " + this.items[selection].getName() + ".", input);
 										break;
 									}else {
 										shop.clearPrompts();
-										shop.message("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]");
+										shop.message("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]", input);
 										in = input.nextLine();
 										
 										if (in.equalsIgnoreCase("y")){
 											player.getInventory().dropItemMenu(player, input);
 										}else if (in.equalsIgnoreCase("n") || in.equalsIgnoreCase("back")){
-											shop.clearMessage();
 											break;
 										}else {
-											shop.message("I'm not sure what you mean by " + in.toUpperCase() + ".");
+											shop.message("I'm not sure what you mean by " + in.toUpperCase() + ".", input);
 										}
 									}
 								}	
@@ -77,14 +75,14 @@ public class Shop {
 								
 							}
 						}else { // player does not have enough money
-							shop.message("You can't afford that!");
+							shop.message("You can't afford that!", input);
 						}
 					
 					}else { // selection was not within the shop's item array
-						shop.message("I'm afraid that this is all I have to offer you right now.");
+						shop.message("I'm afraid that this is all I have to offer you right now.", input);
 					}
 				}else { // selection was not an item
-					shop.message("I'm sorry, I didnt catch that.");
+					shop.message("I'm sorry, I didnt catch that.", input);
 				}
 				break;
 			}

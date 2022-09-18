@@ -71,7 +71,7 @@ public class Inventory{
 			case "BACK":
 				return;
 			default:
-				invMenu.message("You don't know  what "+optionSelection+" means.");
+				invMenu.message("You don't know  what "+optionSelection+" means.", input);
 				break;
 			}
 		}
@@ -94,7 +94,7 @@ public class Inventory{
 			}
 			
 			if (this.isEmpty()) { // if this(inventory) is empty
-				dropMenu.message("You have nothing in your backpack. [BACK]");
+				dropMenu.message("You have nothing in your backpack. [BACK]", input);
 			}else {
 				dropMenu.addPrompt("0-9", "Which slot do you want to drop?");
 				dropMenu.addPrompt("BACK");
@@ -114,22 +114,21 @@ public class Inventory{
 						int slot = Integer.parseInt(optionSelection);
 							if(inventory[slot] != null) {
 								dropMenu.clearPrompts();
-								dropMenu.clearMessage();
 								dropMenu.addPrompt("y/n", "Are you sure you want to drop " + getSlot(slot).getName() + "?");
 								dropMenu.display();
 								if(input.nextLine().equalsIgnoreCase("y")) {
 									dropMenu.clearPrompts();
-									dropMenu.message("You drop your " + getSlot(slot).getName() + ".");
+									dropMenu.message("You drop your " + getSlot(slot).getName() + ".", input);
 									dropMenu.display();
 									input.nextLine();
 									drop(slot);
 									
 								}
 							}else {
-								dropMenu.message("There isn't an item in that slot.");
+								dropMenu.message("There isn't an item in that slot.", input);
 							}
 					}else {
-						dropMenu.message("You don't know what "+optionSelection+" means.");
+						dropMenu.message("You don't know what "+optionSelection+" means.", input);
 					}
 				break;
 			}
@@ -151,7 +150,7 @@ public class Inventory{
 			}
 			
 			if (this.isEmpty()) { // if this(inventory) is empty
-				equipMenu.message("You have nothing in your backpack. [BACK]");
+				equipMenu.message("You have nothing in your backpack. [BACK]", input);
 			}else {
 				equipMenu.addPrompt("0-9", "Which slot do you want to equip? [back]");
 				equipMenu.addPrompt("back");
@@ -172,16 +171,16 @@ public class Inventory{
 					int slot = Integer.parseInt(optionSelection); // convert string of number into an integer
 					if(getSlot(slot) != null) {
 						if(getSlot(slot) instanceof Weapon) { // checks to see if item is a weapon
-							equipMenu.message("You equip your " + getSlot(slot).getName() + ".");
+							equipMenu.message("You equip your " + getSlot(slot).getName() + ".", input);
 							player.equip(slot);
 						}else {
-							equipMenu.message("You can't equip a " + player.getInventory().getSlot(slot).getName());
+							equipMenu.message("You can't equip a " + player.getInventory().getSlot(slot).getName(), input);
 						}
 					}else {
-						equipMenu.message("There's nothing in that inventory slot.");
+						equipMenu.message("There's nothing in that inventory slot.", input);
 					}
 				}else {
-					equipMenu.message("You don't know what "+optionSelection+" means.");
+					equipMenu.message("You don't know what "+optionSelection+" means.", input);
 				}
 				break;
 			}
