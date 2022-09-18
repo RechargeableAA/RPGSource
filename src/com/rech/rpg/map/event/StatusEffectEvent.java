@@ -25,7 +25,7 @@ public class StatusEffectEvent extends Event{
 		Menu eventMenu = new Menu("EVENT");
 		
 		eventMenu.setMenuInfo(description);
-		eventMenu.display();
+		eventMenu.display(true);
 		
 		switch(effect) {
 		case POISON:
