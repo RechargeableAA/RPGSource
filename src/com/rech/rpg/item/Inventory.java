@@ -5,8 +5,8 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import com.rech.rpg.Main;
-import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Player;
+import com.rech.rpg.entity.menu.Menu;
 
 public class Inventory{
 	//inventory stored as an array list which is just an array that can dynamically change its size, just a place holder for now

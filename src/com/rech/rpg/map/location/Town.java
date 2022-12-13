@@ -2,13 +2,11 @@ package com.rech.rpg.map.location;
 
 
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.Random;
 
-import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Player;
-import com.rech.rpg.item.Potion;
-import com.rech.rpg.map.Map.Direction;
-import com.rech.rpg.map.shop.PotionShop;
+import com.rech.rpg.entity.menu.Menu;
 import com.rech.rpg.map.shop.Shop;
 
 /**
@@ -19,51 +17,11 @@ import com.rech.rpg.map.shop.Shop;
 public class Town extends Location{
 	
 	String townName;
-	String surroundings;
-	Shop shops[];
+	ArrayList<Shop> shops;
 	
-	private Town(String name, String description, String surroundings, Shop[] shops) {
+	Town(String name, String description) {
 		super(name, description);
-		this.surroundings = surroundings;
-		this.shops = shops;
-	}
-	
-	@Override
-	public String getSurroundings() {
-		return surroundings;
-	}
-
-	@Override
-	public void interact(Scanner input, Direction directionSelection, Player player) {
-		System.out.println("No interactions set for town " + this.getName());
-	}
-	
-	@Override
-	public void locationMenu(Player player, Scanner input) {
-		Menu locationMenu = new Menu(getName().toUpperCase());
-		
-		while(true) {
-			locationMenu.clearPrompts();
-			locationMenu.setMenuInfo(getDescription() + " " + getSurroundings());
-			locationMenu.addPrompt("BACK");
-			
-			locationMenu.display(true);
-			String optionSelection = input.nextLine().toUpperCase();
-			
-			switch(optionSelection) {
-			
-				case "BACK":
-					return;
-				default: 
-					if(Location.directionEnumContains(optionSelection)) {
-						Direction direction = Direction.valueOf(optionSelection);
-						interact(input, direction, player); // I dont like having to pass the direction to the next menu, but thats the only solution i have atm
-					}else {
-						locationMenu.message("You don't know what " + optionSelection + " means.", input);
-					}
-					break;
-			}
-		}
+		shops = new ArrayList<Shop>(); // max of 4 shops for the 4 directions
 	}
 	
 	/**
@@ -74,38 +32,64 @@ public class Town extends Location{
 		String name = generateTownName(0, 0);
 		Town generatedTown = new Town(
 				name, //name
-				"You are currently in the town of "+name, // description
-				"There is a shop to the [NORTH].", // whats around
-				new Shop[] { // array of shops
-						new Shop("Alman's Potions",
-								"A potion for all your needs...", 
-								new Potion[] { // a potion shop with an array for inventory
-								Potion.minorHealth, 
-								Potion.standardHealth, 
-								Potion.minorMana
-						})
-				}
-				){
-					@Override
-					public void interact(Scanner input, Direction directionSelection, Player player) { // settings what can be interacted with within the town
-						
-						switch(directionSelection) {
-						case NORTH:
-							this.shops[0].interact(input, player);
-						break;
-						default:
-							System.out.println("There's nothing in that direction.");
-						break;
-					
-						}
-					}
-				};
+				"You are currently in the town of "+name // description
+		);
+		
+		Random rand = new Random();
+		int shopAmount = rand.nextInt(Shop.shopType.values().length);
+		ArrayList<Shop.shopType> currentTypesInLocation = new ArrayList<Shop.shopType>(); // kind of a dirty way to make sure there are no dupe shops types within location
+		for(int i = 0; i < shopAmount; i++) {
+			Shop.shopType currentType = Shop.shopType.values()[rand.nextInt(Shop.shopType.values().length)]; // pick a random type
+			while(currentTypesInLocation.contains(currentType)) { // check if that type is already generated
+				currentType = Shop.shopType.values()[rand.nextInt(Shop.shopType.values().length)]; // Pick a random type until we find one that is new; this is bad because it could take a while depending on how many types we have; also if there is an error somehow this could run indefinitely
+			}
 			
-			return generatedTown;
+			generatedTown.shops.add(Shop.generateShop(currentType));
+			currentTypesInLocation.add(currentType); // add to list of already generated types
+		}
+		
+		generatedTown.generateSurroundingsText();
+		return generatedTown;
 	}
 	
+	@Override
+	public void locationMenu(Player player, Scanner input) {
+		Menu locationMenu = new Menu(getName().toUpperCase());
+		
+		while(true) {
+			locationMenu.clearPrompts();
+			locationMenu.setMenuInfo(getDescription() + ". " + getSurroundings());
+			for(Shop shop : shops) {
+				locationMenu.addPrompt(shops.indexOf(shop)+"", shop.getName());
+			}
+			locationMenu.addPrompt("BACK");
+			
+			locationMenu.display(true);
+			String optionSelection = input.nextLine().toUpperCase();
+			
+			if(Integer.valueOf(optionSelection) < shops.size()) {
+				shops.get(Integer.valueOf(optionSelection)).interact(input, player);
+			}else if(optionSelection.toUpperCase() == "BACK") {
+				return;
+			}else {
+				locationMenu.message("You don't know what " + optionSelection + " means.", input);
+			}
+		}
+	}
 	
-	public static String generateTownName(int firstName, int lastName) {
+	private String generateSurroundingsText() {
+		if(!shops.isEmpty()) {
+			if(shops.size() == 1) {
+				surroundings = "There's a shop nearby.";
+			}else {
+				surroundings = "There's some shops nearby.";
+			}
+		}
+		return surroundings;
+	}
+	
+	//Probably should remove the 0,0 case and just give random parameters instead. The 0,0 random case requires knowing how the method works, instead of just trusting it
+	private static String generateTownName(int firstName, int lastName) {
 		String[] stringA = new String[] {"Gray", "Green", "Kil", "Bleak", "Dusk", "Storm", "Summer", "Never", "Dire", "North", "East", "South", "West"}; //13 total
 		String[] stringB = new String[] {"drift", "ville", "rock", "stone", "host", "wood", "valley", "felt", "shore", "beach", "port", "watch"}; //12 total
 		Random rand = new Random(); //can change to 13, figured length of A would always be larger than B
@@ -128,4 +112,5 @@ public class Town extends Location{
 		}
 		
 	}
+
 }

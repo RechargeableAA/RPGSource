@@ -3,6 +3,8 @@ package com.rech.rpg;
 import java.util.Scanner;
 
 import com.rech.rpg.entity.Player;
+import com.rech.rpg.entity.menu.MapMenu;
+import com.rech.rpg.entity.menu.Menu;
 import com.rech.rpg.item.Weapon;
 import com.rech.rpg.map.Map;
 import com.rech.rpg.map.event.Event;
@@ -68,8 +70,8 @@ public class Main {
 		if(optionSelection.equalsIgnoreCase("stats")) { player.showStats(input); }
 		else if (optionSelection.equalsIgnoreCase("backpack") || optionSelection.equalsIgnoreCase("inv")) { player.getInventory().showInventory(player, input); }
 		else if (optionSelection.equalsIgnoreCase("spellbooks") || optionSelection.equalsIgnoreCase("spells")) { player.getInventory().showInventory(player, input); }
-		else if (optionSelection.equalsIgnoreCase("look")) { map.getLocation(player.getPosition()).locationMenu(player, input); }
-		else if (optionSelection.equalsIgnoreCase("travel")) { map.travelMenu(player, input); }
+		else if (optionSelection.equalsIgnoreCase("look")) { map.getLocation(map.getPlayerPosition()).locationMenu(player, input); }
+		else if (optionSelection.equalsIgnoreCase("travel")) { MapMenu.OpenMenu(input, map); }
 		else if (optionSelection.equalsIgnoreCase("options")) { optionsMenu(input); }
 		else {
 			mainMenu.message("\nYou don't know what '"+optionSelection+"' means.\n", input);
@@ -144,10 +146,8 @@ public class Main {
 		player.equip(0); // give player random weapon
 		
 		map = new Map();
-		map.generateEmptySurroundingLocations(player);
-		
 		clearScreen();
-		System.out.println("\n"+player.getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. This is " + map.getLocation(player.getPosition()).getName()
+		System.out.println("\n"+player.getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. This is " + map.getLocation(map.getPlayerPosition()).getName()
 				+ ".\nI'll let you rest in my home just down the way.\nIt's not much, but I bet it'll work until you can sort yourself out.\n"
 				+ "\nHere, you can have my old "+player.getEquipped().getName()+".\nYou're gonna need it. Watch yourself out there.");
 		input.nextLine(); // wait for enter key

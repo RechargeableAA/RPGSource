@@ -1,21 +1,51 @@
 package com.rech.rpg.map.shop;
 
+import java.util.Random;
 import java.util.Scanner;
 
 import com.rech.rpg.Main;
-import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Player;
+import com.rech.rpg.entity.menu.Menu;
 import com.rech.rpg.item.Item;
+import com.rech.rpg.item.Weapon;
 
 public class Shop {
 	String name;
 	String shopKeepDialogue;
 	Item[] items;
+	shopType type;
 	
+	/**
+	 * Pool of shop types to be used during town generation
+	 * @author Nolan
+	 *
+	 */
+	public static enum shopType {
+		WEAPON,
+		POTION
+		};
+	
+	/**
+	 * Should not call this directly; should be referenced by shops with a type. Could add a method somewhere for shops without a specific type
+	 * @param shopName
+	 * @param shopKeepDialogue
+	 * @param shopItems
+	 */
 	public Shop(String shopName, String shopKeepDialogue, Item[] shopItems) {
 		this.name = shopName;
 		this.shopKeepDialogue = shopKeepDialogue;
 		this.items = shopItems;
+	}
+	
+	public static Shop generateShop(shopType type) {
+		switch(type) {
+		case POTION: //needs potionshop generation
+			return WeaponShop.generateShop(3);
+		case WEAPON:
+			return WeaponShop.generateShop(3);
+		default:
+			return WeaponShop.generateShop(0);
+		}
 	}
 	
 	public void interact(Scanner input, Player player) {
@@ -89,8 +119,28 @@ public class Shop {
 		}
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	public Item[] getItems() {
 		return items;
+	}
+	
+	public static class WeaponShop{
+		/**
+		 * Generate a weapon typed shop
+		 * @return
+		 */
+		public static Shop generateShop(int maxRarity) {
+			Random rand = new Random();
+			Item items[] = new Item[1+rand.nextInt(4)];
+			for(int i = 0; i < items.length; i++) {
+				items[i] = Weapon.generateNewWeapon(maxRarity, maxRarity);
+			}
+			
+			return new Shop("Weapon Shop", "We sell weapons and weapon accessories", items);
+		}
 	}
 	
 }

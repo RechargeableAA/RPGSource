@@ -2,8 +2,8 @@ package com.rech.rpg.map.event;
 
 import java.util.Scanner;
 
-import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Player;
+import com.rech.rpg.entity.menu.Menu;
 
 public class StatusEffectEvent extends Event{
 	protected enum statusEffect{

@@ -3,11 +3,10 @@ package com.rech.rpg.entity;
 import java.awt.Point;
 import java.util.Scanner;
 
-import com.rech.rpg.Menu;
+import com.rech.rpg.entity.menu.Menu;
 import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Spellbook;
 import com.rech.rpg.item.Weapon;
-import com.rech.rpg.map.Map.Direction;
 
 
 /*
@@ -21,9 +20,6 @@ public class Player extends Entity{
 	points,
 	coins;
 
-	private Point mapPosition;
-	//private String location = Main.worldMap[sector];
-	
 	public Player(String name) {
 		//player defaults
 		super(
@@ -37,8 +33,6 @@ public class Player extends Entity{
 				50,	//maxMana
 				1	//resistance
 			);
-		//Default map position, short's max value 32,767 so we just jump to the middle of that, so we can move left or right without entering negatives
-		mapPosition = new Point(Short.MAX_VALUE/2, Short.MAX_VALUE/2);
 		//setting player stat defaults
 		exp = 0;
 		points = 0;
@@ -102,9 +96,6 @@ public class Player extends Entity{
 		this.exp = exp;
 		this.points = points;
 		this.coins = coins;
-		
-		//this.location = location;
-		this.mapPosition = mapPosition;
 		
 		//initializing inventory
 		inventory = new Inventory();
@@ -233,15 +224,6 @@ public class Player extends Entity{
 		}
 	}
 	
-	
-	/**
-	 * Teleports player
-	 * @param destination
-	 */
-	//public void teleport(String destination) {
-	//	setLocation(destination);
-	//	System.out.println("\n\nYou arrive at "+getLocation()+". What would you like to do?");
-	//}
 	protected void godMode() {
 		coins = 99999;
 		inventory.pickup(Weapon.adminBlade);
@@ -257,14 +239,6 @@ public class Player extends Entity{
 	
 	public Inventory getInventory() {
 		return inventory;
-	}
-	
-	public Point getPosition() {
-		return mapPosition;
-	}
-	
-	public void setPosition(int sector) {
-		this.mapPosition = mapPosition;
 	}
 	
 	public boolean isDead() {
@@ -291,15 +265,6 @@ public class Player extends Entity{
 	public void setPoints(int points) {
 		this.points = points;
 	}
-	
-	public void setMapPosition(Point position) {
-		mapPosition = position;
-	}
-	
-	public Point getMapPosition() {
-		return mapPosition;
-	}
-
 	
 	public void grantXP(int xp) {
 		exp += xp;

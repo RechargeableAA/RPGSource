@@ -3,10 +3,10 @@ package com.rech.rpg.entity.combat;
 import java.util.Random;
 import java.util.Scanner;
 
-import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Enemy;
 import com.rech.rpg.entity.Entity;
 import com.rech.rpg.entity.Player;
+import com.rech.rpg.entity.menu.Menu;
 
 public class Combat {
 	
