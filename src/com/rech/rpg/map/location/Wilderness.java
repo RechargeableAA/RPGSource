@@ -1,13 +1,15 @@
 package com.rech.rpg.map.location;
 
+import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
+import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Enemy;
 import com.rech.rpg.entity.Entity;
 import com.rech.rpg.entity.Player;
 import com.rech.rpg.entity.combat.Combat;
-import com.rech.rpg.entity.menu.Menu;
-import com.rech.rpg.map.location.Location.EntityComponent;
+import com.rech.rpg.map.shop.Shop;
 
 
 /**
@@ -17,6 +19,7 @@ import com.rech.rpg.map.location.Location.EntityComponent;
  */
 public class Wilderness extends Location{
 	protected EntityComponent entComp;
+	private static final int maxEnemies = 4;
 	
 	Wilderness(String name, String description) {
 		super(name, description);
@@ -25,73 +28,91 @@ public class Wilderness extends Location{
 	
 	public static Wilderness generateWilderness() {
 		Wilderness newWild = new Wilderness("Forest", "There's trees.");
+		Random rand = new Random();
 		
-		newWild.entComp.getEntities().add(new Enemy("Enemy", Enemy.Race.HUMAN));
+		// generate enemies
+		for(int enemies = rand.nextInt(maxEnemies); enemies > 0; enemies--) {
+			newWild.entComp.getEntities().add(Enemy.getEnemiesList().get(rand.nextInt(Enemy.getEnemiesList().size()))); // randomly pick an enemy from list of enemies
+		}
 		
 		return newWild;
 	}
 
-/**
- * 	@Override
-	public void interact(Scanner input, Player player) {
-		switch(directionSelection) {
-		case NORTH:
-			Combat combat = new Combat();
-			combat.enterCombat(player, entComp, input);
-		break;
-		default:
-			System.out.println("There's nothing in that direction.");
-		break;
-	
-		}
-	}
- */
-
 	@Override
-	public String getSurroundings() {			// Currently a place holder
-		String surroundings = "There's ";
-		for(int enCount = 0; enCount < entComp.getEntities().size(); enCount++) {
-			if(entComp.getEntities().get(enCount).getClass().isInstance(Enemy.class)) {
-				surroundings += "a " + entComp.getEntities().get(enCount).getName();
+	public String getSurroundings() {
+		String surroundings;
+		if(entComp.getEntities().isEmpty()) {
+			surroundings = "There's nothing else here.";
+		}else {
+			surroundings = "There's ";
+		}
+		
+		// organically list enemies
+		for(Entity ent : entComp.getEntities()) {
+			if(ent instanceof Enemy) { // every enemy for loop
+				
+				//check for vowel
+				Pattern vowels = Pattern.compile("[aeiou]", Pattern.CASE_INSENSITIVE);
+				boolean startsWithVowel = false;
+				if(vowels.matcher(ent.getName().subSequence(0, 1)).matches()) { startsWithVowel = true; }//literally check for a vowel. inglish is stupid
+				
+				//an or a
+				if(startsWithVowel) {
+					surroundings += "an " + ent.getName();
+				}else {
+					surroundings += "a " + ent.getName();
+				}
+				
+				//commas and ands
+				if(entComp.getEntities().size() - entComp.getEntities().indexOf(ent) > 2) {surroundings += ", ";} // if there are more enemies to be listed after this one
+				else if(entComp.getEntities().size() - entComp.getEntities().indexOf(ent) > 1) {surroundings += " and ";}
+				else {surroundings += ".";}
 			}
 		}
+		
+		
 		return surroundings;
 	}
 	
 	@Override
 	public void locationMenu(Player player, Scanner input) {
-		Combat combat = new Combat();
-		combat.enterCombat(player, (Enemy)(entComp.getEntities().get(0)), input);
-		/**Menu locationMenu = new Menu(getName().toUpperCase());
+		Menu lcMenu = new Menu(this.getName());
 		
 		while(true) {
-			locationMenu.clearPrompts();
-			locationMenu.setMenuInfo(getDescription() + " " + getSurroundings());
+			lcMenu.clearPrompts();
+			lcMenu.setMenuInfo(getDescription() + ". " + getSurroundings());
 			
-			for(int enCount = 0; enCount < enemies.length; enCount++) {
-				locationMenu.addPrompt(enCount+"", enemies[enCount].getName());
+			// add enemy ooptions
+			for(Entity ent : entComp.getEntities()) {
+				if(ent instanceof Enemy) {  // every enemy for loop
+					lcMenu.addPrompt(""+entComp.getEntities().indexOf(ent), ent.getName());
+				}
 			}
 			
-			locationMenu.addPrompt("BACK");
+			lcMenu.addPrompt("BACK");
 			
-			locationMenu.display(true);
+			lcMenu.display(true);
 			String optionSelection = input.nextLine().toUpperCase();
 			
-			switch(optionSelection) {
-			
-				case "BACK":
-					return;
-				default: 
-					if(Location.directionEnumContains(optionSelection)) {
-						Direction direction = Direction.valueOf(optionSelection);
-						interact(input, direction, player); // I dont like having to pass the direction to the next menu, but thats the only solution i have atm
-					}else {
-						locationMenu.message("You don't know what " + optionSelection + " means.", input);
+			//0-9
+			try {
+				if(Integer.valueOf(optionSelection) < entComp.getEntities().size()) { // this is gonna cause an error or let u fight normal npcs but imma just let it happen
+					if(new Combat().enterCombat(player, (Enemy) entComp.getEntities().get(Integer.valueOf(optionSelection)), input)) { // player wins combat
+						entComp.getEntities().remove((int)(Integer.valueOf(optionSelection)));
+					}else { // player runs or dies
+						
 					}
-					break;
+				}
+				
+			//Back or anything else
+			}catch(NumberFormatException nfe) {
+				if(optionSelection.toUpperCase().equals("BACK")) {
+					return;
+				}else {
+					lcMenu.message("You don't know what " + optionSelection + " means.", input);
+				}
 			}
 		}
-		**/
 	}
 
 }

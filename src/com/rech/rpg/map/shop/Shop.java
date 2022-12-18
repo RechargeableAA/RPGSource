@@ -4,8 +4,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 import com.rech.rpg.Main;
+import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Player;
-import com.rech.rpg.entity.menu.Menu;
 import com.rech.rpg.item.Item;
 import com.rech.rpg.item.Weapon;
 

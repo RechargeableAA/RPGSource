@@ -5,8 +5,8 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Player;
-import com.rech.rpg.entity.menu.Menu;
 import com.rech.rpg.map.shop.Shop;
 
 /**
@@ -67,12 +67,19 @@ public class Town extends Location{
 			locationMenu.display(true);
 			String optionSelection = input.nextLine().toUpperCase();
 			
-			if(Integer.valueOf(optionSelection) < shops.size()) {
-				shops.get(Integer.valueOf(optionSelection)).interact(input, player);
-			}else if(optionSelection.toUpperCase() == "BACK") {
-				return;
-			}else {
-				locationMenu.message("You don't know what " + optionSelection + " means.", input);
+			//0-9
+			try {
+				if(Integer.valueOf(optionSelection) < shops.size()) {
+					shops.get(Integer.valueOf(optionSelection)).interact(input, player);
+				}
+				
+			//Back or anything else
+			}catch(NumberFormatException nfe) {
+				if(optionSelection.toUpperCase().equals("BACK")) {
+					return;
+				}else {
+					locationMenu.message("You don't know what " + optionSelection + " means.", input);
+				}
 			}
 		}
 	}

@@ -3,8 +3,6 @@ package com.rech.rpg;
 import java.util.Scanner;
 
 import com.rech.rpg.entity.Player;
-import com.rech.rpg.entity.menu.MapMenu;
-import com.rech.rpg.entity.menu.Menu;
 import com.rech.rpg.item.Weapon;
 import com.rech.rpg.map.Map;
 import com.rech.rpg.map.event.Event;
@@ -71,7 +69,7 @@ public class Main {
 		else if (optionSelection.equalsIgnoreCase("backpack") || optionSelection.equalsIgnoreCase("inv")) { player.getInventory().showInventory(player, input); }
 		else if (optionSelection.equalsIgnoreCase("spellbooks") || optionSelection.equalsIgnoreCase("spells")) { player.getInventory().showInventory(player, input); }
 		else if (optionSelection.equalsIgnoreCase("look")) { map.getLocation(map.getPlayerPosition()).locationMenu(player, input); }
-		else if (optionSelection.equalsIgnoreCase("travel")) { MapMenu.OpenMenu(input, map); }
+		else if (optionSelection.equalsIgnoreCase("travel")) { map.mapMenu(input); }
 		else if (optionSelection.equalsIgnoreCase("options")) { optionsMenu(input); }
 		else {
 			mainMenu.message("\nYou don't know what '"+optionSelection+"' means.\n", input);

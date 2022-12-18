@@ -3,9 +3,9 @@ package com.rech.rpg.map.location;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Entity;
 import com.rech.rpg.entity.Player;
-import com.rech.rpg.entity.menu.Menu;
 
 /**
  * Locations are points on the map. Can be Towns, Random events, or Wild

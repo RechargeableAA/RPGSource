@@ -1,15 +1,11 @@
 package com.rech.rpg.map;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
-import com.rech.rpg.entity.Entity;
-import com.rech.rpg.entity.Player;
-import com.rech.rpg.entity.menu.Menu;
-import com.rech.rpg.map.event.Event;
+import com.rech.rpg.Menu;
 import com.rech.rpg.map.location.Location;
 import com.rech.rpg.map.location.Town;
 import com.rech.rpg.map.location.Wilderness;
@@ -24,6 +20,54 @@ public class Map {
 		playerLocation = new Point(0,0);
 		locations.put(playerLocation, Town.generateTown()); // start in town by default
 		generateAroundPoint(playerLocation);
+	}
+	
+	public void mapMenu(Scanner input) {
+		Menu mapMenu = new Menu("Map");
+		
+		boolean closeMenu = false;
+		while(!closeMenu) {
+			mapMenu.clearPrompts();
+			
+			mapMenu.setMenuInfo("You are currently in " + getLocation(getPlayerPosition()).getName());
+			mapMenu.addPrompt("W", "Travel North to " + getLocation(new Point(getPlayerPosition().x, getPlayerPosition().y +1)).getName());
+			mapMenu.addPrompt("A", "Travel West to " + getLocation(new Point(getPlayerPosition().x -1, getPlayerPosition().y)).getName());
+			mapMenu.addPrompt("S", "Travel South to " + getLocation(new Point(getPlayerPosition().x, getPlayerPosition().y -1)).getName());
+			mapMenu.addPrompt("D", "Travel East to " + getLocation(new Point(getPlayerPosition().x +1, getPlayerPosition().y)).getName());
+			mapMenu.addPrompt("BACK");
+		
+			mapMenu.display(false);
+			
+			String optionSelection = input.nextLine().toString();
+			
+			switch(optionSelection.toUpperCase()) {
+			case "W":
+				mapMenu.message("You travel North to " + getLocation(new Point(getPlayerPosition().x, getPlayerPosition().y +1)).getName(), input);
+				movePlayer(new Point(getPlayerPosition().x, getPlayerPosition().y +1));
+				closeMenu = true;
+			break;
+			case "A":
+				mapMenu.message("You travel West to " + getLocation(new Point(getPlayerPosition().x-1, getPlayerPosition().y)).getName(), input);
+				movePlayer(new Point(getPlayerPosition().x-1, getPlayerPosition().y));
+				closeMenu = true;
+			break;
+			case "S":
+				mapMenu.message("You travel South to " + getLocation(new Point(getPlayerPosition().x, getPlayerPosition().y -1)).getName(), input);
+				movePlayer(new Point(getPlayerPosition().x, getPlayerPosition().y -1));
+				closeMenu = true;
+			break;
+			case "D":
+				mapMenu.message("You travel East to " + getLocation(new Point(getPlayerPosition().x+1, getPlayerPosition().y)).getName(), input);
+				movePlayer(new Point(getPlayerPosition().x+1, getPlayerPosition().y));
+				closeMenu = true;
+			case "BACK":
+				closeMenu = true;
+			break;
+			default:
+				mapMenu.message(optionSelection+" is not an option", input);
+			break;
+			}
+		}
 	}
 	
 	private Location generateLocation(Location.LocationType locationType) {

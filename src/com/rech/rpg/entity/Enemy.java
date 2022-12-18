@@ -151,6 +151,10 @@ public class Enemy extends Entity{
 		this.race = race;
 	}
 	
+	public static ArrayList<Enemy> getEnemiesList() {
+		return enemyList;
+	}
+	
 	// ***   ENEMYS   ***
 	//Humans
 	public static final Enemy beggar = new Enemy("Beggar", Race.HUMAN);

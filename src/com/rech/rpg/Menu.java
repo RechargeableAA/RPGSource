@@ -1,9 +1,7 @@
-package com.rech.rpg.entity.menu;
+package com.rech.rpg;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import com.rech.rpg.Main;
 
 /**
  * A standardized way to make menus. The primary purpose is to have the "You dont know what..." messages to appear below the options

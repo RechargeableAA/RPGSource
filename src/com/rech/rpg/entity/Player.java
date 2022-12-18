@@ -3,7 +3,7 @@ package com.rech.rpg.entity;
 import java.awt.Point;
 import java.util.Scanner;
 
-import com.rech.rpg.entity.menu.Menu;
+import com.rech.rpg.Menu;
 import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Spellbook;
 import com.rech.rpg.item.Weapon;
