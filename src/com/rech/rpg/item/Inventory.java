@@ -210,8 +210,16 @@ public class Inventory{
 		return coins;
 	}
 	
+	public Item[] getItems() {
+		return inventory;
+	}
+	
 	public void setCoins(int amount) {
 		coins = amount;
+	}
+	
+	public void addCoins(int amount) {
+		coins += amount;
 	}
 	
 	public void loseCoins(int amount) {

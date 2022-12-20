@@ -7,6 +7,7 @@ import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Enemy;
 import com.rech.rpg.entity.Entity;
 import com.rech.rpg.entity.Player;
+import com.rech.rpg.item.Item;
 
 public class Combat {
 	
@@ -39,7 +40,7 @@ public class Combat {
 				switch(optionSelection.toUpperCase()) {
 				case "ATTACK":
 				case "A":
-					cbMenu.message("You swing your " + player.getEquipped().getName() + " and deal " + attack(player, enemy), input);
+					System.out.println("You swing your " + player.getEquipped().getName() + " and deal " + attack(player, enemy));
 					playerTurn = false;
 					break;
 				case "BACKPACK":
@@ -54,11 +55,19 @@ public class Combat {
 					cbMenu.message("You don't know  what "+optionSelection+" means.", input);
 					break;
 				}
-				break;
 			}
 			
+			//Enemy dies
 			if(enemy.getHealth() <= 0) {
 				cbMenu.message("The " + enemy.getRace() +" falls to the ground with a loud thud.", input);
+				for(Item item : enemy.getInventory().getItems()) {
+					if(item != null) {
+						player.getInventory().pickup(item);
+						cbMenu.message("You find a " + item.getName(), input);
+					}
+				}
+				cbMenu.message("You gained " + enemy.getInventory().getCoins() + " coins.", input);
+				player.getInventory().addCoins(enemy.getInventory().getCoins());
 				fighting = false;
 				return true;
 			}
@@ -66,6 +75,7 @@ public class Combat {
  			//Enemy's turn
 			cbMenu.message("The " + enemy.getRace() + " swings their " + enemy.getEquipped().getName() + " at you dealing " + attack(enemy, player) + ".", input);
 			
+			//Player dies
 			if(player.getHealth() <= 0) {
 				cbMenu.message("Oh dear, you are dead.", input);
 				fighting = false;

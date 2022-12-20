@@ -66,15 +66,6 @@ public class Player extends Entity{
 			levelUpStat(Stats.MAXHEALTH, 100);
 
 			
-		}else if (name.equals("test")) {
-			Enemy.beggar.sayTest();
-			Enemy.bear.sayTest();
-			new Enemy("cat", 10, 1, Enemy.Race.BEAST).sayTest();
-			new Enemy("big cat", 10, 2, Enemy.Race.BEAST).sayTest();
-			Enemy.serpent.sayTest();
-			Enemy.serpent.sayTest();
-			Spellbook.fireBallSB.sayTest();
-		
 		}
 	}
 

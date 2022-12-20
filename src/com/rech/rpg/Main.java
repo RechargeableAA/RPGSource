@@ -5,7 +5,6 @@ import java.util.Scanner;
 import com.rech.rpg.entity.Player;
 import com.rech.rpg.item.Weapon;
 import com.rech.rpg.map.Map;
-import com.rech.rpg.map.event.Event;
 
 /*
 TODO:
@@ -158,5 +157,9 @@ public class Main {
 	public static final void clearScreen() {
 		String newLine = "\n";
 		System.out.println(newLine.repeat(30));
+	}
+	
+	public static Player getPlayer() {
+		return player;
 	}
 }

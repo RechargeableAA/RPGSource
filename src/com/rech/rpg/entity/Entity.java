@@ -262,6 +262,10 @@ public class Entity {
 		health += heal;
 	}
 	
+	public Inventory getInventory() {
+		return inventory;
+	}
+	
 	public static boolean isStat(String rawStatString) {
 	    for (Stats s : Stats.values()) {
 	        if (s.name().equals(rawStatString)) {

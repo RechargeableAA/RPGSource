@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Enemy;
 import com.rech.rpg.entity.Entity;
@@ -19,7 +20,9 @@ import com.rech.rpg.map.shop.Shop;
  */
 public class Wilderness extends Location{
 	protected EntityComponent entComp;
-	private static final int maxEnemies = 4;
+	private static final int 
+	maxEnemies = 4,
+	EnemyLevelRange = 2;		;
 	
 	Wilderness(String name, String description) {
 		super(name, description);
@@ -32,7 +35,12 @@ public class Wilderness extends Location{
 		
 		// generate enemies
 		for(int enemies = rand.nextInt(maxEnemies); enemies > 0; enemies--) {
-			newWild.entComp.getEntities().add(Enemy.getEnemiesList().get(rand.nextInt(Enemy.getEnemiesList().size()))); // randomly pick an enemy from list of enemies
+			Enemy newEnemy = Enemy.Null;
+			while(newEnemy == Enemy.Null || (Main.getPlayer().getLevel() - newEnemy.getLevel()) < -EnemyLevelRange || (Main.getPlayer().getLevel() - newEnemy.getLevel()) > EnemyLevelRange) { // keep generating until u find one within level range
+				newEnemy = Enemy.getEnemiesList().get(rand.nextInt(Enemy.getEnemiesList().size()));
+			}
+			newWild.entComp.getEntities().add(newEnemy); // randomly pick an enemy from list of enemies
+
 		}
 		
 		return newWild;
@@ -85,7 +93,7 @@ public class Wilderness extends Location{
 			// add enemy ooptions
 			for(Entity ent : entComp.getEntities()) {
 				if(ent instanceof Enemy) {  // every enemy for loop
-					lcMenu.addPrompt(""+entComp.getEntities().indexOf(ent), ent.getName());
+					lcMenu.addPrompt(""+entComp.getEntities().indexOf(ent), ent.getName() + " Lvl. " +ent.getLevel());
 				}
 			}
 			

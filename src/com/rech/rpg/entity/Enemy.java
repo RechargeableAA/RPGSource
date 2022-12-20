@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.rech.rpg.entity.Entity.Stats;
+import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Weapon;
 
 
@@ -26,7 +27,7 @@ public class Enemy extends Entity{
 	 * @param name
 	 * @param race
 	 */
-	public Enemy (String name, Race race){ 
+	public Enemy (String name, Race race, boolean listEnemy){ 
 		//enemy defaults
 		super(name, DEFAULTENEMYHEALTH);
 		this.race = race; 
@@ -34,6 +35,7 @@ public class Enemy extends Entity{
 		allocateRandomLevels(getRandLevel(race));
 		
 		this.equipped = Weapon.fist;
+		this.generateLoot();
 		enemyList.add(this);
 	}
 	
@@ -43,12 +45,13 @@ public class Enemy extends Entity{
 	 * @param level
 	 * @param race
 	 */
-	public Enemy (String name, int maxHealth, int level, Race race){ 
+	public Enemy (String name, int maxHealth, int level, Race race, boolean listEnemy){ 
 		//enemy defaults
 		super(name, maxHealth);
 		this.race = race; 
 		//stat initialization
 		allocateRandomLevels(level);
+		this.generateLoot();
 		
 		enemyList.add(this);
 	}
@@ -69,7 +72,7 @@ public class Enemy extends Entity{
 	 * @param resistance
 	 * @param race
 	 */
-	public Enemy (String name, int level, int health, int maxHealth, int mana, int maxMana, int strength, int defense, int dodge, int luck, int magic, int resistance, Race race){ 
+	public Enemy (String name, int level, int health, int maxHealth, int mana, int maxMana, int strength, int defense, int dodge, int luck, int magic, int resistance, Race race, Inventory loot, boolean listEnemy){ 
 		//enemy defaults
 		super(
 				name,
@@ -83,6 +86,7 @@ public class Enemy extends Entity{
 				resistance	
 			);
 		this.race = race; 
+		this.inventory = loot;
 		enemyList.add(this);
 	}
 	
@@ -141,6 +145,11 @@ public class Enemy extends Entity{
 		}
 	}
 	
+	public void generateLoot() {
+		Random rand = new Random();
+		this.inventory.setCoins(this.getLevel()*5 + rand.nextInt(this.getLevel()));
+	}
+	
 	//Getter and Setters
 
 	public Race getRace() {
@@ -157,31 +166,34 @@ public class Enemy extends Entity{
 	
 	// ***   ENEMYS   ***
 	//Humans
-	public static final Enemy beggar = new Enemy("Beggar", Race.HUMAN);
-	public static final Enemy thief = new Enemy("Thief", Race.HUMAN);
-	public static final Enemy bandit = new Enemy("Bandit", Race.HUMAN);
-	public static final Enemy raider = new Enemy("Raider", Race.HUMAN);
-	public static final Enemy marauder = new Enemy("Marauder", Race.HUMAN);
+	public static final Enemy beggar = new Enemy("Beggar", Race.HUMAN, true);
+	public static final Enemy thief = new Enemy("Thief", Race.HUMAN, true);
+	public static final Enemy bandit = new Enemy("Bandit", Race.HUMAN, true);
+	public static final Enemy raider = new Enemy("Raider", Race.HUMAN, true);
+	public static final Enemy marauder = new Enemy("Marauder", Race.HUMAN, true);
 	
 	//Orcs
-	public static final Enemy orcBandit = new Enemy("Orc Bandit", Race.ORC); 
-	public static final Enemy orcWarrior = new Enemy("Orc Warrior", Race.ORC);
-	public static final Enemy orcBezerker = new Enemy("Orc Bezerker", Race.ORC);
-	public static final Enemy orcJuggernaught = new Enemy("Orc Juggernaught", Race.ORC); 
-	public static final Enemy orcWarlord = new Enemy("Orc Warlord", Race.ORC); 
+	public static final Enemy orcBandit = new Enemy("Orc Bandit", Race.ORC, true); 
+	public static final Enemy orcWarrior = new Enemy("Orc Warrior", Race.ORC, true);
+	public static final Enemy orcBezerker = new Enemy("Orc Bezerker", Race.ORC, true);
+	public static final Enemy orcJuggernaught = new Enemy("Orc Juggernaught", Race.ORC, true); 
+	public static final Enemy orcWarlord = new Enemy("Orc Warlord", Race.ORC, true); 
 	
 	//knights
-	public static final Enemy guard = new Enemy("Guard", Race.KNIGHT);
-	public static final Enemy bronzeKnight = new Enemy("Bronze Knight", Race.KNIGHT);
-	public static final Enemy wroughtKnight = new Enemy("Wrought Knight", Race.KNIGHT);
-	public static final Enemy royalKnight = new Enemy("Royal Knight", Race.KNIGHT);
-	public static final Enemy darkKnight = new Enemy("Dark Knight", Race.KNIGHT);
+	public static final Enemy guard = new Enemy("Guard", Race.KNIGHT, true);
+	public static final Enemy bronzeKnight = new Enemy("Bronze Knight", Race.KNIGHT, true);
+	public static final Enemy wroughtKnight = new Enemy("Wrought Knight", Race.KNIGHT, true);
+	public static final Enemy royalKnight = new Enemy("Royal Knight", Race.KNIGHT, true);
+	public static final Enemy darkKnight = new Enemy("Dark Knight", Race.KNIGHT, true);
 	
 	//beasts
-	public static final Enemy boar = new Enemy("Boar", Race.BEAST);
-	public static final Enemy wolf = new Enemy("Wolf", Race.BEAST);
-	public static final Enemy bobcat = new Enemy("Bobcat", Race.BEAST);
-	public static final Enemy bear = new Enemy("Bear", Race.BEAST);
-	public static final Enemy serpent = new Enemy("Serpent", Race.BEAST);
+	public static final Enemy boar = new Enemy("Boar", Race.BEAST, true);
+	public static final Enemy wolf = new Enemy("Wolf", Race.BEAST, true);
+	public static final Enemy bobcat = new Enemy("Bobcat", Race.BEAST, true);
+	public static final Enemy bear = new Enemy("Bear", Race.BEAST, true);
+	public static final Enemy serpent = new Enemy("Serpent", Race.BEAST, true);
+	
+	//Testing/debug
+	public static final Enemy Null = new Enemy("NULL", 1, 0, Race.HUMAN, false);
 	
 }
