@@ -17,6 +17,9 @@
 .metadata/
 bin/
 
+# IntellJ Files
+IntellJ/
+
 # Save files
 *.txt
 
