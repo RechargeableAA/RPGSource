@@ -3,10 +3,12 @@ package com.rech.rpg.entity.combat;
 import java.util.Random;
 import java.util.Scanner;
 
+import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Enemy;
 import com.rech.rpg.entity.Entity;
 import com.rech.rpg.entity.Player;
+import com.rech.rpg.gamestate.inventory.InventoryMain;
 import com.rech.rpg.item.Item;
 
 public class Combat {
@@ -46,7 +48,7 @@ public class Combat {
 				case "BACKPACK":
 				case "INV":
 				case "B":
-					player.getInventory().showInventory(player, input);										//Maybe add pokemon item use mechanic, where if u use an item it uses your turn
+					Main.enterGameState(new InventoryMain(player.getInventory(), input));
 					break;
 				case "RUN":
 				case "R":

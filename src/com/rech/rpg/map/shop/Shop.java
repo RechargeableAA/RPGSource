@@ -6,6 +6,7 @@ import java.util.Scanner;
 import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Player;
+import com.rech.rpg.gamestate.inventory.InventoryDrop;
 import com.rech.rpg.item.Item;
 import com.rech.rpg.item.Weapon;
 
@@ -17,8 +18,6 @@ public class Shop {
 	
 	/**
 	 * Pool of shop types to be used during town generation
-	 * @author Nolan
-	 *
 	 */
 	public static enum shopType {
 		WEAPON,
@@ -93,7 +92,7 @@ public class Shop {
 										in = input.nextLine();
 										
 										if (in.equalsIgnoreCase("y")){
-											player.getInventory().dropItemMenu(player, input);
+											Main.enterGameState(new InventoryDrop(player.getInventory(), input));
 										}else if (in.equalsIgnoreCase("n") || in.equalsIgnoreCase("back")){
 											break;
 										}else {

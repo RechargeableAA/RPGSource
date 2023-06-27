@@ -147,7 +147,9 @@ public class Enemy extends Entity{
 	
 	public void generateLoot() {
 		Random rand = new Random();
-		this.inventory.setCoins(this.getLevel()*5 + rand.nextInt(this.getLevel()));
+		if(this.getLevel() > 0) {
+			this.inventory.setCoins(this.getLevel()*5 + rand.nextInt(this.getLevel()));
+		}
 	}
 	
 	//Getter and Setters

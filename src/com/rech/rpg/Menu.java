@@ -32,7 +32,7 @@ public class Menu {
 	 * 		|[prompt] - prompt description	 
 	 * 		|[prompt] - prompt description
 	 *		|
-	 * 		|message message message message
+	 * 		|message message message message [Requires an enter to proceed]
 	 * 
 	 * 
 	 */
@@ -132,7 +132,7 @@ public class Menu {
 	}
 	
 	/**
-	 * Messages that appear after menu, displayed instantly
+	 * Messages that appear after menu, displayed directly after prompts.
 	 * EX: "You payed 5 gp for that."
 	 * @param message
 	 */

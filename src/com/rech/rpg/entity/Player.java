@@ -55,7 +55,6 @@ public class Player extends Entity{
 			levelUpStat(Stats.MAXHEALTH, 100);
 		}else if (name.equals("invtest")) {
 			coins = 99100;
-			inventory.pickup(Weapon.generateChanceWeapon(100, 30));
 			inventory.pickup(Weapon.generateChanceWeapon(100, 40));
 			inventory.pickup(Weapon.generateChanceWeapon(100, 50));
 			inventory.pickup(Weapon.generateChanceWeapon(100, 60));
@@ -63,7 +62,7 @@ public class Player extends Entity{
 			inventory.pickup(Weapon.generateChanceWeapon(100, 80));
 			inventory.pickup(Weapon.generateChanceWeapon(100, 90));
 			inventory.pickup(Weapon.generateChanceWeapon(100, 100));
-			levelUpStat(Stats.MAXHEALTH, 100);
+			//levelUpStat(Stats.MAXHEALTH, 100);
 
 			
 		}
