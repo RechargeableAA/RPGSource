@@ -3,19 +3,18 @@ package com.rech.rpg.gamestate.inventory;
 import com.rech.rpg.gamestate.GameState;
 import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
-import com.rech.rpg.gamestate.MainMenu;
 import com.rech.rpg.item.Inventory;
 
 import java.util.Scanner;
 
-public class InventoryMain implements GameState {
+public class InventoryMainMenu implements GameState {
 
     //The temporary inventory that's used to store the inventory of the player/entity while its being modified in this instance
     protected Inventory inv;
     protected Scanner inp;
     Menu invMenu = new Menu("INVENTORY");
 
-    public InventoryMain(Inventory inventory, Scanner input){
+    public InventoryMainMenu(Inventory inventory, Scanner input){
         inv = new Inventory();
         inv = inventory;
         inp = input;
@@ -55,16 +54,17 @@ public class InventoryMain implements GameState {
         switch(optionSelection.toUpperCase()) {
             case "EQUIP":
                 Main.saveState(this);
-                Main.enterGameState(new InventoryEquip(inv, inp));
+                Main.enterGameState(new InventoryEquipMenu(inv, inp));
                 break;
             case "DROP":
                 Main.saveState(this);
-                Main.enterGameState(new InventoryDrop(inv, inp));
+                Main.enterGameState(new InventoryDropMenu(inv, inp));
                 break;
             case "BACK":
                 Main.returnToPrevState();
+                break;
             default:
-                invMenu.message("You don't know  what "+optionSelection+" means.", inp);
+                invMenu.alert("You don't know  what "+optionSelection+" means.", inp);
                 invMenu.display(false);
         }
     }

@@ -8,10 +8,10 @@ import com.rech.rpg.item.Weapon;
 
 import java.util.Scanner;
 
-public class InventoryEquip extends InventoryMain {
+public class InventoryEquipMenu extends InventoryMainMenu {
     Menu equipMenu = new Menu("Equip");
 
-    public InventoryEquip(Inventory inventory, Scanner input) {
+    public InventoryEquipMenu(Inventory inventory, Scanner input) {
         super(inventory, input);
     }
 
@@ -26,19 +26,20 @@ public class InventoryEquip extends InventoryMain {
             }
         }
 
-        equipMenu.display(false);
-    }
-
-    @Override
-    public void update() {
         if (inv.isEmpty()) { // if this(inventory) is empty
-            equipMenu.message("You have nothing in your backpack.", inp);
-            Main.enterGameState(new MainMenu(inp));
+            equipMenu.alert("You have nothing in your backpack.", inp);
+            Main.returnToPrevState();
+            return;
         }else {
             equipMenu.addPrompt("0-9", "Which slot do you want to equip? [back]");
             equipMenu.addPrompt("back");
         }
 
+        equipMenu.display(false);
+    }
+
+    @Override
+    public void update() {
         //error catching string to int needs try and cathch
         String optionSelection = inp.nextLine();
         switch(optionSelection.toUpperCase()) {
@@ -51,22 +52,30 @@ public class InventoryEquip extends InventoryMain {
                     int slot = Integer.parseInt(optionSelection); // convert string of number into an integer
                     if(inv.getSlot(slot) != null) {
                         if(inv.getSlot(slot) instanceof Weapon) { // checks to see if item is a weapon
-                            equipMenu.message("You equip your " + inv.getSlot(slot).getName() + ".", inp);
+                            equipMenu.alert("You equip your " + inv.getSlot(slot).getName() + ".", inp);
                             Main.getPlayer().equip(slot);
                             Main.returnToPrevState();
                         }else {
                             equipMenu.display(false);
-                            equipMenu.message("You can't equip a " + Main.getPlayer().getInventory().getSlot(slot).getName(), inp);
+                            equipMenu.alert("You can't equip a " + Main.getPlayer().getInventory().getSlot(slot).getName(), inp);
                         }
                     }else {
                         equipMenu.display(false);
-                        equipMenu.message("There's nothing in that inventory slot.", inp);
+                        equipMenu.alert("There's nothing in that inventory slot.", inp);
                     }
                 }else {
                     equipMenu.display(false);
-                    equipMenu.message("You don't know what "+optionSelection+" means.", inp);
+                    equipMenu.alert("You don't know what "+optionSelection+" means.", inp);
                 }
                 break;
         }
+    }
+
+    /**
+     * executes actions based off of string input. I seperated this method so it can be ran again easily by the menu's function. Allowing the user to enter an option after a message rather than having to press enter, then entering the option.
+     * @param input
+     */
+    private void handleOptions(String input){
+
     }
 }

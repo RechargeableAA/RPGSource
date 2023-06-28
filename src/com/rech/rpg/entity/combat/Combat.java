@@ -8,7 +8,7 @@ import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Enemy;
 import com.rech.rpg.entity.Entity;
 import com.rech.rpg.entity.Player;
-import com.rech.rpg.gamestate.inventory.InventoryMain;
+import com.rech.rpg.gamestate.inventory.InventoryMainMenu;
 import com.rech.rpg.item.Item;
 
 public class Combat {
@@ -48,38 +48,38 @@ public class Combat {
 				case "BACKPACK":
 				case "INV":
 				case "B":
-					Main.enterGameState(new InventoryMain(player.getInventory(), input));
+					Main.enterGameState(new InventoryMainMenu(player.getInventory(), input));
 					break;
 				case "RUN":
 				case "R":
 					return false;
 				default:
-					cbMenu.message("You don't know  what "+optionSelection+" means.", input);
+					cbMenu.alert("You don't know  what "+optionSelection+" means.", input);
 					break;
 				}
 			}
 			
 			//Enemy dies
 			if(enemy.getHealth() <= 0) {
-				cbMenu.message("The " + enemy.getRace() +" falls to the ground with a loud thud.", input);
+				cbMenu.alert("The " + enemy.getRace() +" falls to the ground with a loud thud.", input);
 				for(Item item : enemy.getInventory().getItems()) {
 					if(item != null) {
 						player.getInventory().pickup(item);
-						cbMenu.message("You find a " + item.getName(), input);
+						cbMenu.alert("You find a " + item.getName(), input);
 					}
 				}
-				cbMenu.message("You gained " + enemy.getInventory().getCoins() + " coins.", input);
+				cbMenu.alert("You gained " + enemy.getInventory().getCoins() + " coins.", input);
 				player.getInventory().addCoins(enemy.getInventory().getCoins());
 				fighting = false;
 				return true;
 			}
 			
  			//Enemy's turn
-			cbMenu.message("The " + enemy.getRace() + " swings their " + enemy.getEquipped().getName() + " at you dealing " + attack(enemy, player) + ".", input);
+			cbMenu.alert("The " + enemy.getRace() + " swings their " + enemy.getEquipped().getName() + " at you dealing " + attack(enemy, player) + ".", input);
 			
 			//Player dies
 			if(player.getHealth() <= 0) {
-				cbMenu.message("Oh dear, you are dead.", input);
+				cbMenu.alert("Oh dear, you are dead.", input);
 				fighting = false;
 				return false;
 			}

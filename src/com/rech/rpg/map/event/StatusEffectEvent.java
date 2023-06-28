@@ -29,10 +29,10 @@ public class StatusEffectEvent extends Event{
 		
 		switch(effect) {
 		case POISON:
-			eventMenu.message("You are poisoned!", input);
+			eventMenu.alert("You are poisoned!", input);
 			break;
 		case DAMAGE:
-			eventMenu.message("You take " + effectValue + " damage.", input);
+			eventMenu.alert("You take " + effectValue + " damage.", input);
 			player.damage(effectValue);
 			break;
 		}

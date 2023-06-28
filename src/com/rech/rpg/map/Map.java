@@ -42,29 +42,29 @@ public class Map {
 			
 			switch(optionSelection.toUpperCase()) {
 			case "W":
-				mapMenu.message("You travel North to " + getLocation(new Point(getPlayerPosition().x, getPlayerPosition().y +1)).getName(), input);
+				mapMenu.alert("You travel North to " + getLocation(new Point(getPlayerPosition().x, getPlayerPosition().y +1)).getName(), input);
 				movePlayer(new Point(getPlayerPosition().x, getPlayerPosition().y +1));
 				closeMenu = true;
 			break;
 			case "A":
-				mapMenu.message("You travel West to " + getLocation(new Point(getPlayerPosition().x-1, getPlayerPosition().y)).getName(), input);
+				mapMenu.alert("You travel West to " + getLocation(new Point(getPlayerPosition().x-1, getPlayerPosition().y)).getName(), input);
 				movePlayer(new Point(getPlayerPosition().x-1, getPlayerPosition().y));
 				closeMenu = true;
 			break;
 			case "S":
-				mapMenu.message("You travel South to " + getLocation(new Point(getPlayerPosition().x, getPlayerPosition().y -1)).getName(), input);
+				mapMenu.alert("You travel South to " + getLocation(new Point(getPlayerPosition().x, getPlayerPosition().y -1)).getName(), input);
 				movePlayer(new Point(getPlayerPosition().x, getPlayerPosition().y -1));
 				closeMenu = true;
 			break;
 			case "D":
-				mapMenu.message("You travel East to " + getLocation(new Point(getPlayerPosition().x+1, getPlayerPosition().y)).getName(), input);
+				mapMenu.alert("You travel East to " + getLocation(new Point(getPlayerPosition().x+1, getPlayerPosition().y)).getName(), input);
 				movePlayer(new Point(getPlayerPosition().x+1, getPlayerPosition().y));
 				closeMenu = true;
 			case "BACK":
 				closeMenu = true;
 			break;
 			default:
-				mapMenu.message(optionSelection+" is not an option", input);
+				mapMenu.alert(optionSelection+" is not an option", input);
 			break;
 			}
 		}

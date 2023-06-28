@@ -78,7 +78,7 @@ public class Town extends Location{
 				if(optionSelection.toUpperCase().equals("BACK")) {
 					return;
 				}else {
-					locationMenu.message("You don't know what " + optionSelection + " means.", input);
+					locationMenu.alert("You don't know what " + optionSelection + " means.", input);
 				}
 			}
 		}

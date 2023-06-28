@@ -10,7 +10,6 @@ import com.rech.rpg.entity.Enemy;
 import com.rech.rpg.entity.Entity;
 import com.rech.rpg.entity.Player;
 import com.rech.rpg.entity.combat.Combat;
-import com.rech.rpg.map.shop.Shop;
 
 
 /**
@@ -117,7 +116,7 @@ public class Wilderness extends Location{
 				if(optionSelection.toUpperCase().equals("BACK")) {
 					return;
 				}else {
-					lcMenu.message("You don't know what " + optionSelection + " means.", input);
+					lcMenu.alert("You don't know what " + optionSelection + " means.", input);
 				}
 			}
 		}

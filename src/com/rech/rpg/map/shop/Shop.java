@@ -6,7 +6,7 @@ import java.util.Scanner;
 import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Player;
-import com.rech.rpg.gamestate.inventory.InventoryDrop;
+import com.rech.rpg.gamestate.inventory.InventoryDropMenu;
 import com.rech.rpg.item.Item;
 import com.rech.rpg.item.Weapon;
 
@@ -84,19 +84,19 @@ public class Shop {
 									if (!player.getInventory().isFull()) { 
 										player.getInventory().pickup(this.items[selection]);
 										player.getInventory().loseCoins(this.items[selection].getCost());
-										shop.message("You give the shopkeep "+this.items[selection].getCost()+" coins and receive the " + this.items[selection].getName() + ".", input);
+										shop.alert("You give the shopkeep "+this.items[selection].getCost()+" coins and receive the " + this.items[selection].getName() + ".", input);
 										break;
 									}else {
 										shop.clearPrompts();
-										shop.message("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]", input);
+										shop.alert("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]", input);
 										in = input.nextLine();
 										
 										if (in.equalsIgnoreCase("y")){
-											Main.enterGameState(new InventoryDrop(player.getInventory(), input));
+											Main.enterGameState(new InventoryDropMenu(player.getInventory(), input));
 										}else if (in.equalsIgnoreCase("n") || in.equalsIgnoreCase("back")){
 											break;
 										}else {
-											shop.message("I'm not sure what you mean by " + in.toUpperCase() + ".", input);
+											shop.alert("I'm not sure what you mean by " + in.toUpperCase() + ".", input);
 										}
 									}
 								}	
@@ -104,14 +104,14 @@ public class Shop {
 								
 							}
 						}else { // player does not have enough money
-							shop.message("You can't afford that!", input);
+							shop.alert("You can't afford that!", input);
 						}
 					
 					}else { // selection was not within the shop's item array
-						shop.message("I'm afraid that this is all I have to offer you right now.", input);
+						shop.alert("I'm afraid that this is all I have to offer you right now.", input);
 					}
 				}else { // selection was not an item
-					shop.message("I'm sorry, I didnt catch that.", input);
+					shop.alert("I'm sorry, I didnt catch that.", input);
 				}
 				break;
 			}

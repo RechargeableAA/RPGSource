@@ -10,9 +10,9 @@ import java.util.Scanner;
 /**
  * First menu when game starts
  */
-public class Intro implements GameState {
+public class IntroMenu implements GameState {
     Scanner inp;
-    public Intro(Scanner input){
+    public IntroMenu(Scanner input){
         inp = input;
     }
 

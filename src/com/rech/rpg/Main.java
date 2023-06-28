@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import com.rech.rpg.entity.Player;
 import com.rech.rpg.gamestate.GameState;
-import com.rech.rpg.gamestate.Intro;
+import com.rech.rpg.gamestate.IntroMenu;
 import com.rech.rpg.map.Map;
 
 /*
@@ -32,7 +32,7 @@ public class Main{
 	private static Player player;
 	
 	//Map object instance, used to reference anything in or about the map, ie map size, locations on the map
-	public static Map map;
+	private static Map map;
 	
 	private static GameState gs;
 	private static ArrayList<GameState> prevGS = new ArrayList<GameState>(); // store previous game states to return after finishing another game state; linear path mainmenu > inventory > equip > etc
@@ -40,10 +40,11 @@ public class Main{
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 
-		enterGameState(new Intro(input));
+		enterGameState(new IntroMenu(input));
+		input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
+
 
 		while(running) {
-			input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
 			gs.update();
 		}
 
@@ -51,7 +52,7 @@ public class Main{
 	}
 
 	/**
-	 * Clear console with a repeated new line character. Print is completely instantly, rather then a for loop with .println
+	 * Clear console with a repeated new line character.
 	 */
 	public static final void clearScreen() {
 		System.out.println("\n".repeat(30));
