@@ -32,7 +32,7 @@ public class Combat {
 			cbMenu.addPrompt("[A]ttack");
 			cbMenu.addPrompt("[B]ackpack");
 			cbMenu.addPrompt("[R]un");
-			cbMenu.display(true);
+			cbMenu.display();
 			
 			// while loop to ensure the player has chosen a valid option
 			boolean playerTurn = true;

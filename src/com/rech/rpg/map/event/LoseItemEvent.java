@@ -16,7 +16,7 @@ public class LoseItemEvent extends Event{
 		Menu eventMenu = new Menu("EVENT");
 		
 		eventMenu.setMenuInfo(description);
-		eventMenu.display(true);	
+		eventMenu.display();
 		
 		input.nextLine();		
 	}

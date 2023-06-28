@@ -46,6 +46,29 @@ public class Player extends Entity{
 		this.name = name;
 	}
 
+
+	//used during loading, this is an alternate constructor for creating a player object
+	public Player(String name, int level, int exp, int points, String location, Point mapPosition, int health, int maxHealth, int mana, int maxMana, int strength, int defense, int dodge, int luck, int magic, int resistance, int coins) {
+		super(
+				name,
+				maxHealth,
+				strength,
+				defense,
+				dodge,
+				luck,
+				magic,
+				maxMana,
+				resistance
+		);
+		//setting player stat defaults
+		this.exp = exp;
+		this.points = points;
+		this.coins = coins;
+
+		//initializing inventory
+		inventory = new Inventory();
+		this.equipped = null;
+	}
 	
 	private void testerNames(String name) {
 		if (name.equals("")) {
@@ -77,30 +100,6 @@ public class Player extends Entity{
 		levelUpStat(Stats.MAXHEALTH, 1000);
 	}
 
-
-	//used during loading, this is an alternate constructor for creating a player object
-	public Player(String name, int level, int exp, int points, String location, Point mapPosition, int health, int maxHealth, int mana, int maxMana, int strength, int defense, int dodge, int luck, int magic, int resistance, int coins) {
-		super(
-				name,
-				maxHealth,
-				strength,
-				defense,
-				dodge,
-				luck,
-				magic,
-				maxMana,
-				resistance	
-			);
-		//setting player stat defaults
-		this.exp = exp;
-		this.points = points;
-		this.coins = coins;
-		
-		//initializing inventory
-		inventory = new Inventory();
-		this.equipped = null;
-	}
-	
 	/**
 	 * Add an amount of skillpoints to a skill. removes used skillpoints
 	 * @param stat

@@ -5,16 +5,17 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Player;
+import com.rech.rpg.gamestate.GameState;
+import com.rech.rpg.gamestate.location.TownMenu;
 import com.rech.rpg.map.shop.Shop;
 
 /**
  * Towns are civilized locations stored on the map. They contain shops, and quests in the future. Enemy interactions are non-existent (or very rare maybe?)
- * @author Nolan DeMatteis
- *
  */
-public class Town extends Location{
+public class Town extends Location {
 	
 	String townName;
 	ArrayList<Shop> shops;
@@ -23,7 +24,13 @@ public class Town extends Location{
 		super(name, description);
 		shops = new ArrayList<Shop>(); // max of 4 shops for the 4 directions
 	}
-	
+
+	@Override
+	public GameState getGameState(Player pl, Scanner inp) {
+		return new TownMenu(this, pl, inp);
+	}
+
+
 	/**
 	 * TOWN GENERATION - NOT COMPLETED
 	 */
@@ -50,38 +57,6 @@ public class Town extends Location{
 		
 		generatedTown.generateSurroundingsText();
 		return generatedTown;
-	}
-	
-	@Override
-	public void locationMenu(Player player, Scanner input) {
-		Menu locationMenu = new Menu(getName().toUpperCase());
-		
-		while(true) {
-			locationMenu.clearPrompts();
-			locationMenu.setMenuInfo(getDescription() + ". " + getSurroundings());
-			for(Shop shop : shops) {
-				locationMenu.addPrompt(shops.indexOf(shop)+"", shop.getName());
-			}
-			locationMenu.addPrompt("BACK");
-			
-			locationMenu.display(true);
-			String optionSelection = input.nextLine().toUpperCase();
-			
-			//0-9
-			try {
-				if(Integer.valueOf(optionSelection) < shops.size()) {
-					shops.get(Integer.valueOf(optionSelection)).interact(input, player);
-				}
-				
-			//Back or anything else
-			}catch(NumberFormatException nfe) {
-				if(optionSelection.toUpperCase().equals("BACK")) {
-					return;
-				}else {
-					locationMenu.alert("You don't know what " + optionSelection + " means.", input);
-				}
-			}
-		}
 	}
 	
 	private String generateSurroundingsText() {
@@ -117,7 +92,9 @@ public class Town extends Location{
 			IOB.printStackTrace();
 			return null;
 		}
-		
 	}
 
+	public ArrayList<Shop> getShops() {
+		return shops;
+	}
 }

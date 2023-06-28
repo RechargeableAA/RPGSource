@@ -34,7 +34,7 @@ public class InventoryDropMenu extends InventoryMainMenu {
             dropMenu.addPrompt("BACK");
         }
 
-        dropMenu.display(false);
+        dropMenu.display();
     }
 
     @Override
@@ -50,11 +50,11 @@ public class InventoryDropMenu extends InventoryMainMenu {
                     if(inv.getItems()[slot] != null) {
                         dropMenu.clearPrompts();
                         dropMenu.addPrompt("y/n", "Are you sure you want to drop " + inv.getSlot(slot).getName() + "?");
-                        dropMenu.display(true);
+                        dropMenu.display();
                         if(inp.nextLine().equalsIgnoreCase("y")) {
                             dropMenu.clearPrompts();
                             dropMenu.alert("You drop your " + inv.getSlot(slot).getName() + ".", inp);
-                            dropMenu.display(true);
+                            dropMenu.display();
                             inp.nextLine();
                             inv.drop(slot);
                             Main.returnToPrevState();

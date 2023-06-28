@@ -45,7 +45,7 @@ public class InventoryMainMenu implements GameState {
         invMenu.addPrompt("EQUIP");
         invMenu.addPrompt("DROP");
         invMenu.addPrompt("BACK");
-        invMenu.display(false);
+        invMenu.display();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class InventoryMainMenu implements GameState {
                 break;
             default:
                 invMenu.alert("You don't know  what "+optionSelection+" means.", inp);
-                invMenu.display(false);
+                invMenu.display();
         }
     }
 }

@@ -38,7 +38,7 @@ public class StatsMenu implements GameState {
         statsMenu.addPrompt("HELP", "show descriptions for each stat.");
         statsMenu.addPrompt("BACK", "go back to the previous prompt.");
 
-        statsMenu.display(false);
+        statsMenu.display();
 
     }
 
@@ -47,8 +47,6 @@ public class StatsMenu implements GameState {
         //level up info
         if (pl.getPoints() > 0) {
             statsMenu.message("You have " +pl.getPoints()+ " skill points to spend!  [LEVELUP] - to spend points.");
-        }else {
-            //	skillMenu(input);
         }
 
         String selection = inp.nextLine();
@@ -66,7 +64,7 @@ public class StatsMenu implements GameState {
                 return;
             case "HELP":
                 statsMenu.alert(
-                        "STRENGTH = melee damage modifier\r\n"
+                          "STRENGTH = melee damage modifier\r\n"
                                 + "DEFENSE = how much incoming damage is reduced\r\n"
                                 + "DODGE = chance to negate damage all together\r\n"
                                 + "LUCK = modifies how many coins and materials you can gain.\r\n"

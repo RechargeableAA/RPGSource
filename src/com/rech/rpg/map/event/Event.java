@@ -10,8 +10,6 @@ import com.rech.rpg.map.event.StatusEffectEvent.statusEffect;
 
 /**
  * Events occur inbetween locations
- * @author Nolan DeMatteis
- *
  */
 
 public abstract class Event{

@@ -49,9 +49,8 @@ public class Menu {
 	
 	/**
 	 * Print the menu name, its options, and any messages in that order
-	 * @param isWrapped - 
 	 */
-	public void display(boolean isWrapped) {
+	public void display() {
 		Main.clearScreen();
 		
 		//Menu title
@@ -59,8 +58,7 @@ public class Menu {
 		System.out.println(menuTitle);
 		
 		//Menu info
-		
-		if(menuInfo != null && menuInfo != ""){ 
+		if(menuInfo != null && menuInfo != ""){
 			System.out.println(menuInfo);
 		}
 			

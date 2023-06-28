@@ -35,7 +35,7 @@ public class InventoryEquipMenu extends InventoryMainMenu {
             equipMenu.addPrompt("back");
         }
 
-        equipMenu.display(false);
+        equipMenu.display();
     }
 
     @Override
@@ -56,15 +56,15 @@ public class InventoryEquipMenu extends InventoryMainMenu {
                             Main.getPlayer().equip(slot);
                             Main.returnToPrevState();
                         }else {
-                            equipMenu.display(false);
+                            equipMenu.display();
                             equipMenu.alert("You can't equip a " + Main.getPlayer().getInventory().getSlot(slot).getName(), inp);
                         }
                     }else {
-                        equipMenu.display(false);
+                        equipMenu.display();
                         equipMenu.alert("There's nothing in that inventory slot.", inp);
                     }
                 }else {
-                    equipMenu.display(false);
+                    equipMenu.display();
                     equipMenu.alert("You don't know what "+optionSelection+" means.", inp);
                 }
                 break;

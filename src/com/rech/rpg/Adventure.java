@@ -8,7 +8,7 @@ import com.rech.rpg.item.Inventory;
 
 public class Adventure{
 	
-	/*
+
 	public static int strike = 0;
 	
 
@@ -444,5 +444,5 @@ public class Adventure{
 	private static void death() {
 		System.out.println("-end of stream-"); //this is just a placeholder for now
 		//TODO what happens when HP = 0;
-	} */
+	}
 }

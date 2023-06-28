@@ -23,6 +23,8 @@ TODO:
 - Spells (attacks + enchantment)
 */
 
+//@TODO Migrate the menu class into gamestate and make its methods protected
+
 public class Main{
 
 	//game safely shutoff variable
@@ -43,7 +45,7 @@ public class Main{
 		enterGameState(new IntroMenu(input));
 		input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
 
-
+		//Gameloop
 		while(running) {
 			gs.update();
 		}
@@ -68,7 +70,8 @@ public class Main{
 	public static void setMap(Map newMap){map = newMap;}
 
 	/**
-	 * Stores a state to be returned to by a gamestate's update loop that returns true. Useful for entering Inventory state, where the typing back could return to combat or mainmenu, it returns to whichever is saved
+	 * Stores a state to be returned to by the returnToPrevState method.
+	 * @EX entering Inventory state, where the typing back could return to combat or mainmenu, it returns to whichever is saved
 	 * @param gs - Gamestate to store
 	 */
 	public static void saveState(GameState gs){

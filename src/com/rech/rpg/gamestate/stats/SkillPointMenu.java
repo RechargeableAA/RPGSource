@@ -38,7 +38,7 @@ public class SkillPointMenu implements GameState {
         skillsMenu.addPrompt("HELP", "show descriptions for each stat.");
         skillsMenu.addPrompt("BACK", "go back to the previous prompt.");
 
-        skillsMenu.display(false);
+        skillsMenu.display();
     }
 
     @Override
@@ -49,10 +49,10 @@ public class SkillPointMenu implements GameState {
             Main.returnToPrevState();
         }else if (isStringAStat(selection)) { //verifies if input was a stat
             verifySkillPoint(Entity.Stats.valueOf(selection), inp);
-            enter();
+            skillsMenu.display();
         }else if(statShorthandConversion.containsKey(selection.toUpperCase())){ // interpret shorthand and pass to verify skill point
             verifySkillPoint(Entity.Stats.valueOf(statShorthandConversion.get(selection.toUpperCase())), inp);
-            enter();
+            skillsMenu.display();
         }else if (selection.equalsIgnoreCase("help")) {//checking input for menu related navigation
             skillsMenu.alert(
                     "STRENGTH = melee damage modifier\r\n"

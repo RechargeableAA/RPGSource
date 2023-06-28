@@ -36,7 +36,7 @@ public class Map {
 			mapMenu.addPrompt("D", "Travel East to " + getLocation(new Point(getPlayerPosition().x +1, getPlayerPosition().y)).getName());
 			mapMenu.addPrompt("BACK");
 		
-			mapMenu.display(false);
+			mapMenu.display();
 			
 			String optionSelection = input.nextLine().toString();
 			
