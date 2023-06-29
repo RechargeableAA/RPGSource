@@ -16,7 +16,6 @@ public class MainMenu implements GameState {
     @Override
     public void enter() {
         mainMenu.clearAll();
-        mainMenu.addPrompt("TRAVEL", "move to another location");
         mainMenu.addPrompt("STATS", "check your statistics");
         mainMenu.addPrompt("BACKPACK", "look at, potions, coins, and equip weapons that you own");
         mainMenu.addPrompt("SPELLS", "look at and equip spellbooks owned");
@@ -36,8 +35,7 @@ public class MainMenu implements GameState {
         if(optionSelection.equalsIgnoreCase("stats")) {Main.enterGameState(new StatsMenu(Main.getPlayer(), inp)); }
         else if (optionSelection.equalsIgnoreCase("backpack") || optionSelection.equalsIgnoreCase("inv")) {Main.enterGameState(new InventoryMainMenu(Main.getPlayer().getInventory(), inp));}
         else if (optionSelection.equalsIgnoreCase("spellbooks") || optionSelection.equalsIgnoreCase("spells")) { Main.enterGameState(new InventoryMainMenu(Main.getPlayer().getInventory(), inp));}
-        else if (optionSelection.equalsIgnoreCase("look")) { Main.enterGameState(Main.getMap().getLocation(Main.getMap().getPlayerPosition()).getGameState(Main.getPlayer(), inp));  }
-        else if (optionSelection.equalsIgnoreCase("travel")) { Main.getMap().mapMenu(inp); }
+        else if (optionSelection.equalsIgnoreCase("look")) { Main.enterGameState(Main.getCurrentLocation().getGameState(Main.getPlayer(), inp));  }
         else if (optionSelection.equalsIgnoreCase("options")) { Main.enterGameState(new OptionsMenu(inp)); }
         else if (optionSelection.equalsIgnoreCase("")) { mainMenu.display(); }
         else {

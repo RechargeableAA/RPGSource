@@ -1,10 +1,12 @@
 package com.rech.rpg.gamestate.location;
 
+import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Player;
 import com.rech.rpg.gamestate.GameState;
+import com.rech.rpg.map.location.Location;
 import com.rech.rpg.map.location.Town;
-import com.rech.rpg.map.shop.Shop;
+import com.rech.rpg.map.location.shop.Shop;
 
 import java.util.Scanner;
 
@@ -30,6 +32,7 @@ public class TownMenu implements GameState{
         for(Shop shop : tn.getShops()) {
             locationMenu.addPrompt(tn.getShops().indexOf(shop)+"", shop.getName());
         }
+        locationMenu.addPrompt("[T]RAVEL");
         locationMenu.addPrompt("BACK");
 
         locationMenu.display();
@@ -47,8 +50,10 @@ public class TownMenu implements GameState{
 
             //Back or anything else
         }catch(NumberFormatException nfe) {
-            if(optionSelection.toUpperCase().equals("BACK")) {
-                return;
+            if(optionSelection.equalsIgnoreCase("T")){
+                Location.travelToNewLocation(pl, inp);
+            }else if(optionSelection.equalsIgnoreCase("BACK")) {
+                Main.returnToPrevState();
             }else {
                 locationMenu.alert("You don't know what " + optionSelection + " means.", inp);
             }

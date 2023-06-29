@@ -3,7 +3,7 @@ package com.rech.rpg.gamestate;
 import com.rech.rpg.Main;
 import com.rech.rpg.entity.Player;
 import com.rech.rpg.item.Weapon;
-import com.rech.rpg.map.Map;
+import com.rech.rpg.map.location.Town;
 
 import java.util.Scanner;
 
@@ -48,9 +48,10 @@ public class IntroMenu implements GameState {
         Main.getPlayer().getInventory().pickup(Weapon.generateNewWeapon(2, 2));
         Main.getPlayer().equip(0); // give player random weapon
 
-        Main.setMap(new Map());
+
+        Main.setCurrentLocation(Town.generate()); // start in a random town
         Main.clearScreen();
-        System.out.println("\n"+Main.getPlayer().getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. This is " + Main.getMap().getLocation(Main.getMap().getPlayerPosition()).getName()
+        System.out.println("\n"+Main.getPlayer().getName()+"? ... Can't say that's the name I would've given you... \nWell,  my name is Gavin. This is " + Main.getCurrentLocation().getName()
                 + ".\nI'll let you rest in my home just down the way.\nIt's not much, but I bet it'll work until you can sort yourself out.\n"
                 + "\nHere, you can have my old "+Main.getPlayer().getEquipped().getName()+".\nYou're gonna need it. Watch yourself out there.");
 

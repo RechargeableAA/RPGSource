@@ -5,24 +5,21 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import com.rech.rpg.Main;
-import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Enemy;
 import com.rech.rpg.entity.Entity;
 import com.rech.rpg.entity.Player;
-import com.rech.rpg.entity.combat.Combat;
 import com.rech.rpg.gamestate.GameState;
-import com.rech.rpg.gamestate.location.TownMenu;
 import com.rech.rpg.gamestate.location.WildernessMenu;
 
 
 /**
  * Wilderness locations are areas usually containing enemies/animals/people/items/puzzles/etc
  */
-public class Wilderness extends Location{
+public class Wilderness extends Location {
 	private EntityComponent entComp;
 	private static final int 
 	maxEnemies = 4,
-	EnemyLevelRange = 2;		;
+	EnemyLevelRange = 2;
 	
 	Wilderness(String name, String description) {
 		super(name, description);
@@ -33,11 +30,11 @@ public class Wilderness extends Location{
 	public GameState getGameState(Player pl, Scanner inp) {
 		return new WildernessMenu(this, pl, inp);
 	}
-	
-	public static Wilderness generateWilderness() {
+
+	public static Location generate() {
 		Wilderness newWild = new Wilderness("Forest", "There's trees.");
 		Random rand = new Random();
-		
+
 		// generate enemies
 		for(int enemies = rand.nextInt(maxEnemies); enemies > 0; enemies--) {
 			Enemy newEnemy = Enemy.Null;
@@ -47,7 +44,7 @@ public class Wilderness extends Location{
 			newWild.entComp.getEntities().add(newEnemy); // randomly pick an enemy from list of enemies
 
 		}
-		
+
 		return newWild;
 	}
 
@@ -94,4 +91,5 @@ public class Wilderness extends Location{
 	public EntityComponent getEntComp() {
 		return entComp;
 	}
+
 }

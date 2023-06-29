@@ -6,7 +6,7 @@ import java.util.Scanner;
 import com.rech.rpg.entity.Player;
 import com.rech.rpg.gamestate.GameState;
 import com.rech.rpg.gamestate.IntroMenu;
-import com.rech.rpg.map.Map;
+import com.rech.rpg.map.location.Location;
 
 /*
 TODO:
@@ -29,13 +29,9 @@ public class Main{
 
 	//game safely shutoff variable
 	private static boolean running = true;
-
 	//Player object instance, used to reference everything about the player, ie inventory, map position
 	private static Player player;
-	
-	//Map object instance, used to reference anything in or about the map, ie map size, locations on the map
-	private static Map map;
-	
+	private static Location currentLocation;
 	private static GameState gs;
 	private static ArrayList<GameState> prevGS = new ArrayList<GameState>(); // store previous game states to return after finishing another game state; linear path mainmenu > inventory > equip > etc
 	
@@ -66,8 +62,13 @@ public class Main{
 
 	public static void setPlayer(Player newPlayer){player = newPlayer;}
 
-	public static Map getMap(){return map;}
-	public static void setMap(Map newMap){map = newMap;}
+	public static Location getCurrentLocation() {
+		return currentLocation;
+	}
+
+	public static void setCurrentLocation(Location currentLocation) {
+		Main.currentLocation = currentLocation;
+	}
 
 	/**
 	 * Stores a state to be returned to by the returnToPrevState method.

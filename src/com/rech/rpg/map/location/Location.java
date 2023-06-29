@@ -1,6 +1,7 @@
 package com.rech.rpg.map.location;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import com.rech.rpg.Main;
@@ -25,6 +26,14 @@ public abstract class Location{
 	}
 
 	public abstract GameState getGameState(Player pl, Scanner inp);
+
+	public static void travelToNewLocation(Player pl, Scanner inp) {
+		Location locations[] = {Town.generate(), Wilderness.generate()};
+		Random rand = new Random();
+
+		Main.enterGameState(locations[rand.nextInt(locations.length)].getGameState(pl, inp));
+	}
+
 
 	public String getName() {
 		return name;

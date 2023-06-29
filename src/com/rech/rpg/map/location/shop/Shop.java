@@ -1,4 +1,4 @@
-package com.rech.rpg.map.shop;
+package com.rech.rpg.map.location.shop;
 
 import java.util.Random;
 import java.util.Scanner;

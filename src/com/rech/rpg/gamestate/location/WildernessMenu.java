@@ -1,11 +1,13 @@
 package com.rech.rpg.gamestate.location;
 
+import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Enemy;
 import com.rech.rpg.entity.Entity;
 import com.rech.rpg.entity.Player;
 import com.rech.rpg.entity.combat.Combat;
 import com.rech.rpg.gamestate.GameState;
+import com.rech.rpg.map.location.Location;
 import com.rech.rpg.map.location.Wilderness;
 
 import java.util.Scanner;
@@ -15,7 +17,7 @@ public class WildernessMenu implements GameState {
     private Player pl;
     private Scanner inp;
 
-    Menu lcMenu = new Menu(wn.getName());
+    Menu lcMenu;
 
     public WildernessMenu(Wilderness wilderness, Player player, Scanner input){
         wn = wilderness;
@@ -25,6 +27,7 @@ public class WildernessMenu implements GameState {
 
     @Override
     public void enter() {
+        lcMenu = new Menu(wn.getName());
         lcMenu.clearPrompts();
         lcMenu.setMenuInfo(wn.getDescription() + ". " + wn.getSurroundings());
 
@@ -34,10 +37,14 @@ public class WildernessMenu implements GameState {
                 lcMenu.addPrompt(""+wn.getEntComp().getEntities().indexOf(ent), ent.getName() + " Lvl. " +ent.getLevel());
             }
         }
-
+        lcMenu.addPrompt("[T]RAVEL");
         lcMenu.addPrompt("BACK");
 
         lcMenu.display();
+    }
+
+    @Override
+    public void update() {
         String optionSelection = inp.nextLine().toUpperCase();
 
         //0-9
@@ -52,16 +59,13 @@ public class WildernessMenu implements GameState {
 
             //Back or anything else
         }catch(NumberFormatException nfe) {
-            if(optionSelection.toUpperCase().equals("BACK")) {
-                return;
+            if(optionSelection.equalsIgnoreCase("T")){
+                Location.travelToNewLocation(pl, inp);
+            }else if(optionSelection.toUpperCase().equals("BACK")) {
+                Main.returnToPrevState();
             }else {
                 lcMenu.alert("You don't know what " + optionSelection + " means.", inp);
             }
         }
-    }
-
-    @Override
-    public void update() {
-
     }
 }
