@@ -5,8 +5,6 @@ import java.util.Scanner;
 
 /**
  * A standardized way to make menus. The primary purpose is to have the "You dont know what..." messages to appear below the options
- * @author Nolan DeMatteis
- *
  */
 public class Menu {
 	/**
@@ -17,12 +15,10 @@ public class Menu {
 	//Information important to menu options, like the location you're in
 	private String menuInfo;
 	private String menuTitle;
-	
-	private static final int defaultMLL = 50;
-	private static int maxLineLength = defaultMLL;
-	
-	private String menuBorder = "|";
-	private String titleDivider = "-";
+
+	private static final int titleIndent = 40;
+	private static final String menuBorder = "|";
+	private static final String titleDivider = "-";
 	/**
 	 * 		|			menuTitle
 	 * 		--------------------------------
@@ -32,7 +28,8 @@ public class Menu {
 	 * 		|[prompt] - prompt description	 
 	 * 		|[prompt] - prompt description
 	 *		|
-	 * 		|message message message message
+	 * 		|message message message message								---- Appear as the method is called
+	 * 		|alert alert alert alert alert [Requires an enter to proceed]	---- Appear as the method is called
 	 * 
 	 * 
 	 */
@@ -50,42 +47,33 @@ public class Menu {
 	
 	/**
 	 * Print the menu name, its options, and any messages in that order
-	 * @param isWrapped - 
 	 */
-	public void display(boolean isWrapped) {
-		Main.clearScreen();
+	public void display() {
+		clearScreen();
 		
 		//Menu title
-		System.out.print(new String(new char[(maxLineLength/2)-(menuTitle.length()/2)-1]).replace("\0", " ")); // center menu title with spaces
+		System.out.print(new String(new char[(titleIndent/2)-(menuTitle.length()/2)-1]).replace("\0", " ")); // center menu title with spaces
 		System.out.println(menuTitle);
 		
 		//Menu info
-		
-		if(menuInfo != null && menuInfo != ""){ 
-			if (isWrapped == true) {
-				for(String wrappedInfo : wordWrappedString(menuInfo, maxLineLength, 0, false)) {
-					System.out.println(wrappedInfo);
-				}
-			}else{
-				System.out.println(menuInfo);
-			}
+		if(menuInfo != null && menuInfo != ""){
+			System.out.println(menuInfo);
 		}
 			
 		//Menu prompts
-		if (isWrapped == true) {
-			for(Prompt prompt : prompts) {
-				System.out.print(prompt.title);
-				for(String wrappedPrompt : wordWrappedString(prompt.description, maxLineLength, prompt.title.length(), false)) {
-					System.out.println(wrappedPrompt);
-				}
-			}
-		}else {
-			for(Prompt prompt : prompts) {
-				System.out.print(prompt.getTitle());
-				System.out.println(prompt.getDescription());
-			}
+		for(Prompt prompt : prompts) {
+			System.out.print(prompt.getTitle());
+			System.out.println(prompt.getDescription());
 		}
+
 		
+	}
+
+	/**
+	 * Clear console with a repeated new line character.
+	 */
+	public final void clearScreen() {
+		System.out.println("\n".repeat(30));
 	}
 	
 	/**
@@ -106,7 +94,7 @@ public class Menu {
 	/**
 	 * Clears menuinfo, prompts, and messages
 	 */
-	public void clearAll() {
+	public void clearAllMenu() {
 		prompts.clear();
 		menuInfo = "";
 	}
@@ -130,68 +118,39 @@ public class Menu {
 	public void clearPrompts() {
 		prompts.clear();
 	}
-	
-	/**
-	 * Messages that appear after menu, displayed instantly
-	 * EX: "You payed 5 gp for that."
-	 * @param message
-	 */
-	public void message(String message, Scanner input) {
-		if(message != null && message != ""){ 
-			for(String wrappedInfo : wordWrappedString(message, maxLineLength, 0, false)) {
-				System.out.println(wrappedInfo);
-			}
-		}
-		input.nextLine();
-		maxLineLength = defaultMLL; //this is so you can set the MLL back to default so you can change it dynamically, and it will revert after the message.
 
-	}
-	
 	/**
-	 * Word wrap the menu by restricting its length to a value. Allows for word wrapping to be indented by a specific amount
-	 * @param rawString - raw unwrapped string, should not contain \n
-	 * @param maxLineLength - The bounds to wrap the text around
-	 * @param firstLineBias - Give the first line a shorter max length to account for any text that might proceed it
-	 * @param biasIndent - Give lines after the first line, the same indent
-	 * @return
+	 * Alerts that appear after menu, displayed directly after prompts. Used to alert the user of a result of an option or lack of options
+	 * @EX: "You have nothing in your inventory. [Press enter]"
+	 *
+	 * Waits for user input which is returned as a string, for use in options or just to allow the user to see the message and press enter
+	 *
+	 * @param message
+	 * @return - user's input after the message is displayed
 	 */
-	private String[] wordWrappedString(String rawString, int maxLineLength, int firstLineBias, boolean biasIndent) {
-		String stringSplit = rawString;
-		ArrayList<String> wrappedStrings = new ArrayList<String>();
-		int lastSpaceIndex = 0;
-		for(int charc = 0; charc < stringSplit.length(); charc++) {
-			if(stringSplit.charAt(charc) == ' ') {
-				lastSpaceIndex = charc;
-			}
-			
-			if(charc >= maxLineLength-firstLineBias) {
-				if(wrappedStrings.size() == 0) {
-					wrappedStrings.add(stringSplit.substring(0, lastSpaceIndex));
-				}else {
-					String indent = new String(new char[firstLineBias]).replace("\0", " ");
-					wrappedStrings.add(indent + stringSplit.substring(0, lastSpaceIndex));
-				}
-				stringSplit = stringSplit.substring(lastSpaceIndex+1);
-				charc = 0;
-				if(!biasIndent) {
-					firstLineBias = 0;
-				}
-			}
+	public String alert(String message, Scanner input) {
+		if(message != null && message != ""){
+			clearScreen();
+			System.out.println(message);
 		}
-		//add remainder of text
-		if(wrappedStrings.size() > 0) {
-			String indent = new String(new char[firstLineBias]).replace("\0", " ");
-			wrappedStrings.add(indent + stringSplit);
-		}else {
-			wrappedStrings.add(stringSplit);
-		}
-		
-		return wrappedStrings.toArray(new String[wrappedStrings.size()]);
+		return input.nextLine();
 	}
-	
-	
-	
-	
+
+	/**
+	 * Messages that appear after menu, displayed directly after prompts. Used to give additional info/context
+	 * @EX: "You have 50 skill points"
+	 *
+	 * Does NOT wait for user input
+	 *
+	 * @param message
+	 * @return - user's input after the message is displayed
+	 */
+	public void message(String message) {
+		if(message != null && message != ""){
+			System.out.println(message);
+		}
+	}
+
 	/**
 	 * Options contained in the menu.
 	 * Consists of a title for the option and its description

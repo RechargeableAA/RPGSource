@@ -59,21 +59,25 @@ public class Weapon extends Item{
 	 *  quality - 0 to 100 quality will randomly return a weapon based on the number. higher the better.
 	 */
 	public static Weapon generateChanceWeapon(int dropChance, int quality) {
-	//	try {
+		try {
 			Random rand = new Random();
-			if (rand.nextInt(99)+1 < dropChance) { //WARNING COMPLEX MATHS HERE :: math finds what 0-100 corresponds to in the materials/type array (without using java-arrays)
-				System.out.println(rand.nextInt(99)+1);
-				System.out.println((int) Math.ceil((rand.nextInt(100)+1)/(100/Material.allMaterials.size())));
-				Type weaponType = Type.allWeaponTypes.get((int) Math.ceil((rand.nextInt(100)+1)/(100/Material.allMaterials.size())));
-				Material weaponMat = Material.allMaterials.get((int) Math.ceil((rand.nextInt(100)+1)/(100/Type.allWeaponTypes.size())));
+			if (rand.nextInt(99) + 1 < dropChance) { //WARNING COMPLEX MATHS HERE :: math finds what 0-100 corresponds to in the materials/type array (without using java-arrays)
+				System.out.println(rand.nextInt(99) + 1);
+				System.out.println((int) Math.ceil((rand.nextInt(100) + 1) / (100 / Material.allMaterials.size())));
+				Type weaponType = Type.allWeaponTypes.get((int) Math.ceil((rand.nextInt(100) + 1) / (100 / Material.allMaterials.size())));
+				Material weaponMat = Material.allMaterials.get((int) Math.ceil((rand.nextInt(100) + 1) / (100 / Type.allWeaponTypes.size())));
 				String weaponNam = weaponMat.getName() + " " + weaponType.getName();
 				int damage = weaponMat.damageModifier + weaponType.damageModifier;
 				int cost = weaponMat.costModifier + weaponType.costModifier;
 				return new Weapon(weaponNam, cost, weaponMat, weaponType, damage);
-					
-			}else {
+
+			} else {
 				return null; //needs to return nothing. may have to use this method in a try catch to properly call it.
 			}
+		}catch (IndexOutOfBoundsException iob){ // bandaid to fix iob exception, IDK how to fix the math and im too lazy
+			generateChanceWeapon(dropChance, quality);
+			return null;
+		}
 
 	}
 	
@@ -92,8 +96,6 @@ public class Weapon extends Item{
 	/**
 	 * Materials - This is another class within this class. This is because since materials and types will only be used with weapons, and they're so simple
 	 * there's no real need to make another class
-	 * @author Nolan DeMatteis
-	 *
 	 */
 	private static class Material{
 		String name;

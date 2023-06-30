@@ -1,9 +1,7 @@
 package com.rech.rpg.map.event;
 
-import java.util.Scanner;
-
+import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
-import com.rech.rpg.entity.Player;
 
 public class LoseItemEvent extends Event{
 
@@ -12,13 +10,13 @@ public class LoseItemEvent extends Event{
 	}
 
 	@Override
-	public void runEvent(Scanner input, Player player) {
+	public void runEvent(Main RPGS) {
 		Menu eventMenu = new Menu("EVENT");
 		
 		eventMenu.setMenuInfo(description);
-		eventMenu.display(true);	
-		
-		input.nextLine();		
+		eventMenu.display();
+
+		RPGS.getInput().nextLine();
 	}
 
 	

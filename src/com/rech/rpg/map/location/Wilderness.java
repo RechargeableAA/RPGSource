@@ -4,40 +4,52 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import com.rech.rpg.Menu;
+import com.rech.rpg.Main;
 import com.rech.rpg.entity.Enemy;
 import com.rech.rpg.entity.Entity;
 import com.rech.rpg.entity.Player;
-import com.rech.rpg.entity.combat.Combat;
-import com.rech.rpg.map.shop.Shop;
+import com.rech.rpg.gamestate.GameState;
+import com.rech.rpg.gamestate.location.WildernessMenu;
 
 
 /**
  * Wilderness locations are areas usually containing enemies/animals/people/items/puzzles/etc
- * @author Nolan DeMatteis
- *
  */
-public class Wilderness extends Location{
-	protected EntityComponent entComp;
-	private static final int maxEnemies = 4;
+public class Wilderness extends Location {
+	private EntityComponent entComp;
+	private static final int 
+	maxEnemies = 4,
+	EnemyLevelRange = 2;
 	
 	Wilderness(String name, String description) {
 		super(name, description);
 		entComp = new EntityComponent();
 	}
-	
-	public static Wilderness generateWilderness() {
+
+	@Override
+	public GameState getGameState() {return new WildernessMenu();}
+
+	public static Location generate(Main RPGS) {
 		Wilderness newWild = new Wilderness("Forest", "There's trees.");
 		Random rand = new Random();
-		
+
 		// generate enemies
 		for(int enemies = rand.nextInt(maxEnemies); enemies > 0; enemies--) {
-			newWild.entComp.getEntities().add(Enemy.getEnemiesList().get(rand.nextInt(Enemy.getEnemiesList().size()))); // randomly pick an enemy from list of enemies
+			Enemy newEnemy = Enemy.Null;
+			while(newEnemy == Enemy.Null || (RPGS.getPlayer().getLevel() - newEnemy.getLevel()) < -EnemyLevelRange || (RPGS.getPlayer().getLevel() - newEnemy.getLevel()) > EnemyLevelRange) { // keep generating until u find one within level range
+				newEnemy = Enemy.getEnemiesList().get(rand.nextInt(Enemy.getEnemiesList().size()));
+			}
+			newWild.entComp.getEntities().add(newEnemy); // randomly pick an enemy from list of enemies
+
 		}
-		
+
 		return newWild;
 	}
 
+	/**
+	 * Lists enemies and surroundings like someone speaking
+	 * @return
+	 */
 	@Override
 	public String getSurroundings() {
 		String surroundings;
@@ -54,7 +66,7 @@ public class Wilderness extends Location{
 				//check for vowel
 				Pattern vowels = Pattern.compile("[aeiou]", Pattern.CASE_INSENSITIVE);
 				boolean startsWithVowel = false;
-				if(vowels.matcher(ent.getName().subSequence(0, 1)).matches()) { startsWithVowel = true; }//literally check for a vowel. inglish is stupid
+				if(vowels.matcher(ent.getName().subSequence(0, 1)).matches()) { startsWithVowel = true; }//check for a vowel
 				
 				//an or a
 				if(startsWithVowel) {
@@ -73,46 +85,9 @@ public class Wilderness extends Location{
 		
 		return surroundings;
 	}
-	
-	@Override
-	public void locationMenu(Player player, Scanner input) {
-		Menu lcMenu = new Menu(this.getName());
-		
-		while(true) {
-			lcMenu.clearPrompts();
-			lcMenu.setMenuInfo(getDescription() + ". " + getSurroundings());
-			
-			// add enemy ooptions
-			for(Entity ent : entComp.getEntities()) {
-				if(ent instanceof Enemy) {  // every enemy for loop
-					lcMenu.addPrompt(""+entComp.getEntities().indexOf(ent), ent.getName());
-				}
-			}
-			
-			lcMenu.addPrompt("BACK");
-			
-			lcMenu.display(true);
-			String optionSelection = input.nextLine().toUpperCase();
-			
-			//0-9
-			try {
-				if(Integer.valueOf(optionSelection) < entComp.getEntities().size()) { // this is gonna cause an error or let u fight normal npcs but imma just let it happen
-					if(new Combat().enterCombat(player, (Enemy) entComp.getEntities().get(Integer.valueOf(optionSelection)), input)) { // player wins combat
-						entComp.getEntities().remove((int)(Integer.valueOf(optionSelection)));
-					}else { // player runs or dies
-						
-					}
-				}
-				
-			//Back or anything else
-			}catch(NumberFormatException nfe) {
-				if(optionSelection.toUpperCase().equals("BACK")) {
-					return;
-				}else {
-					lcMenu.message("You don't know what " + optionSelection + " means.", input);
-				}
-			}
-		}
+
+	public EntityComponent getEntComp() {
+		return entComp;
 	}
 
 }

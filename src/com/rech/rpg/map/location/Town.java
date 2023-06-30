@@ -5,16 +5,16 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.rech.rpg.Menu;
+import com.rech.rpg.Main;
 import com.rech.rpg.entity.Player;
-import com.rech.rpg.map.shop.Shop;
+import com.rech.rpg.gamestate.GameState;
+import com.rech.rpg.gamestate.location.TownMenu;
+import com.rech.rpg.map.location.shop.Shop;
 
 /**
  * Towns are civilized locations stored on the map. They contain shops, and quests in the future. Enemy interactions are non-existent (or very rare maybe?)
- * @author Nolan DeMatteis
- *
  */
-public class Town extends Location{
+public class Town extends Location {
 	
 	String townName;
 	ArrayList<Shop> shops;
@@ -23,18 +23,23 @@ public class Town extends Location{
 		super(name, description);
 		shops = new ArrayList<Shop>(); // max of 4 shops for the 4 directions
 	}
-	
+
+	@Override
+	public GameState getGameState() {
+		return new TownMenu();
+	}
+
+
 	/**
 	 * TOWN GENERATION - NOT COMPLETED
 	 */
-	
-	public static Town generateTown() {
+	public static Location generate() {
 		String name = generateTownName(0, 0);
 		Town generatedTown = new Town(
 				name, //name
 				"You are currently in the town of "+name // description
 		);
-		
+
 		Random rand = new Random();
 		int shopAmount = rand.nextInt(Shop.shopType.values().length);
 		ArrayList<Shop.shopType> currentTypesInLocation = new ArrayList<Shop.shopType>(); // kind of a dirty way to make sure there are no dupe shops types within location
@@ -43,45 +48,13 @@ public class Town extends Location{
 			while(currentTypesInLocation.contains(currentType)) { // check if that type is already generated
 				currentType = Shop.shopType.values()[rand.nextInt(Shop.shopType.values().length)]; // Pick a random type until we find one that is new; this is bad because it could take a while depending on how many types we have; also if there is an error somehow this could run indefinitely
 			}
-			
+
 			generatedTown.shops.add(Shop.generateShop(currentType));
 			currentTypesInLocation.add(currentType); // add to list of already generated types
 		}
-		
+
 		generatedTown.generateSurroundingsText();
 		return generatedTown;
-	}
-	
-	@Override
-	public void locationMenu(Player player, Scanner input) {
-		Menu locationMenu = new Menu(getName().toUpperCase());
-		
-		while(true) {
-			locationMenu.clearPrompts();
-			locationMenu.setMenuInfo(getDescription() + ". " + getSurroundings());
-			for(Shop shop : shops) {
-				locationMenu.addPrompt(shops.indexOf(shop)+"", shop.getName());
-			}
-			locationMenu.addPrompt("BACK");
-			
-			locationMenu.display(true);
-			String optionSelection = input.nextLine().toUpperCase();
-			
-			//0-9
-			try {
-				if(Integer.valueOf(optionSelection) < shops.size()) {
-					shops.get(Integer.valueOf(optionSelection)).interact(input, player);
-				}
-				
-			//Back or anything else
-			}catch(NumberFormatException nfe) {
-				if(optionSelection.toUpperCase().equals("BACK")) {
-					return;
-				}else {
-					locationMenu.message("You don't know what " + optionSelection + " means.", input);
-				}
-			}
-		}
 	}
 	
 	private String generateSurroundingsText() {
@@ -95,7 +68,7 @@ public class Town extends Location{
 		return surroundings;
 	}
 	
-	//Probably should remove the 0,0 case and just give random parameters instead. The 0,0 random case requires knowing how the method works, instead of just trusting it
+	//Probably should move the 0,0 case to another method and just give random parameters instead. The 0,0 random case requires knowing how the method works
 	private static String generateTownName(int firstName, int lastName) {
 		String[] stringA = new String[] {"Gray", "Green", "Kil", "Bleak", "Dusk", "Storm", "Summer", "Never", "Dire", "North", "East", "South", "West"}; //13 total
 		String[] stringB = new String[] {"drift", "ville", "rock", "stone", "host", "wood", "valley", "felt", "shore", "beach", "port", "watch"}; //12 total
@@ -117,7 +90,10 @@ public class Town extends Location{
 			IOB.printStackTrace();
 			return null;
 		}
-		
+	}
+
+	public ArrayList<Shop> getShops() {
+		return shops;
 	}
 
 }

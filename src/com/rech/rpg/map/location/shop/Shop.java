@@ -1,11 +1,10 @@
-package com.rech.rpg.map.shop;
+package com.rech.rpg.map.location.shop;
 
 import java.util.Random;
-import java.util.Scanner;
 
 import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
-import com.rech.rpg.entity.Player;
+import com.rech.rpg.gamestate.inventory.InventoryDropMenu;
 import com.rech.rpg.item.Item;
 import com.rech.rpg.item.Weapon;
 
@@ -17,8 +16,6 @@ public class Shop {
 	
 	/**
 	 * Pool of shop types to be used during town generation
-	 * @author Nolan
-	 *
 	 */
 	public static enum shopType {
 		WEAPON,
@@ -48,11 +45,11 @@ public class Shop {
 		}
 	}
 	
-	public void interact(Scanner input, Player player) {
+	public void interact(Main RPGS) {
 		Menu shop = new Menu(name);
 		while(true) {
 			shop.clearPrompts();
-			shop.setMenuInfo("Hello " + player.getName() + "... " + shopKeepDialogue +
+			shop.setMenuInfo("Hello " + RPGS.getPlayer().getName() + "... " + shopKeepDialogue +
 								"\n------------Potions-------------"); // quest?
 			
 			for(int item = 0; item < this.items.length; item++) {
@@ -60,9 +57,9 @@ public class Shop {
 			}
 							
 			shop.addPrompt("back");
-			shop.display(true);
+			shop.display();
 			
-			String in = input.nextLine(); //has to be taken as a string to catch the 'back' command. is parsed as an int after.
+			String in = RPGS.getInput().nextLine(); //has to be taken as a string to catch the 'back' command. is parsed as an int after.
 			
 			switch(in.toUpperCase()) {
 			case "BACK":
@@ -73,31 +70,31 @@ public class Shop {
 					
 					if(selection < this.items.length && selection != -1) {
 					
-						if (player.getInventory().getCoins() >= this.items[selection].getCost()) {
+						if (RPGS.getPlayer().getInventory().getCoins() >= this.items[selection].getCost()) {
 							shop.clearPrompts();
 							shop.setMenuInfo("Ah, a " + this.items[selection].getName() + " that'll be " + this.items[selection].getCost() + " coins.\n" + 
-												"You have "+player.getInventory().getCoins()+" coins right now.");
+												"You have "+RPGS.getPlayer().getInventory().getCoins()+" coins right now.");
 							shop.addPrompt("y/n", "Pay the shopkeep " + this.items[selection].getCost() + " coins?");
-							shop.display(true);
+							shop.display();
 							
-							if(input.nextLine().equalsIgnoreCase("y")) {
+							if(RPGS.getInput().nextLine().equalsIgnoreCase("y")) {
 								while(true)	{
-									if (!player.getInventory().isFull()) { 
-										player.getInventory().pickup(this.items[selection]);
-										player.getInventory().loseCoins(this.items[selection].getCost());
-										shop.message("You give the shopkeep "+this.items[selection].getCost()+" coins and receive the " + this.items[selection].getName() + ".", input);
+									if (!RPGS.getPlayer().getInventory().isFull()) {
+										RPGS.getPlayer().getInventory().pickup(this.items[selection]);
+										RPGS.getPlayer().getInventory().loseCoins(this.items[selection].getCost());
+										shop.alert("You give the shopkeep "+this.items[selection].getCost()+" coins and receive the " + this.items[selection].getName() + ".", RPGS.getInput());
 										break;
 									}else {
 										shop.clearPrompts();
-										shop.message("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]", input);
-										in = input.nextLine();
+										shop.alert("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]", RPGS.getInput());
+										in = RPGS.getInput().nextLine();
 										
 										if (in.equalsIgnoreCase("y")){
-											player.getInventory().dropItemMenu(player, input);
+											RPGS.enterGameState(new InventoryDropMenu());
 										}else if (in.equalsIgnoreCase("n") || in.equalsIgnoreCase("back")){
 											break;
 										}else {
-											shop.message("I'm not sure what you mean by " + in.toUpperCase() + ".", input);
+											shop.alert("I'm not sure what you mean by " + in.toUpperCase() + ".", RPGS.getInput());
 										}
 									}
 								}	
@@ -105,14 +102,14 @@ public class Shop {
 								
 							}
 						}else { // player does not have enough money
-							shop.message("You can't afford that!", input);
+							shop.alert("You can't afford that!", RPGS.getInput());
 						}
 					
 					}else { // selection was not within the shop's item array
-						shop.message("I'm afraid that this is all I have to offer you right now.", input);
+						shop.alert("I'm afraid that this is all I have to offer you right now.", RPGS.getInput());
 					}
 				}else { // selection was not an item
-					shop.message("I'm sorry, I didnt catch that.", input);
+					shop.alert("I'm sorry, I didnt catch that.", RPGS.getInput());
 				}
 				break;
 			}
