@@ -1,9 +1,7 @@
 package com.rech.rpg.map.event;
 
-import java.util.Scanner;
-
+import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
-import com.rech.rpg.entity.Player;
 import com.rech.rpg.item.Item;
 
 public class AmbushEvent extends Event{
@@ -28,7 +26,7 @@ public class AmbushEvent extends Event{
 	}
 
 	@Override
-	public void runEvent(Scanner input, Player player) {
+	public void runEvent(Main RPGS) {
 		Menu eventMenu = new Menu("EVENT");
 		
 		eventMenu.setMenuInfo(description);
@@ -38,12 +36,12 @@ public class AmbushEvent extends Event{
 		while(true) {
 			eventMenu.display();
 			
-			String optionSelection = input.nextLine();
+			String optionSelection = RPGS.getInput().nextLine();
 			switch(optionSelection.toUpperCase()) {
 			case "RUN":
 				return;
 			case "DIE":
-				player.heal(-player.getHealth());
+				RPGS.getPlayer().heal(-RPGS.getPlayer().getHealth());
 				return;
 				
 			}

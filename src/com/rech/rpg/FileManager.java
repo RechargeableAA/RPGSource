@@ -17,10 +17,10 @@ public class FileManager{
 		
 		ArrayList<SaveObject> saveObjects = new ArrayList<SaveObject>();
 		
-		public SaveFile(Player player) {
+		public SaveFile(Main RPGS) {
 			//player save object
 			saveObjects.add(new SaveObject(new HashMap<String, Object>()) {{Map.ofEntries(
-					entry("PlayerName", Main.getPlayer().getName())
+					entry("PlayerName", RPGS.getPlayer().getName())
 					
 			);}});
 		}

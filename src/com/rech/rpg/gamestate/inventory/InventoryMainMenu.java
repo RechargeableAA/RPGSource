@@ -9,38 +9,29 @@ import java.util.Scanner;
 
 public class InventoryMainMenu implements GameState {
 
-    //The temporary inventory that's used to store the inventory of the player/entity while its being modified in this instance
-    protected Inventory inv;
-    protected Scanner inp;
     Menu invMenu = new Menu("INVENTORY");
 
-    public InventoryMainMenu(Inventory inventory, Scanner input){
-        inv = new Inventory();
-        inv = inventory;
-        inp = input;
-    }
-
     @Override
-    public void enter() {
-        inv.sortInventory();
+    public void enter(Main RPGS) {
+        RPGS.getPlayer().getInventory().sortInventory();
         invMenu.clearPrompts();
         //print occupied inventory slots
         int occupiedSlots = 0;
-        for (int inventorySlot = 0; inventorySlot < inv.getSize(); inventorySlot++) {
-            if (inv.getSlot(inventorySlot) != null) {
-                invMenu.addPrompt("" + inventorySlot, "" + inv.getSlot(inventorySlot).getName());
+        for (int inventorySlot = 0; inventorySlot < RPGS.getPlayer().getInventory().getSize(); inventorySlot++) {
+            if (RPGS.getPlayer().getInventory().getSlot(inventorySlot) != null) {
+                invMenu.addPrompt("" + inventorySlot, "" + RPGS.getPlayer().getInventory().getSlot(inventorySlot).getName());
                 System.out.println();
                 occupiedSlots++;
             }
         }
 
         if (occupiedSlots > 0) {
-            invMenu.setMenuInfo("Your " + Main.getPlayer().getEquipped().getName() + " is equipped.\n" +
+            invMenu.setMenuInfo("Your " + RPGS.getPlayer().getEquipped().getName() + " is equipped.\n" +
                     occupiedSlots + "/10 backpack slots are being used.\n" +
-                    "Coins: " + String.format("%,d", inv.getCoins()) + "gp\n");
+                    "Coins: " + String.format("%,d", RPGS.getPlayer().getInventory().getCoins()) + "gp\n");
         } else {
-            invMenu.setMenuInfo("Your " + Main.getPlayer().getEquipped().getName() + " is equipped.\nNone of your backpack slots are being used.\n" +
-                    "Coins: " + String.format("%,d", inv.getCoins()) + "gp\n");
+            invMenu.setMenuInfo("Your " + RPGS.getPlayer().getEquipped().getName() + " is equipped.\nNone of your backpack slots are being used.\n" +
+                    "Coins: " + String.format("%,d", RPGS.getPlayer().getInventory().getCoins()) + "gp\n");
         }
         invMenu.addPrompt("EQUIP");
         invMenu.addPrompt("DROP");
@@ -49,23 +40,23 @@ public class InventoryMainMenu implements GameState {
     }
 
     @Override
-    public void update() {
-        String optionSelection = inp.nextLine().toString();
+    public void update(Main RPGS) {
+        String optionSelection = RPGS.getInput().nextLine().toString();
         switch(optionSelection.toUpperCase()) {
             case "EQUIP":
-                Main.saveState(this);
-                Main.enterGameState(new InventoryEquipMenu(inv, inp));
+                RPGS.saveState(this);
+                RPGS.enterGameState(new InventoryEquipMenu());
                 break;
             case "DROP":
-                Main.saveState(this);
-                Main.enterGameState(new InventoryDropMenu(inv, inp));
+                RPGS.saveState(this);
+                RPGS.enterGameState(new InventoryDropMenu());
                 break;
             case "BACK":
-                Main.returnToPrevState();
+                RPGS.returnToPrevState();
                 break;
             default:
-                invMenu.alert("You don't know  what "+optionSelection+" means.", inp);
                 invMenu.display();
+                invMenu.message("You don't know  what "+optionSelection+" means.");
         }
     }
 }

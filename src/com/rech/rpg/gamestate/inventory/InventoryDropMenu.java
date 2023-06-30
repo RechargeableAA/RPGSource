@@ -2,32 +2,30 @@ package com.rech.rpg.gamestate.inventory;
 
 import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
+import com.rech.rpg.gamestate.GameState;
 import com.rech.rpg.item.Inventory;
 
 import java.util.Scanner;
 
-public class InventoryDropMenu extends InventoryMainMenu {
+public class InventoryDropMenu implements GameState {
     Menu dropMenu = new Menu("DROP");
 
-    public InventoryDropMenu(Inventory inventory, Scanner input){
-        super(inventory, input);
-    }
     @Override
-    public void enter() { // display menu
-        inv.sortInventory();
+    public void enter(Main RPGS) { // display menu
+        RPGS.getPlayer().getInventory().sortInventory();
         dropMenu.clearPrompts();
 
         //show inventory again
-        dropMenu.setMenuInfo("Your " + Main.getPlayer().getEquipped().getName() + " is equipped.");
-        for (int inventorySlot = 0; inventorySlot < inv.getSize(); inventorySlot++) {
-            if (inv.getSlot(inventorySlot) != null) {
-                dropMenu.addPrompt("" + inventorySlot, "" + inv.getSlot(inventorySlot).getName());
+        dropMenu.setMenuInfo("Your " + RPGS.getPlayer().getEquipped().getName() + " is equipped.");
+        for (int inventorySlot = 0; inventorySlot < RPGS.getPlayer().getInventory().getSize(); inventorySlot++) {
+            if (RPGS.getPlayer().getInventory().getSlot(inventorySlot) != null) {
+                dropMenu.addPrompt("" + inventorySlot, "" + RPGS.getPlayer().getInventory().getSlot(inventorySlot).getName());
             }
         }
 
-        if (inv.isEmpty()) { // if this(inventory) is empty
-            dropMenu.alert("You have nothing in your backpack.", inp);
-            Main.returnToPrevState();
+        if (RPGS.getPlayer().getInventory().isEmpty()) { // if this(inventory) is empty
+            dropMenu.alert("You have nothing in your backpack.", RPGS.getInput());
+            RPGS.returnToPrevState();
             return;
         } else {
             dropMenu.addPrompt("0-9", "Which slot do you want to drop?");
@@ -38,32 +36,33 @@ public class InventoryDropMenu extends InventoryMainMenu {
     }
 
     @Override
-    public void update() { // handle user input for menu
-        String optionSelection = inp.nextLine();
+    public void update(Main RPGS) { // handle user input for menu
+        String optionSelection = RPGS.getInput().nextLine();
         switch(optionSelection.toUpperCase()) {
             case "BACK":
-                Main.returnToPrevState();
+                RPGS.returnToPrevState();
                 break;
             default:
                 if(optionSelection.matches("[0-9]+")) { // check if string input is an integer
                     int slot = Integer.parseInt(optionSelection);
-                    if(inv.getItems()[slot] != null) {
+                    if(RPGS.getPlayer().getInventory().getItems()[slot] != null) {
                         dropMenu.clearPrompts();
-                        dropMenu.addPrompt("y/n", "Are you sure you want to drop " + inv.getSlot(slot).getName() + "?");
+                        dropMenu.addPrompt("y/n", "Are you sure you want to drop " + RPGS.getPlayer().getInventory().getSlot(slot).getName() + "?");
                         dropMenu.display();
-                        if(inp.nextLine().equalsIgnoreCase("y")) {
+                        if(RPGS.getInput().nextLine().equalsIgnoreCase("y")) {
                             dropMenu.clearPrompts();
-                            dropMenu.alert("You drop your " + inv.getSlot(slot).getName() + ".", inp);
+                            dropMenu.alert("You drop your " + RPGS.getPlayer().getInventory().getSlot(slot).getName() + ".", RPGS.getInput());
                             dropMenu.display();
-                            inp.nextLine();
-                            inv.drop(slot);
-                            Main.returnToPrevState();
+                            RPGS.getInput().nextLine();
+                            RPGS.getPlayer().getInventory().drop(slot);
+                            RPGS.returnToPrevState();
                         }
                     }else {
-                        dropMenu.alert("There isn't an item in that slot.", inp);
+                        dropMenu.alert("There isn't an item in that slot.", RPGS.getInput());
                     }
                 }else {
-                    dropMenu.alert("You don't know what "+optionSelection+" means.", inp);
+                    dropMenu.display();
+                    dropMenu.message("You don't know what "+optionSelection+" means.");
                 }
         }
     }

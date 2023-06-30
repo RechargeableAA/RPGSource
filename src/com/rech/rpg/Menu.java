@@ -15,12 +15,10 @@ public class Menu {
 	//Information important to menu options, like the location you're in
 	private String menuInfo;
 	private String menuTitle;
-	
-	private static final int defaultMLL = 50;
-	private static int maxLineLength = defaultMLL;
-	
-	private String menuBorder = "|";
-	private String titleDivider = "-";
+
+	private static final int titleIndent = 40;
+	private static final String menuBorder = "|";
+	private static final String titleDivider = "-";
 	/**
 	 * 		|			menuTitle
 	 * 		--------------------------------
@@ -51,10 +49,10 @@ public class Menu {
 	 * Print the menu name, its options, and any messages in that order
 	 */
 	public void display() {
-		Main.clearScreen();
+		clearScreen();
 		
 		//Menu title
-		System.out.print(new String(new char[(maxLineLength/2)-(menuTitle.length()/2)-1]).replace("\0", " ")); // center menu title with spaces
+		System.out.print(new String(new char[(titleIndent/2)-(menuTitle.length()/2)-1]).replace("\0", " ")); // center menu title with spaces
 		System.out.println(menuTitle);
 		
 		//Menu info
@@ -69,6 +67,13 @@ public class Menu {
 		}
 
 		
+	}
+
+	/**
+	 * Clear console with a repeated new line character.
+	 */
+	public final void clearScreen() {
+		System.out.println("\n".repeat(30));
 	}
 	
 	/**
@@ -89,7 +94,7 @@ public class Menu {
 	/**
 	 * Clears menuinfo, prompts, and messages
 	 */
-	public void clearAll() {
+	public void clearAllMenu() {
 		prompts.clear();
 		menuInfo = "";
 	}
@@ -125,9 +130,9 @@ public class Menu {
 	 */
 	public String alert(String message, Scanner input) {
 		if(message != null && message != ""){
+			clearScreen();
 			System.out.println(message);
 		}
-		maxLineLength = defaultMLL; //this is so you can set the MLL back to default so you can change it dynamically, and it will revert after the message.
 		return input.nextLine();
 	}
 
@@ -144,7 +149,6 @@ public class Menu {
 		if(message != null && message != ""){
 			System.out.println(message);
 		}
-		maxLineLength = defaultMLL; //this is so you can set the MLL back to default so you can change it dynamically, and it will revert after the message.
 	}
 
 	/**

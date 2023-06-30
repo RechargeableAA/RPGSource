@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+import com.rech.rpg.Main;
 import com.rech.rpg.entity.Player;
 import com.rech.rpg.item.Item;
 import com.rech.rpg.map.event.StatusEffectEvent.statusEffect;
@@ -27,7 +28,7 @@ public abstract class Event{
 		eventList.add(this);
 	}
 
-	public abstract void runEvent(Scanner input, Player player);
+	public abstract void runEvent(Main RPGS);
 	
 	public static ArrayList<Event> getEvents() {
 		return eventList;
@@ -35,13 +36,11 @@ public abstract class Event{
 	
 	/**
 	 * Randomly tests for an event, rarity is eventprobabilty/100
-	 * @param input
-	 * @param player
 	 */
-	public static void procEvent(Scanner input, Player player) {
+	public static void procEvent(Main RPGS) {
 		Random random = new Random();
 		if(random.nextInt(100) <= eventProbability) {
-			Event.getEvents().get(random.nextInt(Event.getEvents().size())).runEvent(input, player);
+			Event.getEvents().get(random.nextInt(Event.getEvents().size())).runEvent(RPGS);
 		}
 	}
 	

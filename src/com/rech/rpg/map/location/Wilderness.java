@@ -27,18 +27,16 @@ public class Wilderness extends Location {
 	}
 
 	@Override
-	public GameState getGameState(Player pl, Scanner inp) {
-		return new WildernessMenu(this, pl, inp);
-	}
+	public GameState getGameState() {return new WildernessMenu();}
 
-	public static Location generate() {
+	public static Location generate(Main RPGS) {
 		Wilderness newWild = new Wilderness("Forest", "There's trees.");
 		Random rand = new Random();
 
 		// generate enemies
 		for(int enemies = rand.nextInt(maxEnemies); enemies > 0; enemies--) {
 			Enemy newEnemy = Enemy.Null;
-			while(newEnemy == Enemy.Null || (Main.getPlayer().getLevel() - newEnemy.getLevel()) < -EnemyLevelRange || (Main.getPlayer().getLevel() - newEnemy.getLevel()) > EnemyLevelRange) { // keep generating until u find one within level range
+			while(newEnemy == Enemy.Null || (RPGS.getPlayer().getLevel() - newEnemy.getLevel()) < -EnemyLevelRange || (RPGS.getPlayer().getLevel() - newEnemy.getLevel()) > EnemyLevelRange) { // keep generating until u find one within level range
 				newEnemy = Enemy.getEnemiesList().get(rand.nextInt(Enemy.getEnemiesList().size()));
 			}
 			newWild.entComp.getEntities().add(newEnemy); // randomly pick an enemy from list of enemies

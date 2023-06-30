@@ -5,13 +5,8 @@ import com.rech.rpg.Main;
 import java.util.Scanner;
 
 public class OptionsMenu implements GameState {
-    Scanner inp;
-    public OptionsMenu(Scanner input) {
-        inp = input;
-    }
-
     @Override
-    public void enter() {
+    public void enter(Main RPGS) {
         System.out.println("\n\nOPTIONS\n");
         System.out.println("[SAVE] Game");
         System.out.println("[LOAD] Game");
@@ -19,17 +14,17 @@ public class OptionsMenu implements GameState {
     }
 
     @Override
-    public void update() {
-        String in = inp.nextLine().toString();
+    public void update(Main RPGS) {
+        String in = RPGS.getInput().nextLine();
 
         if (in.equals("back")) {
-            Main.returnToPrevState();
+            RPGS.returnToPrevState();
         }else if (in.equals("save")) {
             //FileManager.saveGame(player);
-            Main.returnToPrevState();
+            RPGS.returnToPrevState();
         }else if (in.equals("load")) {
             //FileManager.loadGame();
-            Main.returnToPrevState();
+            RPGS.returnToPrevState();
         }else {
             System.out.println("Choose an option listed above\n");
         }

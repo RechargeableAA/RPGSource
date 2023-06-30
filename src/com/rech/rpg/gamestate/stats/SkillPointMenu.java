@@ -3,23 +3,17 @@ package com.rech.rpg.gamestate.stats;
 import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Entity;
-import com.rech.rpg.entity.Player;
 import com.rech.rpg.gamestate.GameState;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class SkillPointMenu implements GameState {
-    Player pl;
-    Scanner inp;
     Menu skillsMenu = new Menu("SKILLS MENU");
     private static HashMap<String, String> statShorthandConversion = new HashMap<String, String>();
 
 
-    public SkillPointMenu(Player player, Scanner input){
-        pl = player;
-        inp = input;
-
+    public SkillPointMenu(){
         //Shorthand population
         statShorthandConversion.put("STR", "STRENGTH");
         statShorthandConversion.put("DEF", "DEFENSE");
@@ -29,10 +23,10 @@ public class SkillPointMenu implements GameState {
         statShorthandConversion.put("RST", "RESISTANCE");
     }
     @Override
-    public void enter() {
-        skillsMenu.clearAll();
+    public void enter(Main RPGS) {
+        skillsMenu.clearAllMenu();
 
-        skillsMenu.setMenuInfo("You have "+pl.getPoints()+" skill point(s) to spend. Enter the name of the skill you want to add points to. \n"
+        skillsMenu.setMenuInfo("You have "+RPGS.getPlayer().getPoints()+" skill point(s) to spend. Enter the name of the skill you want to add points to. \n"
                              + "Once added, they cannot be reset without a fee. \n"
                              + "[STR][DEF][DGE][LCK][MGC][RST]");
         skillsMenu.addPrompt("HELP", "show descriptions for each stat.");
@@ -42,16 +36,16 @@ public class SkillPointMenu implements GameState {
     }
 
     @Override
-    public void update() {
-        String selection = inp.next().toString();
+    public void update(Main RPGS) {
+        String selection = RPGS.getInput().next().toString();
 
         if (selection.equalsIgnoreCase("back")) {
-            Main.returnToPrevState();
+            RPGS.returnToPrevState();
         }else if (isStringAStat(selection)) { //verifies if input was a stat
-            verifySkillPoint(Entity.Stats.valueOf(selection), inp);
+            addSkillPoint(RPGS, Entity.Stats.valueOf(selection));
             skillsMenu.display();
-        }else if(statShorthandConversion.containsKey(selection.toUpperCase())){ // interpret shorthand and pass to verify skill point
-            verifySkillPoint(Entity.Stats.valueOf(statShorthandConversion.get(selection.toUpperCase())), inp);
+        }else if(statShorthandConversion.containsKey(selection.toUpperCase())){ // interpret shorthand
+            addSkillPoint(RPGS, Entity.Stats.valueOf(statShorthandConversion.get(selection.toUpperCase())));
             skillsMenu.display();
         }else if (selection.equalsIgnoreCase("help")) {//checking input for menu related navigation
             skillsMenu.alert(
@@ -61,37 +55,38 @@ public class SkillPointMenu implements GameState {
                             + "LUCK = modifies how many coins and materials you can gain.\r\n"
                             + "MAGIC = how powerful spells will be, will use spell books that work like swords with elemental bonuses and healing\r\n"
                             + "RESISTANCE = like defense, but against magic/status effects",
-                    inp
+                    RPGS.getInput()
             );
-            enter(); // display skill options after help message
+            enter(RPGS); // display skill options after help message. Reruns enter to update skill points left
         }else {
-            skillsMenu.alert("You don't know what "+selection+" means.", inp);
+            skillsMenu.display();
+            skillsMenu.message("You don't know what "+selection+" means.");
         }
     }
 
     /**
      * Verifies that the user wants to add a skill point to a given skill, and that they have enough points
      */
-    private void verifySkillPoint(Entity.Stats stat, Scanner input){
+    private void addSkillPoint(Main RPGS, Entity.Stats stat){
         String selection = "";
-        input.nextLine(); // clear empty return
+        RPGS.getInput().nextLine(); // clear empty return
 
         try {
             System.out.println("Enter the amount of points to add to " + stat.name());
             System.out.println("[0-999] [BACK]");
-            selection = input.nextLine();
+            selection = RPGS.getInput().nextLine();
             int amount = Integer.parseInt(selection); //converts string to int
-            if (amount <= pl.getPoints()) {
-                pl.addSkillPoint(stat, amount);
-                skillsMenu.alert("You've advanced your "+stat.toString()+ " by " +amount+".\nYour "+stat.name()+" is now level "+pl.getStat(stat)+".\nYou have "+pl.getPoints()+" points left.", inp);
+            if (amount <= RPGS.getPlayer().getPoints()) {
+                RPGS.getPlayer().addSkillPoint(stat, amount);
+                skillsMenu.alert("You've advanced your "+stat.toString()+ " by " +amount+".\nYour "+stat.name()+" is now level "+RPGS.getPlayer().getStat(stat)+".\nYou have "+RPGS.getPlayer().getPoints()+" points left.", RPGS.getInput());
             }else{
-                skillsMenu.alert("You don't have enough points for that!", inp);
+                skillsMenu.alert("You don't have enough points for that!", RPGS.getInput());
             }
 
         }catch (Exception e) { //parse error
             if (!selection.equals("back")) {
                 System.out.println("Enter a number.");
-                verifySkillPoint(stat, input);
+                addSkillPoint(RPGS, stat);
             }
         }
     }

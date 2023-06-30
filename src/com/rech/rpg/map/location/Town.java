@@ -25,8 +25,8 @@ public class Town extends Location {
 	}
 
 	@Override
-	public GameState getGameState(Player pl, Scanner inp) {
-		return new TownMenu(this, pl, inp);
+	public GameState getGameState() {
+		return new TownMenu();
 	}
 
 

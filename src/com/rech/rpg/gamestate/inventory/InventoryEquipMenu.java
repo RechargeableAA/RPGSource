@@ -2,33 +2,29 @@ package com.rech.rpg.gamestate.inventory;
 
 import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
+import com.rech.rpg.gamestate.GameState;
 import com.rech.rpg.gamestate.MainMenu;
 import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Weapon;
 
 import java.util.Scanner;
 
-public class InventoryEquipMenu extends InventoryMainMenu {
+public class InventoryEquipMenu implements GameState {
     Menu equipMenu = new Menu("Equip");
 
-    public InventoryEquipMenu(Inventory inventory, Scanner input) {
-        super(inventory, input);
-    }
-
     @Override
-    public void enter() {
+    public void enter(Main RPGS) {
         //adding inventory to menu
-        inv.sortInventory();
+        RPGS.getPlayer().getInventory().sortInventory();
         equipMenu.clearPrompts();
-        for(int inventorySlot = 0; inventorySlot < inv.getSize(); inventorySlot++) {
-            if(inv.getSlot(inventorySlot) != null) {
-                equipMenu.addPrompt(""+inventorySlot,  inv.getSlot(inventorySlot).getName());
+        for(int inventorySlot = 0; inventorySlot < RPGS.getPlayer().getInventory().getSize(); inventorySlot++) {
+            if(RPGS.getPlayer().getInventory().getSlot(inventorySlot) != null) {
+                equipMenu.addPrompt(""+inventorySlot,  RPGS.getPlayer().getInventory().getSlot(inventorySlot).getName());
             }
         }
 
-        if (inv.isEmpty()) { // if this(inventory) is empty
-            equipMenu.alert("You have nothing in your backpack.", inp);
-            Main.returnToPrevState();
+        if (RPGS.getPlayer().getInventory().isEmpty()) { // if this(inventory) is empty
+            RPGS.returnToPrevState();
             return;
         }else {
             equipMenu.addPrompt("0-9", "Which slot do you want to equip? [back]");
@@ -39,33 +35,33 @@ public class InventoryEquipMenu extends InventoryMainMenu {
     }
 
     @Override
-    public void update() {
+    public void update(Main RPGS) {
         //error catching string to int needs try and cathch
-        String optionSelection = inp.nextLine();
+        String optionSelection = RPGS.getInput().nextLine();
         switch(optionSelection.toUpperCase()) {
             case "BACK":
-                if (inv.isEmpty()) { //goes back to the menu before showing the backpack
-                    Main.enterGameState(new MainMenu(inp));
+                if (RPGS.getPlayer().getInventory().isEmpty()) { //goes back to the menu before showing the backpack
+                    RPGS.enterGameState(new MainMenu());
                 }
             default:
                 if(optionSelection.matches("[0-9]+")) { // is optionSelection a number stored in a string?
                     int slot = Integer.parseInt(optionSelection); // convert string of number into an integer
-                    if(inv.getSlot(slot) != null) {
-                        if(inv.getSlot(slot) instanceof Weapon) { // checks to see if item is a weapon
-                            equipMenu.alert("You equip your " + inv.getSlot(slot).getName() + ".", inp);
-                            Main.getPlayer().equip(slot);
-                            Main.returnToPrevState();
+                    if(RPGS.getPlayer().getInventory().getSlot(slot) != null) {
+                        if(RPGS.getPlayer().getInventory().getSlot(slot) instanceof Weapon) { // checks to see if item is a weapon
+                            equipMenu.alert("You equip your " + RPGS.getPlayer().getInventory().getSlot(slot).getName() + ".", RPGS.getInput());
+                            RPGS.getPlayer().equip(slot);
+                            RPGS.returnToPrevState();
                         }else {
                             equipMenu.display();
-                            equipMenu.alert("You can't equip a " + Main.getPlayer().getInventory().getSlot(slot).getName(), inp);
+                            equipMenu.alert("You can't equip a " + RPGS.getPlayer().getInventory().getSlot(slot).getName(), RPGS.getInput());
                         }
                     }else {
                         equipMenu.display();
-                        equipMenu.alert("There's nothing in that inventory slot.", inp);
+                        equipMenu.alert("There's nothing in that inventory slot.", RPGS.getInput());
                     }
                 }else {
                     equipMenu.display();
-                    equipMenu.alert("You don't know what "+optionSelection+" means.", inp);
+                    equipMenu.message("You don't know what "+optionSelection+" means.");
                 }
                 break;
         }

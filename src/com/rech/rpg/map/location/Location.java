@@ -25,13 +25,16 @@ public abstract class Location{
 		surroundings = "There's nothing around you.";
 	}
 
-	public abstract GameState getGameState(Player pl, Scanner inp);
+	public abstract GameState getGameState();
 
-	public static void travelToNewLocation(Player pl, Scanner inp) {
-		Location locations[] = {Town.generate(), Wilderness.generate()};
+	public static void travelToNewLocation(Main RPGS) {
+		Location locations[] = {Town.generate(), Wilderness.generate(RPGS)};
 		Random rand = new Random();
 
-		Main.enterGameState(locations[rand.nextInt(locations.length)].getGameState(pl, inp));
+		Location newLocal = locations[rand.nextInt(locations.length)];
+
+		RPGS.setCurrentLocation(newLocal);
+		RPGS.enterGameState(newLocal.getGameState());
 	}
 
 

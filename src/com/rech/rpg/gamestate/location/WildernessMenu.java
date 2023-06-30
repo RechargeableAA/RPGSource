@@ -7,26 +7,30 @@ import com.rech.rpg.entity.Entity;
 import com.rech.rpg.entity.Player;
 import com.rech.rpg.entity.combat.Combat;
 import com.rech.rpg.gamestate.GameState;
+import com.rech.rpg.gamestate.MainMenu;
 import com.rech.rpg.map.location.Location;
+import com.rech.rpg.map.location.Town;
 import com.rech.rpg.map.location.Wilderness;
 
 import java.util.Scanner;
 
 public class WildernessMenu implements GameState {
     private Wilderness wn;
-    private Player pl;
-    private Scanner inp;
 
     Menu lcMenu;
 
-    public WildernessMenu(Wilderness wilderness, Player player, Scanner input){
-        wn = wilderness;
-        pl = player;
-        inp = input;
-    }
-
     @Override
-    public void enter() {
+    public void enter(Main RPGS) {
+        // load current location and cast it to a town
+        try{
+            wn = (Wilderness) RPGS.getCurrentLocation();
+        }catch (Exception e){   //This gamestate was entered when the current game location was not a town. This shouldn't happen if the gamestate is entered by using each location's getGameState method
+            e.printStackTrace();
+            System.err.println("Wilderness menu was entered while current location is a " + RPGS.getCurrentLocation().getClass());
+            RPGS.enterGameState(new MainMenu());
+            return;
+        }
+
         lcMenu = new Menu(wn.getName());
         lcMenu.clearPrompts();
         lcMenu.setMenuInfo(wn.getDescription() + ". " + wn.getSurroundings());
@@ -44,13 +48,13 @@ public class WildernessMenu implements GameState {
     }
 
     @Override
-    public void update() {
-        String optionSelection = inp.nextLine().toUpperCase();
+    public void update(Main RPGS) {
+        String optionSelection = RPGS.getInput().nextLine().toUpperCase();
 
         //0-9
         try {
             if(Integer.valueOf(optionSelection) < wn.getEntComp().getEntities().size()) { // this is gonna cause an error or let u fight normal npcs but imma just let it happen
-                if(new Combat().enterCombat(pl, (Enemy) wn.getEntComp().getEntities().get(Integer.valueOf(optionSelection)), inp)) { // player wins combat
+                if(new Combat().enterCombat(RPGS, (Enemy) wn.getEntComp().getEntities().get(Integer.valueOf(optionSelection)))) { // player wins combat
                     wn.getEntComp().getEntities().remove((int)(Integer.valueOf(optionSelection)));
                 }else { // player runs or dies
 
@@ -60,11 +64,12 @@ public class WildernessMenu implements GameState {
             //Back or anything else
         }catch(NumberFormatException nfe) {
             if(optionSelection.equalsIgnoreCase("T")){
-                Location.travelToNewLocation(pl, inp);
+                Location.travelToNewLocation(RPGS);
             }else if(optionSelection.toUpperCase().equals("BACK")) {
-                Main.returnToPrevState();
+                RPGS.returnToPrevState();
             }else {
-                lcMenu.alert("You don't know what " + optionSelection + " means.", inp);
+                lcMenu.display();
+                lcMenu.message("You don't know what " + optionSelection + " means.");
             }
         }
     }

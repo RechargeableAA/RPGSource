@@ -28,46 +28,55 @@ TODO:
 public class Main{
 
 	//game safely shutoff variable
-	private static boolean running = true;
+	private boolean running = true;
 	//Player object instance, used to reference everything about the player, ie inventory, map position
-	private static Player player;
-	private static Location currentLocation;
-	private static GameState gs;
-	private static ArrayList<GameState> prevGS = new ArrayList<GameState>(); // store previous game states to return after finishing another game state; linear path mainmenu > inventory > equip > etc
-	
-	public static void main(String[] args) {
-		Scanner input = new Scanner(System.in);
-
-		enterGameState(new IntroMenu(input));
-		input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
-
-		//Gameloop
-		while(running) {
-			gs.update();
-		}
-
-		input.close();
-	}
+	private Player player;
+	private Location currentLocation;
+	private GameState gs;
+	private Scanner input;
+	private ArrayList<GameState> prevGS = new ArrayList<GameState>(); // store previous game states to return after finishing another game state; linear path mainmenu > inventory > equip > etc
 
 	/**
-	 * Clear console with a repeated new line character.
+	 * Primary game object, used to reference important game-wide objects, variables, methods. Its a neat little package to pass to methods
 	 */
-	public static final void clearScreen() {
-		System.out.println("\n".repeat(30));
-	}
+	private static Main RPGS; //RPG Source
 	
-	public static Player getPlayer() {
+	public static void main(String[] args) {
+		RPGS = new Main();
+
+		RPGS.input = new Scanner(System.in);
+
+		RPGS.enterGameState(new IntroMenu());
+		RPGS.input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
+
+		//Gameloop
+		while(RPGS.running) {
+			RPGS.gs.update(RPGS);
+		}
+
+		RPGS.input.close();
+	}
+
+	public Main getRPGS(){
+		return RPGS;
+	}
+
+	public Scanner getInput(){
+		return input;
+	}
+
+	public Player getPlayer() {
 		return player;
 	}
 
-	public static void setPlayer(Player newPlayer){player = newPlayer;}
+	public void setPlayer(Player newPlayer){player = newPlayer;}
 
-	public static Location getCurrentLocation() {
+	public Location getCurrentLocation() {
 		return currentLocation;
 	}
 
-	public static void setCurrentLocation(Location currentLocation) {
-		Main.currentLocation = currentLocation;
+	public void setCurrentLocation(Location currentLocation) {
+		this.currentLocation = currentLocation;
 	}
 
 	/**
@@ -75,14 +84,14 @@ public class Main{
 	 * @EX entering Inventory state, where the typing back could return to combat or mainmenu, it returns to whichever is saved
 	 * @param gs - Gamestate to store
 	 */
-	public static void saveState(GameState gs){
+	public void saveState(GameState gs){
 		prevGS.add(gs);
 	}
 
 	/**
 	 * return to the last saved gamestate. Removes the last saved gamestate from the top of the list
 	 */
-	public static void returnToPrevState(){
+	public void returnToPrevState(){
 		GameState temp = prevGS.get(prevGS.size()-1);
 		prevGS.remove(prevGS.size()-1);
 		enterGameState(temp);
@@ -92,9 +101,9 @@ public class Main{
 	 * Enters a new gamestate, runs that gamestate's enter method. Sets main's gamestate so it's update method is ran on the next gameloop
 	 * @param gameState
 	 */
-	public static void enterGameState(GameState gameState){
+	public void enterGameState(GameState gameState){
 		gs = gameState;
-		gs.enter();
+		gs.enter(RPGS);
 	}
 
 }
