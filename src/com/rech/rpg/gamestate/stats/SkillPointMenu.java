@@ -43,10 +43,10 @@ public class SkillPointMenu implements GameState {
             RPGS.returnToPrevState();
         }else if (isStringAStat(selection)) { //verifies if input was a stat
             addSkillPoint(RPGS, Entity.Stats.valueOf(selection));
-            skillsMenu.display();
+            enter(RPGS);
         }else if(statShorthandConversion.containsKey(selection.toUpperCase())){ // interpret shorthand
             addSkillPoint(RPGS, Entity.Stats.valueOf(statShorthandConversion.get(selection.toUpperCase())));
-            skillsMenu.display();
+            enter(RPGS);
         }else if (selection.equalsIgnoreCase("help")) {//checking input for menu related navigation
             skillsMenu.alert(
                     "STRENGTH = melee damage modifier\r\n"

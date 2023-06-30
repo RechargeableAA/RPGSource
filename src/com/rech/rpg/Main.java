@@ -26,7 +26,7 @@ TODO:
 //@TODO Migrate the menu class into gamestate and make its methods protected
 
 public class Main{
-
+	public static final double versionNumber = 0.01;
 	//game safely shutoff variable
 	private boolean running = true;
 	//Player object instance, used to reference everything about the player, ie inventory, map position

@@ -24,6 +24,7 @@ public class InventoryEquipMenu implements GameState {
         }
 
         if (RPGS.getPlayer().getInventory().isEmpty()) { // if this(inventory) is empty
+            equipMenu.alert("You have nothing in your backpack.", RPGS.getInput());
             RPGS.returnToPrevState();
             return;
         }else {
@@ -41,7 +42,7 @@ public class InventoryEquipMenu implements GameState {
         switch(optionSelection.toUpperCase()) {
             case "BACK":
                 if (RPGS.getPlayer().getInventory().isEmpty()) { //goes back to the menu before showing the backpack
-                    RPGS.enterGameState(new MainMenu());
+                    RPGS.enterGameState(new MainMenu( ));
                 }
             default:
                 if(optionSelection.matches("[0-9]+")) { // is optionSelection a number stored in a string?
