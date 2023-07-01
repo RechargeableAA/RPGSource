@@ -10,6 +10,7 @@ import java.util.Scanner;
  * Obligatory debug menu :). Enter by typing "true" into any input
  */
 public class Debug {
+    public static final String debugKeyword = "deb";
 
     Menu debug = new Menu("UBER HAXXORT DEBUGZ");
 
@@ -51,14 +52,19 @@ public class Debug {
 
         String optionSelection = input.nextLine();
 
-        //Logic for menu
-        if(optionSelection.equalsIgnoreCase("0")) {Wilderness.class.cast(RPGS.getCurrentLocation()).getEntComp().spawnEntity(Enemy.darkKnight); }
-        else if (optionSelection.equalsIgnoreCase("1")){RPGS.getPlayer().getInventory().pickup(Weapon.adminBlade);}
-        else {
-            debug.display();
-            debug.message("\nYou don't know what the fuck '"+optionSelection+"' means.\n");
+        try {
+            //Logic for menu
+            debug.message("doing option " + optionSelection);
+            if (optionSelection.equalsIgnoreCase("0")) {
+                Wilderness.class.cast(RPGS.getCurrentLocation()).getEntComp().spawnEntity(Enemy.darkKnight);
+            } else if (optionSelection.equalsIgnoreCase("1")) {
+                RPGS.getPlayer().getInventory().pickup(Weapon.adminBlade);
+            } else {
+                debug.display();
+                debug.message("\nYou don't know what the fuck '" + optionSelection + "' means.\n");
+            }
+        }catch (Exception e){
+            System.err.println("Failed to complete operation.");
         }
-
-        debug.message("doing option " + optionSelection);
     }
 }

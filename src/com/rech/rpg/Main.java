@@ -26,7 +26,6 @@ TODO:
 //@TODO Migrate the menu class into gamestate and make its methods protected
 
 public class Main{
-	private static final String debugKeyword = "deb";
 	public static final double versionNumber = 0.01;
 	//game safely shutoff variable
 	private boolean running = true;
@@ -59,7 +58,7 @@ public class Main{
 
 	public Scanner getInput(){
 		//catch debug keyword
-		if(input.findInLine(debugKeyword) != null){
+		if(input.findInLine(Debug.debugKeyword) != null){
 			new Debug().enter(RPGS);
 		}
 
