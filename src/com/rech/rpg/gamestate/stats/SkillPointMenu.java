@@ -37,7 +37,7 @@ public class SkillPointMenu implements GameState {
 
     @Override
     public void update(Main RPGS) {
-        String selection = RPGS.getInput().next().toString();
+        String selection = RPGS.getInput().next();
 
         if (selection.equalsIgnoreCase("back")) {
             RPGS.returnToPrevState();

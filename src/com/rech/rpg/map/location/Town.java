@@ -40,7 +40,23 @@ public class Town extends Location {
 				"You are currently in the town of "+name // description
 		);
 
+		generatedTown.getShops().addAll(generatedTown.generateShops());
+		generatedTown.surroundings = generatedTown.generateSurroundingsText();
+		return generatedTown;
+	}
+
+
+
+	/*
+		GENERATION
+	 */
+
+
+
+	private ArrayList<Shop> generateShops(){
 		Random rand = new Random();
+		ArrayList<Shop> newShops = new ArrayList<Shop>();
+
 		int shopAmount = rand.nextInt(Shop.shopType.values().length);
 		ArrayList<Shop.shopType> currentTypesInLocation = new ArrayList<Shop.shopType>(); // kind of a dirty way to make sure there are no dupe shops types within location
 		for(int i = 0; i < shopAmount; i++) {
@@ -49,12 +65,11 @@ public class Town extends Location {
 				currentType = Shop.shopType.values()[rand.nextInt(Shop.shopType.values().length)]; // Pick a random type until we find one that is new; this is bad because it could take a while depending on how many types we have; also if there is an error somehow this could run indefinitely
 			}
 
-			generatedTown.shops.add(Shop.generateShop(currentType));
+			newShops.add(Shop.generateShop(currentType));
 			currentTypesInLocation.add(currentType); // add to list of already generated types
 		}
 
-		generatedTown.generateSurroundingsText();
-		return generatedTown;
+		return newShops;
 	}
 	
 	private String generateSurroundingsText() {
@@ -91,6 +106,11 @@ public class Town extends Location {
 			return null;
 		}
 	}
+
+
+
+
+
 
 	public ArrayList<Shop> getShops() {
 		return shops;

@@ -40,14 +40,13 @@ public class Main{
 	 * Primary game object, used to reference important game-wide objects, variables, methods. Its a neat little package to pass to methods
 	 */
 	private static Main RPGS; //RPG Source
-	
+
 	public static void main(String[] args) {
 		RPGS = new Main();
 
 		RPGS.input = new Scanner(System.in);
 
 		RPGS.enterGameState(new IntroMenu());
-		RPGS.input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
 
 		//Gameloop
 		while(RPGS.running) {
@@ -57,11 +56,12 @@ public class Main{
 		RPGS.input.close();
 	}
 
-	public Main getRPGS(){
-		return RPGS;
-	}
-
 	public Scanner getInput(){
+		//catch debug keyword
+		if(input.findInLine(Debug.debugKeyword) != null){
+			new Debug().enter(RPGS);
+		}
+
 		return input;
 	}
 
