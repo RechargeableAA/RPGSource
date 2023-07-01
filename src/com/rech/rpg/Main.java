@@ -2,12 +2,8 @@ package com.rech.rpg;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.MatchResult;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 import com.rech.rpg.entity.Player;
-import com.rech.rpg.gamestate.DebugMenu;
 import com.rech.rpg.gamestate.GameState;
 import com.rech.rpg.gamestate.IntroMenu;
 import com.rech.rpg.map.location.Location;
@@ -64,9 +60,9 @@ public class Main{
 	public Scanner getInput(){
 		//catch debug keyword
 		if(input.findInLine(debugKeyword) != null){
-			new DebugMenu().enter(RPGS);
+			new Debug().enter(RPGS);
 		}
-		
+
 		return input;
 	}
 
