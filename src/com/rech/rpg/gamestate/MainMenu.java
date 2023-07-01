@@ -25,9 +25,7 @@ public class MainMenu implements GameState {
 
     @Override
     public void update(Main RPGS) {
-        Scanner input = RPGS.getInput();
-
-        String optionSelection = input.nextLine();
+        String optionSelection = RPGS.getInput().nextLine();
 
         //Logic for menu
         if(optionSelection.equalsIgnoreCase("stats")) {RPGS.enterGameState(new SkillsMenu()); }

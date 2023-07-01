@@ -17,7 +17,6 @@ public abstract class Location{
 	private String name;
 	private String description;
 	protected String surroundings;
-	public static enum LocationType {TOWN, WILDERNESS};
 
 	protected Location(String name, String description) {
 		this.name = name;
@@ -28,7 +27,12 @@ public abstract class Location{
 	public abstract GameState getGameState();
 
 	public static void travelToNewLocation(Main RPGS) {
-		Location locations[] = {Town.generate(), Wilderness.generate(RPGS)};
+		Location locations[] = new Location[2];
+
+		locations[0] = Town.generate();
+
+		locations[1] = Wilderness.generate(RPGS);
+
 		Random rand = new Random();
 
 		Location newLocal = locations[rand.nextInt(locations.length)];

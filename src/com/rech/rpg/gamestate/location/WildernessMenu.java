@@ -21,7 +21,7 @@ public class WildernessMenu implements GameState {
 
     @Override
     public void enter(Main RPGS) {
-        // load current location and cast it to a town
+        // load current location and cast it to a wild
         try{
             wn = (Wilderness) RPGS.getCurrentLocation();
         }catch (Exception e){   //This gamestate was entered when the current game location was not a town. This shouldn't happen if the gamestate is entered by using each location's getGameState method
@@ -35,13 +35,18 @@ public class WildernessMenu implements GameState {
         lcMenu.clearPrompts();
         lcMenu.setMenuInfo(wn.getDescription() + ". " + wn.getSurroundings());
 
-        // add enemy ooptions
+        // add enemy options
         for(Entity ent : wn.getEntComp().getEntities()) {
             if(ent instanceof Enemy) {  // every enemy for loop
                 lcMenu.addPrompt(""+wn.getEntComp().getEntities().indexOf(ent), ent.getName() + " Lvl. " +ent.getLevel());
             }
         }
-        lcMenu.addPrompt("[T]RAVEL");
+
+        //Prevent travel if enemies are present
+        if(wn.getEntComp().getEntities().size() == 0){
+            lcMenu.addPrompt("[T]RAVEL");
+        }
+
         lcMenu.addPrompt("BACK");
 
         lcMenu.display();
@@ -53,8 +58,11 @@ public class WildernessMenu implements GameState {
 
         //0-9
         try {
-            if(Integer.valueOf(optionSelection) < wn.getEntComp().getEntities().size()) { // this is gonna cause an error or let u fight normal npcs but imma just let it happen
-                if(new Combat().enterCombat(RPGS, (Enemy) wn.getEntComp().getEntities().get(Integer.valueOf(optionSelection)))) { // player wins combat
+            int numSel = Integer.valueOf(optionSelection);
+
+            if(numSel < wn.getEntComp().getEntities().size()) { // this is gonna cause an error or let u fight normal npcs but imma just let it happen
+                RPGS.enterGameState(new Combat((Enemy) wn.getEntComp().getEntities().get(numSel))); // enter combat
+                if(wn.getEntComp().getEntities().get(numSel).getHealth() <= 0) { // player wins combat
                     wn.getEntComp().getEntities().remove((int)(Integer.valueOf(optionSelection)));
                 }else { // player runs or dies
 
@@ -64,7 +72,9 @@ public class WildernessMenu implements GameState {
             //Back or anything else
         }catch(NumberFormatException nfe) {
             if(optionSelection.equalsIgnoreCase("T")){
-                Location.travelToNewLocation(RPGS);
+                if(wn.getEntComp().getEntities().size() == 0) {
+                    Location.travelToNewLocation(RPGS);
+                }
             }else if(optionSelection.toUpperCase().equals("BACK")) {
                 RPGS.returnToPrevState();
             }else {

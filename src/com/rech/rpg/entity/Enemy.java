@@ -112,7 +112,6 @@ public class Enemy extends Entity{
 	
 	/**
 	 * Distributes points randomly between stats. This simulates the enemy leveling and spending 5 points per level.
-	 * ***Returns a 5-long array***!
 	 */
 	private void allocateRandomLevels(int levels) { //must remain private
 		Random rand = new Random();

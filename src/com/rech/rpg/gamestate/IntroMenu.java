@@ -36,6 +36,7 @@ public class IntroMenu implements GameState {
         }else {
             introMenu.display();
             introMenu.message("\nYou don't know what '"+selection+"' means.\n");
+            return;
         }
 
         RPGS.enterGameState(new MainMenu());

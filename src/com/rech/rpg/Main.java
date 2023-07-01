@@ -2,8 +2,12 @@ package com.rech.rpg;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import com.rech.rpg.entity.Player;
+import com.rech.rpg.gamestate.DebugMenu;
 import com.rech.rpg.gamestate.GameState;
 import com.rech.rpg.gamestate.IntroMenu;
 import com.rech.rpg.map.location.Location;
@@ -26,6 +30,7 @@ TODO:
 //@TODO Migrate the menu class into gamestate and make its methods protected
 
 public class Main{
+	private static final String debugKeyword = "deb";
 	public static final double versionNumber = 0.01;
 	//game safely shutoff variable
 	private boolean running = true;
@@ -40,14 +45,13 @@ public class Main{
 	 * Primary game object, used to reference important game-wide objects, variables, methods. Its a neat little package to pass to methods
 	 */
 	private static Main RPGS; //RPG Source
-	
+
 	public static void main(String[] args) {
 		RPGS = new Main();
 
 		RPGS.input = new Scanner(System.in);
 
 		RPGS.enterGameState(new IntroMenu());
-		RPGS.input = new Scanner(System.in); // need to reset scanner, otherwise an 'ENTER' is passed to the menu
 
 		//Gameloop
 		while(RPGS.running) {
@@ -57,11 +61,12 @@ public class Main{
 		RPGS.input.close();
 	}
 
-	public Main getRPGS(){
-		return RPGS;
-	}
-
 	public Scanner getInput(){
+		//catch debug keyword
+		if(input.findInLine(debugKeyword) != null){
+			new DebugMenu().enter(RPGS);
+		}
+		
 		return input;
 	}
 
