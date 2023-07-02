@@ -4,10 +4,7 @@ import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
 import com.rech.rpg.gamestate.GameState;
 import com.rech.rpg.gamestate.MainMenu;
-import com.rech.rpg.item.Inventory;
 import com.rech.rpg.item.Weapon;
-
-import java.util.Scanner;
 
 public class InventoryEquipMenu implements GameState {
     Menu equipMenu = new Menu("Equip");
@@ -24,7 +21,7 @@ public class InventoryEquipMenu implements GameState {
         }
 
         if (RPGS.getPlayer().getInventory().isEmpty()) { // if this(inventory) is empty
-            equipMenu.alert("You have nothing in your backpack.", RPGS.getInput());
+            equipMenu.alert("You have nothing in your backpack.");
             RPGS.returnToPrevState();
             return;
         }else {
@@ -49,16 +46,16 @@ public class InventoryEquipMenu implements GameState {
                     int slot = Integer.parseInt(optionSelection); // convert string of number into an integer
                     if(RPGS.getPlayer().getInventory().getSlot(slot) != null) {
                         if(RPGS.getPlayer().getInventory().getSlot(slot) instanceof Weapon) { // checks to see if item is a weapon
-                            equipMenu.alert("You equip your " + RPGS.getPlayer().getInventory().getSlot(slot).getName() + ".", RPGS.getInput());
+                            equipMenu.alert("You equip your " + RPGS.getPlayer().getInventory().getSlot(slot).getName() + ".");
                             RPGS.getPlayer().equip(slot);
                             RPGS.returnToPrevState();
                         }else {
                             equipMenu.display();
-                            equipMenu.alert("You can't equip a " + RPGS.getPlayer().getInventory().getSlot(slot).getName(), RPGS.getInput());
+                            equipMenu.alert("You can't equip a " + RPGS.getPlayer().getInventory().getSlot(slot).getName());
                         }
                     }else {
                         equipMenu.display();
-                        equipMenu.alert("There's nothing in that inventory slot.", RPGS.getInput());
+                        equipMenu.alert("There's nothing in that inventory slot.");
                     }
                 }else {
                     equipMenu.display();

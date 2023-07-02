@@ -121,19 +121,23 @@ public class Menu {
 
 	/**
 	 * Alerts that appear after menu, displayed directly after prompts. Used to alert the user of a result of an option or lack of options
-	 * @EX: "You have nothing in your inventory. [Press enter]"
-	 *
-	 * Waits for user input which is returned as a string, for use in options or just to allow the user to see the message and press enter
 	 *
 	 * @param message
 	 * @return - user's input after the message is displayed
+	 * @EX: "You have nothing in your inventory. [Press enter]"
+	 * <p>
+	 * Waits for user input which is returned as a string, for use in options or just to allow the user to see the message and press enter
 	 */
-	public String alert(String message, Scanner input) {
+	public String alert(String message) {
 		if(message != null && message != ""){
-			clearScreen();
 			System.out.println(message);
 		}
-		return input.nextLine();
+
+		Scanner inp = new Scanner(System.in);
+
+		return inp.nextLine();
+
+		//Checks for an existing empty return. If there's a 'enter'/return still left in the input buffer, clear it and ask for input again.
 	}
 
 	/**

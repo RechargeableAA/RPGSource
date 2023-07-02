@@ -82,11 +82,11 @@ public class Shop {
 									if (!RPGS.getPlayer().getInventory().isFull()) {
 										RPGS.getPlayer().getInventory().pickup(this.items[selection]);
 										RPGS.getPlayer().getInventory().loseCoins(this.items[selection].getCost());
-										shop.alert("You give the shopkeep "+this.items[selection].getCost()+" coins and receive the " + this.items[selection].getName() + ".", RPGS.getInput());
+										shop.alert("You give the shopkeep "+this.items[selection].getCost()+" coins and receive the " + this.items[selection].getName() + ".");
 										break;
 									}else {
 										shop.clearPrompts();
-										shop.alert("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]", RPGS.getInput());
+										shop.alert("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]");
 										in = RPGS.getInput().nextLine();
 										
 										if (in.equalsIgnoreCase("y")){
@@ -94,7 +94,7 @@ public class Shop {
 										}else if (in.equalsIgnoreCase("n") || in.equalsIgnoreCase("back")){
 											break;
 										}else {
-											shop.alert("I'm not sure what you mean by " + in.toUpperCase() + ".", RPGS.getInput());
+											shop.alert("I'm not sure what you mean by " + in.toUpperCase() + ".");
 										}
 									}
 								}	
@@ -102,14 +102,14 @@ public class Shop {
 								
 							}
 						}else { // player does not have enough money
-							shop.alert("You can't afford that!", RPGS.getInput());
+							shop.alert("You can't afford that!");
 						}
 					
 					}else { // selection was not within the shop's item array
-						shop.alert("I'm afraid that this is all I have to offer you right now.", RPGS.getInput());
+						shop.alert("I'm afraid that this is all I have to offer you right now.");
 					}
 				}else { // selection was not an item
-					shop.alert("I'm sorry, I didnt catch that.", RPGS.getInput());
+					shop.alert("I'm sorry, I didnt catch that.");
 				}
 				break;
 			}

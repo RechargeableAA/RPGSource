@@ -48,7 +48,7 @@ public class SkillsMenu implements GameState {
         switch(selection.toUpperCase()){
             case "LEVELUP":
                 if (RPGS.getPlayer().getPoints() <= 0) {
-                    statsMenu.alert("You don't have any points to spend on skills.", RPGS.getInput());
+                    statsMenu.alert("You don't have any points to spend on skills.");
                 }else{
                     RPGS.enterGameState(new SkillPointMenu());
                 }
@@ -63,8 +63,7 @@ public class SkillsMenu implements GameState {
                                 + "DODGE = chance to negate damage all together\r\n"
                                 + "LUCK = modifies how many coins and materials you can gain.\r\n"
                                 + "MAGIC = how powerful spells will be, will use spell books that work like swords with elemental bonuses and healing\r\n"
-                                + "RESISTANCE = like defense, but against magic/status effects",
-                        RPGS.getInput()
+                                + "RESISTANCE = like defense, but against magic/status effects"
                 );
                 statsMenu.display();
                 break;

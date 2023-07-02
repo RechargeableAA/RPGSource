@@ -7,7 +7,7 @@ import com.rech.rpg.map.location.Wilderness;
 import java.util.Scanner;
 
 /**
- * Obligatory debug menu :). Enter by typing "true" into any input
+ * Obligatory debug menu :). Enter by typing debugKeyword into any input
  */
 public class Debug {
     public static final String debugKeyword = "deb";

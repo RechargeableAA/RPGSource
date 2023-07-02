@@ -4,15 +4,11 @@ import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Enemy;
 import com.rech.rpg.entity.Entity;
-import com.rech.rpg.entity.Player;
-import com.rech.rpg.entity.combat.Combat;
+import com.rech.rpg.gamestate.Combat;
 import com.rech.rpg.gamestate.GameState;
 import com.rech.rpg.gamestate.MainMenu;
 import com.rech.rpg.map.location.Location;
-import com.rech.rpg.map.location.Town;
 import com.rech.rpg.map.location.Wilderness;
-
-import java.util.Scanner;
 
 public class WildernessMenu implements GameState {
     private Wilderness wn;

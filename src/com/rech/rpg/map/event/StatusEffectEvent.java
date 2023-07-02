@@ -27,10 +27,10 @@ public class StatusEffectEvent extends Event{
 		
 		switch(effect) {
 		case POISON:
-			eventMenu.alert("You are poisoned!", RPGS.getInput());
+			eventMenu.alert("You are poisoned!");
 			break;
 		case DAMAGE:
-			eventMenu.alert("You take " + effectValue + " damage.", RPGS.getInput());
+			eventMenu.alert("You take " + effectValue + " damage.");
 			RPGS.getPlayer().damage(effectValue);
 			break;
 		}

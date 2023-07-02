@@ -41,7 +41,7 @@ public class InventoryMainMenu implements GameState {
 
     @Override
     public void update(Main RPGS) {
-        String optionSelection = RPGS.getInput().nextLine().toString();
+        String optionSelection = RPGS.getInput().nextLine();
         switch(optionSelection.toUpperCase()) {
             case "EQUIP":
                 RPGS.saveState(this);

@@ -6,7 +6,6 @@ import com.rech.rpg.entity.Entity;
 import com.rech.rpg.gamestate.GameState;
 
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class SkillPointMenu implements GameState {
     Menu skillsMenu = new Menu("SKILLS MENU");
@@ -54,8 +53,7 @@ public class SkillPointMenu implements GameState {
                             + "DODGE = chance to negate damage all together\r\n"
                             + "LUCK = modifies how many coins and materials you can gain.\r\n"
                             + "MAGIC = how powerful spells will be, will use spell books that work like swords with elemental bonuses and healing\r\n"
-                            + "RESISTANCE = like defense, but against magic/status effects",
-                    RPGS.getInput()
+                            + "RESISTANCE = like defense, but against magic/status effects"
             );
             enter(RPGS); // display skill options after help message. Reruns enter to update skill points left
         }else {
@@ -71,16 +69,19 @@ public class SkillPointMenu implements GameState {
         String selection = "";
         RPGS.getInput().nextLine(); // clear empty return
 
+        skillsMenu.clearScreen();
+
         try {
-            System.out.println("Enter the amount of points to add to " + stat.name());
-            System.out.println("[0-999] [BACK]");
+            skillsMenu.message("Enter the amount of points to add to " + stat.name());
+            skillsMenu.message("[0-999] [BACK]");
             selection = RPGS.getInput().nextLine();
+
             int amount = Integer.parseInt(selection); //converts string to int
             if (amount <= RPGS.getPlayer().getPoints()) {
                 RPGS.getPlayer().addSkillPoint(stat, amount);
-                skillsMenu.alert("You've advanced your "+stat.toString()+ " by " +amount+".\nYour "+stat.name()+" is now level "+RPGS.getPlayer().getStat(stat)+".\nYou have "+RPGS.getPlayer().getPoints()+" points left.", RPGS.getInput());
+                skillsMenu.alert("You've advanced your "+stat.toString()+ " by " +amount+".\nYour "+stat.name()+" is now level "+RPGS.getPlayer().getStat(stat)+".\nYou have "+RPGS.getPlayer().getPoints()+" points left.");
             }else{
-                skillsMenu.alert("You don't have enough points for that!", RPGS.getInput());
+                skillsMenu.alert("You don't have enough points for that!");
             }
 
         }catch (Exception e) { //parse error

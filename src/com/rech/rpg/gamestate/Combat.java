@@ -1,4 +1,4 @@
-package com.rech.rpg.entity.combat;
+package com.rech.rpg.gamestate;
 
 import java.util.Random;
 
@@ -7,8 +7,6 @@ import com.rech.rpg.Menu;
 import com.rech.rpg.entity.Enemy;
 import com.rech.rpg.entity.Entity;
 import com.rech.rpg.entity.Player;
-import com.rech.rpg.gamestate.GameState;
-import com.rech.rpg.gamestate.MainMenu;
 import com.rech.rpg.gamestate.inventory.InventoryMainMenu;
 import com.rech.rpg.item.Item;
 import com.rech.rpg.map.location.Location;
@@ -25,6 +23,7 @@ public class Combat implements GameState {
 
 	@Override
 	public void enter(Main RPGS) {
+		cbMenu.clearScreen();
 		cbMenu.clearAllMenu();
 		cbMenu.setMenuInfo("Player Health: " + RPGS.getPlayer().getHealth() + " Enemy Health: " + enemy.getHealth());
 		cbMenu.addPrompt("[A]ttack");
@@ -58,7 +57,7 @@ public class Combat implements GameState {
 					Location.travelToNewLocation(RPGS); // this should probably let you travel to a new location but have some sort of punishment
 					break;
 				default:
-					cbMenu.alert("You don't know  what "+optionSelection+" means.", RPGS.getInput());
+					cbMenu.alert("You don't know  what "+optionSelection+" means.");
 					break;
 			}
 		}
@@ -86,6 +85,9 @@ public class Combat implements GameState {
 			RPGS.setPlayer(new Player(RPGS.getPlayer().getName())); // reset ur player i guess
 			RPGS.enterGameState(new MainMenu());
 		}
+
+		cbMenu.alert("");
+		enter(RPGS);
 	}
 
 

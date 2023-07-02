@@ -56,10 +56,16 @@ public class Main{
 		RPGS.input.close();
 	}
 
+	/**
+	 * Accesses input variable. Doing so clears empty return characters in the input buffer. May cause hanging if accessed without a return in the buffer.
+	 * @EX If passing getInput() as a parameter, it'll remove the return in the buffer, causing a hang when accessing getInput again.
+	 */
 	public Scanner getInput(){
 		//catch debug keyword
 		if(input.findInLine(Debug.debugKeyword) != null){
 			new Debug().enter(RPGS);
+		}else if(input.findInLine("off") != null){
+			RPGS.running = false;
 		}
 
 		return input;

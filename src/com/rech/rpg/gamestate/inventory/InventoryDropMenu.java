@@ -3,9 +3,6 @@ package com.rech.rpg.gamestate.inventory;
 import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
 import com.rech.rpg.gamestate.GameState;
-import com.rech.rpg.item.Inventory;
-
-import java.util.Scanner;
 
 public class InventoryDropMenu implements GameState {
     Menu dropMenu = new Menu("DROP");
@@ -24,7 +21,7 @@ public class InventoryDropMenu implements GameState {
         }
 
         if (RPGS.getPlayer().getInventory().isEmpty()) { // if this(inventory) is empty
-            dropMenu.alert("You have nothing in your backpack.", RPGS.getInput());
+            dropMenu.alert("You have nothing in your backpack.");
             RPGS.returnToPrevState();
             return;
         } else {
@@ -51,14 +48,14 @@ public class InventoryDropMenu implements GameState {
                         dropMenu.display();
                         if(RPGS.getInput().nextLine().equalsIgnoreCase("y")) {
                             dropMenu.clearPrompts();
-                            dropMenu.alert("You drop your " + RPGS.getPlayer().getInventory().getSlot(slot).getName() + ".", RPGS.getInput());
+                            dropMenu.alert("You drop your " + RPGS.getPlayer().getInventory().getSlot(slot).getName() + ".");
                             dropMenu.display();
                             RPGS.getInput().nextLine();
                             RPGS.getPlayer().getInventory().drop(slot);
                             RPGS.returnToPrevState();
                         }
                     }else {
-                        dropMenu.alert("There isn't an item in that slot.", RPGS.getInput());
+                        dropMenu.alert("There isn't an item in that slot.");
                     }
                 }else {
                     dropMenu.display();
