@@ -32,9 +32,11 @@ public class WildernessMenu implements GameState {
         lcMenu.setMenuInfo(wn.getDescription() + ". " + wn.getSurroundings());
 
         // add enemy options
+        int enemyCounter = 0;
         for(Entity ent : wn.getEntComp().getEntities()) {
             if(ent instanceof Enemy) {  // every enemy for loop
-                lcMenu.addPrompt(""+wn.getEntComp().getEntities().indexOf(ent), ent.getName() + " Lvl. " +ent.getLevel());
+                lcMenu.addPrompt(""+enemyCounter, ent.getName() + " Lvl. " +ent.getLevel());
+                enemyCounter++;
             }
         }
 
@@ -59,7 +61,9 @@ public class WildernessMenu implements GameState {
             if(numSel < wn.getEntComp().getEntities().size()) { // this is gonna cause an error or let u fight normal npcs but imma just let it happen
                 RPGS.enterGameState(new Combat((Enemy) wn.getEntComp().getEntities().get(numSel))); // enter combat
                 if(wn.getEntComp().getEntities().get(numSel).getHealth() <= 0) { // player wins combat
+                    System.out.println("ASSSSSSSSSSSSSSSSSSSSSS");
                     wn.getEntComp().getEntities().remove((int)(Integer.valueOf(optionSelection)));
+                    enter(RPGS); //update Menu info
                 }else { // player runs or dies
 
                 }

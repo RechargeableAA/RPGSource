@@ -6,8 +6,6 @@ import com.rech.rpg.entity.Player;
 import com.rech.rpg.item.Weapon;
 import com.rech.rpg.map.location.Town;
 
-import java.util.Scanner;
-
 /**
  * First menu when game starts
  */
@@ -39,7 +37,7 @@ public class IntroMenu implements GameState {
             return;
         }
 
-        RPGS.enterGameState(new MainMenu());
+       RPGS.enterGameState(new MainMenu());
     }
 
     /**

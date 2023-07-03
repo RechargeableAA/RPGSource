@@ -10,7 +10,7 @@ import java.util.Scanner;
  * Obligatory debug menu :). Enter by typing debugKeyword into any input
  */
 public class Debug {
-    public static final String debugKeyword = "deb";
+    public static final String debugKeyword = "debug";
 
     Menu debug = new Menu("UBER HAXXORT DEBUGZ");
 
@@ -43,7 +43,7 @@ public class Debug {
                 "       '-_~-,       ` `   ./`\n" +
                 "          `'{_            )\n" +
                 "              ^^\\..___,.--`     ");
-        debug.addPrompt("0", "add dark knight to current location - must be wilderness or ull crash");
+        debug.addPrompt("0", "add dark knight to current location - must be in wilderness");
         debug.addPrompt("1", "pickup admin blade");
 
         debug.display();

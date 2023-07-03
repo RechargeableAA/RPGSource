@@ -249,7 +249,15 @@ public class Entity {
 	public int getResistance() {
 		return resistance;
 	}
-	
+
+	public int getMAXHEALTH() {
+		return MAXHEALTH;
+	}
+
+	public int getMAXMANA() {
+		return MAXMANA;
+	}
+
 	public int attackDamage() {
 		return equipped.getDamage() + (equipped.getDamage()*(strength/10));
 	}
