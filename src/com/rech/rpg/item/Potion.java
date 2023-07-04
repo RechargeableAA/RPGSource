@@ -3,8 +3,8 @@ package com.rech.rpg.item;
 public class Potion extends Item{
 
 	//what the potion does to player stats
-	private int healthAddition;
-	private int manaAddition;
+	private final int healthAddition;
+	private final int manaAddition;
 
 	
 	protected Potion(String itemName, int cost, int healthAdditon, int manaAddition) {

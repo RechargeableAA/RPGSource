@@ -20,14 +20,14 @@ public class SkillsMenu implements GameState {
                 "\nLevel: \t\t"+plyr.getLevel() +
                 "\nEXP: \t\t"+plyr.getExp()+"/"+ plyr.getLevelUpXP() + "\n\n" +
                 "Health | Mana | Strength | Defense | Dodge | Luck | Magic | Resistance \n"
-                + plyr.getHealth()+"/"+RPGS.getPlayer().getStat(Entity.Stats.MAXHEALTH) + "   " //@TODO the spacing here will be fucked up as soon as a number goes to 10s, need to make a feature in menu class to handle this
-                + plyr.getMana()+"/"+RPGS.getPlayer().getStat(Entity.Stats.MAXMANA) + "      "
-                + plyr.getStat(Entity.Stats.STRENGTH) + "          "
-                + plyr.getStat(Entity.Stats.DEFENSE) + "        "
-                + plyr.getStat(Entity.Stats.DODGE) + "      "
-                + plyr.getStat(Entity.Stats.LUCK) + "       "
-                + plyr.getStat(Entity.Stats.MAGIC) + "         "
-                + plyr.getStat(Entity.Stats.RESISTANCE)+"\n"); //@TODO this menu feature needs to be explicitly created in the menu class, since numbers will move the entire line when going from 0-10 10-100 etc
+                + plyr.getStat(Entity.Stats.HEALTH).value+"/"+RPGS.getPlayer().getStat(Entity.Stats.HEALTH).getCurrentMaximum() + "   " //@TODO the spacing here will be fucked up as soon as a number goes to 10s, need to make a feature in menu class to handle this
+                + plyr.getStat(Entity.Stats.MANA).value+"/"+RPGS.getPlayer().getStat(Entity.Stats.MANA).getCurrentMaximum() + "      "
+                + plyr.getStat(Entity.Stats.STRENGTH).value + "          "
+                + plyr.getStat(Entity.Stats.DEFENSE).value + "        "
+                + plyr.getStat(Entity.Stats.DODGE).value + "      "
+                + plyr.getStat(Entity.Stats.LUCK).value + "       "
+                + plyr.getStat(Entity.Stats.MAGIC).value + "         "
+                + plyr.getStat(Entity.Stats.RESISTANCE).value+"\n"); //@TODO this menu feature needs to be explicitly created in the menu class, since numbers will move the entire line when going from 0-10 10-100 etc
 
         statsMenu.addPrompt("HELP", "show descriptions for each stat.");
         statsMenu.addPrompt("BACK", "go back to the previous prompt.");

@@ -18,7 +18,7 @@ public abstract class Event{
 	protected String 
 	name,
 	description;
-	private static ArrayList<Event> eventList = new ArrayList<Event>();
+	private static final ArrayList<Event> eventList = new ArrayList<Event>();
 	
 	private static final int eventProbability = 100; // 30 out of 100
 	

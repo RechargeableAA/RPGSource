@@ -56,7 +56,7 @@ public class Debug {
             //Logic for menu
             debug.message("doing option " + optionSelection);
             if (optionSelection.equalsIgnoreCase("0")) {
-                Wilderness.class.cast(RPGS.getCurrentLocation()).getEntComp().spawnEntity(Enemy.darkKnight);
+                ((Wilderness) RPGS.getCurrentLocation()).getEntComp().spawnEntity(Enemy.darkKnight);
             } else if (optionSelection.equalsIgnoreCase("1")) {
                 RPGS.getPlayer().getInventory().pickup(Weapon.adminBlade);
             } else {

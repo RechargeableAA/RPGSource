@@ -14,8 +14,8 @@ import com.rech.rpg.gamestate.location.TownMenu;
  * Locations are points on the map. Can be Towns, Random events, or Wild
  */
 public abstract class Location{
-	private String name;
-	private String description;
+	private final String name;
+	private final String description;
 	protected String surroundings;
 
 	protected Location(String name, String description) {
@@ -27,7 +27,7 @@ public abstract class Location{
 	public abstract GameState getGameState();
 
 	public static void travelToNewLocation(Main RPGS) {
-		Location locations[] = new Location[2];
+		Location[] locations = new Location[2];
 
 		locations[0] = Town.generate();
 
@@ -58,7 +58,7 @@ public abstract class Location{
 	 * Optional component for handling entities within a location (protected EntityComponent entComp; inside new location type to implement) 
 	 */
 	public class EntityComponent{
-		private ArrayList<Entity> entities;
+		private final ArrayList<Entity> entities;
 		
 		public EntityComponent() {
 			entities = new ArrayList<Entity>();

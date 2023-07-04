@@ -103,7 +103,7 @@ public class Weapon extends Item{
 		int costModifier;
 		
 		//list of all created materials
-		private static ArrayList<Material> allMaterials = new ArrayList<Material>();
+		private static final ArrayList<Material> allMaterials = new ArrayList<Material>();
 		
 		protected Material(String name, int dmgMod, int costMod) {
 			this.name = name;
@@ -158,7 +158,7 @@ public class Weapon extends Item{
 		int costModifier;
 		
 		//list of all created materials
-		private static ArrayList<Type> allWeaponTypes = new ArrayList<Type>();
+		private static final ArrayList<Type> allWeaponTypes = new ArrayList<Type>();
 		
 		protected Type(String name, int dmgMod, int costMod) {
 			this.name = name;

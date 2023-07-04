@@ -33,7 +33,6 @@ public class Adventure{
 		}else if (destiny >= 90 && destiny <= 100) { //find gp/weapon
 			generateDialogue(player, dialogue, 7);			
 		}
-		return;
 	}
 
 

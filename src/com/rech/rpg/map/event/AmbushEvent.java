@@ -2,6 +2,7 @@ package com.rech.rpg.map.event;
 
 import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
+import com.rech.rpg.entity.Entity;
 import com.rech.rpg.item.Item;
 
 public class AmbushEvent extends Event{
@@ -41,9 +42,9 @@ public class AmbushEvent extends Event{
 			case "RUN":
 				return;
 			case "DIE":
-				RPGS.getPlayer().heal(-RPGS.getPlayer().getHealth());
+				RPGS.getPlayer().getStat(Entity.Stats.HEALTH).value = 0;
 				return;
-				
+
 			}
 		}
 	}

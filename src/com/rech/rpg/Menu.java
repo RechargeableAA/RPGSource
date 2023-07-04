@@ -10,11 +10,11 @@ public class Menu {
 	/**
 	 * Text appearing at the very top of the menu, like options or questions.
 	 */
-	private ArrayList<Prompt> prompts;
+	private final ArrayList<Prompt> prompts;
 	
 	//Information important to menu options, like the location you're in
 	private String menuInfo;
-	private String menuTitle;
+	private final String menuTitle;
 
 	private static final int titleIndent = 40;
 	private static final String menuBorder = "|";
@@ -162,8 +162,8 @@ public class Menu {
 	 *
 	 */
 	private class Prompt {
-		private String title, 
-					   description;
+		private final String title;
+		private final String description;
 		protected Prompt(String title, String description) {
 			this.title = title;
 			this.description = description;

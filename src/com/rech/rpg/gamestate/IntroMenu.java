@@ -11,7 +11,7 @@ import com.rech.rpg.map.location.Town;
  */
 public class IntroMenu implements GameState {
 
-    Menu introMenu = new Menu("RPG Source v"+Main.versionNumber);
+    Menu introMenu = new Menu("RPG Source v" + Main.versionNumber);
 
     @Override
     public void enter(Main RPGS) {
@@ -27,17 +27,17 @@ public class IntroMenu implements GameState {
     public void update(Main RPGS) {
         String selection = RPGS.getInput().nextLine();
 
-        if(selection.equalsIgnoreCase("new")) {
+        if (selection.equalsIgnoreCase("new")) {
             newGame(RPGS);
-        }else if(selection.equalsIgnoreCase("load")) {
+        } else if (selection.equalsIgnoreCase("load")) {
             //FileManager.loadGame();
-        }else {
+        } else {
             introMenu.display();
-            introMenu.message("\nYou don't know what '"+selection+"' means.\n");
+            introMenu.message("\nYou don't know what '" + selection + "' means.\n");
             return;
         }
 
-       RPGS.enterGameState(new MainMenu());
+        RPGS.enterGameState(new MainMenu());
     }
 
     /**
@@ -62,11 +62,11 @@ public class IntroMenu implements GameState {
 
         nG.clearScreen();
         nG.display();
-        nG.message(RPGS.getPlayer().getName()+"? ... Can't say that's the name I would've given you... ");
+        nG.message(RPGS.getPlayer().getName() + "? ... Can't say that's the name I would've given you... ");
         nG.message("Well, my name is Gavin. This is " + RPGS.getCurrentLocation().getName());
         nG.message("I'll let you rest in my home just down the way.");
         nG.message("It's not much, but I bet it'll work until you can sort yourself out.");
-        nG.message("Here, you can have my old "+RPGS.getPlayer().getEquipped().getName());
+        nG.message("Here, you can have my old " + RPGS.getPlayer().getEquipped().getName());
         nG.message("You're gonna need it. Watch yourself out there.");
 
 

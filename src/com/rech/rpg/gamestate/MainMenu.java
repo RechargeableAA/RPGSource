@@ -8,7 +8,8 @@ import com.rech.rpg.gamestate.stats.SkillsMenu;
 import java.util.Scanner;
 
 public class MainMenu implements GameState {
-    private static Menu mainMenu  = new Menu("Main Menu");
+    private static final Menu mainMenu = new Menu("Main Menu");
+
     @Override
     public void enter(Main RPGS) {
         mainMenu.clearAllMenu();
@@ -28,14 +29,19 @@ public class MainMenu implements GameState {
         String optionSelection = RPGS.getInput().nextLine();
 
         //Logic for menu
-        if(optionSelection.equalsIgnoreCase("stats")) {RPGS.enterGameState(new SkillsMenu()); }
-        else if (optionSelection.equalsIgnoreCase("backpack") || optionSelection.equalsIgnoreCase("inv")) {RPGS.enterGameState(new InventoryMainMenu());}
-        else if (optionSelection.equalsIgnoreCase("spellbooks") || optionSelection.equalsIgnoreCase("spells")) { RPGS.enterGameState(new InventoryMainMenu());}
-        else if (optionSelection.equalsIgnoreCase("look")) { RPGS.enterGameState(RPGS.getCurrentLocation().getGameState());  }
-        else if (optionSelection.equalsIgnoreCase("")) { mainMenu.display(); }
-        else {
+        if (optionSelection.equalsIgnoreCase("stats")) {
+            RPGS.enterGameState(new SkillsMenu());
+        } else if (optionSelection.equalsIgnoreCase("backpack") || optionSelection.equalsIgnoreCase("inv")) {
+            RPGS.enterGameState(new InventoryMainMenu());
+        } else if (optionSelection.equalsIgnoreCase("spellbooks") || optionSelection.equalsIgnoreCase("spells")) {
+            RPGS.enterGameState(new InventoryMainMenu());
+        } else if (optionSelection.equalsIgnoreCase("look")) {
+            RPGS.enterGameState(RPGS.getCurrentLocation().getGameState());
+        } else if (optionSelection.equalsIgnoreCase("")) {
             mainMenu.display();
-            mainMenu.message("\nYou don't know what '"+optionSelection+"' means.\n");
+        } else {
+            mainMenu.display();
+            mainMenu.message("\nYou don't know what '" + optionSelection + "' means.\n");
         }
     }
 }

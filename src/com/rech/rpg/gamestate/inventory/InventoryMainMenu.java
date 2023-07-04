@@ -1,11 +1,8 @@
 package com.rech.rpg.gamestate.inventory;
 
-import com.rech.rpg.gamestate.GameState;
 import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
-import com.rech.rpg.item.Inventory;
-
-import java.util.Scanner;
+import com.rech.rpg.gamestate.GameState;
 
 public class InventoryMainMenu implements GameState {
 
@@ -26,12 +23,9 @@ public class InventoryMainMenu implements GameState {
         }
 
         if (occupiedSlots > 0) {
-            invMenu.setMenuInfo("Your " + RPGS.getPlayer().getEquipped().getName() + " is equipped.\n" +
-                    occupiedSlots + "/10 backpack slots are being used.\n" +
-                    "Coins: " + String.format("%,d", RPGS.getPlayer().getInventory().getCoins()) + "gp\n");
+            invMenu.setMenuInfo("Your " + RPGS.getPlayer().getEquipped().getName() + " is equipped.\n" + occupiedSlots + "/10 backpack slots are being used.\n" + "Coins: " + String.format("%,d", RPGS.getPlayer().getInventory().getCoins()) + "gp\n");
         } else {
-            invMenu.setMenuInfo("Your " + RPGS.getPlayer().getEquipped().getName() + " is equipped.\nNone of your backpack slots are being used.\n" +
-                    "Coins: " + String.format("%,d", RPGS.getPlayer().getInventory().getCoins()) + "gp\n");
+            invMenu.setMenuInfo("Your " + RPGS.getPlayer().getEquipped().getName() + " is equipped.\nNone of your backpack slots are being used.\n" + "Coins: " + String.format("%,d", RPGS.getPlayer().getInventory().getCoins()) + "gp\n");
         }
         invMenu.addPrompt("EQUIP");
         invMenu.addPrompt("DROP");
@@ -42,7 +36,7 @@ public class InventoryMainMenu implements GameState {
     @Override
     public void update(Main RPGS) {
         String optionSelection = RPGS.getInput().nextLine();
-        switch(optionSelection.toUpperCase()) {
+        switch (optionSelection.toUpperCase()) {
             case "EQUIP":
                 RPGS.saveState(this);
                 RPGS.enterGameState(new InventoryEquipMenu());
@@ -56,7 +50,7 @@ public class InventoryMainMenu implements GameState {
                 break;
             default:
                 invMenu.display();
-                invMenu.message("You don't know  what "+optionSelection+" means.");
+                invMenu.message("You don't know  what " + optionSelection + " means.");
         }
     }
 }

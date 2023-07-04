@@ -4,7 +4,7 @@ public class Spellbook extends Item{
 		
 	//TODO enchantments will extend spellbooks, but I want to try to not have to pass over item attributes
 	
-	private Spell spell;
+	private final Spell spell;
 		
 	/**
 	 * Spell book item itself
@@ -36,7 +36,7 @@ public class Spellbook extends Item{
 			PLASMA, 	QUANTUM, 	GRAVITY,	TIME  	//tier 3
 		}
 		
-		private Element element;
+		private final Element element;
 		public int power;
 		public int manaCost;
 		

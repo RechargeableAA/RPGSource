@@ -36,32 +36,29 @@ public class InventoryEquipMenu implements GameState {
     public void update(Main RPGS) {
         //error catching string to int needs try and cathch
         String optionSelection = RPGS.getInput().nextLine();
-        switch(optionSelection.toUpperCase()) {
-            case "BACK":
-                if (RPGS.getPlayer().getInventory().isEmpty()) { //goes back to the menu before showing the backpack
-                    RPGS.enterGameState(new MainMenu( ));
-                }
-            default:
-                if(optionSelection.matches("[0-9]+")) { // is optionSelection a number stored in a string?
-                    int slot = Integer.parseInt(optionSelection); // convert string of number into an integer
-                    if(RPGS.getPlayer().getInventory().getSlot(slot) != null) {
-                        if(RPGS.getPlayer().getInventory().getSlot(slot) instanceof Weapon) { // checks to see if item is a weapon
-                            equipMenu.alert("You equip your " + RPGS.getPlayer().getInventory().getSlot(slot).getName() + ".");
-                            RPGS.getPlayer().equip(slot);
-                            RPGS.returnToPrevState();
-                        }else {
-                            equipMenu.display();
-                            equipMenu.alert("You can't equip a " + RPGS.getPlayer().getInventory().getSlot(slot).getName());
-                        }
-                    }else {
-                        equipMenu.display();
-                        equipMenu.alert("There's nothing in that inventory slot.");
-                    }
-                }else {
+        if (optionSelection.equalsIgnoreCase("BACK")) {
+            if (RPGS.getPlayer().getInventory().isEmpty()) { //goes back to the menu before showing the backpack
+                RPGS.enterGameState(new MainMenu());
+            }
+        }
+        if (optionSelection.matches("[0-9]+")) { // is optionSelection a number stored in a string?
+            int slot = Integer.parseInt(optionSelection); // convert string of number into an integer
+            if (RPGS.getPlayer().getInventory().getSlot(slot) != null) {
+                if (RPGS.getPlayer().getInventory().getSlot(slot) instanceof Weapon) { // checks to see if item is a weapon
+                    equipMenu.alert("You equip your " + RPGS.getPlayer().getInventory().getSlot(slot).getName() + ".");
+                    RPGS.getPlayer().equip(slot);
+                    RPGS.returnToPrevState();
+                } else {
                     equipMenu.display();
-                    equipMenu.message("You don't know what "+optionSelection+" means.");
+                    equipMenu.alert("You can't equip a " + RPGS.getPlayer().getInventory().getSlot(slot).getName());
                 }
-                break;
+            } else {
+                equipMenu.display();
+                equipMenu.alert("There's nothing in that inventory slot.");
+            }
+        } else {
+            equipMenu.display();
+            equipMenu.message("You don't know what " + optionSelection + " means.");
         }
     }
 

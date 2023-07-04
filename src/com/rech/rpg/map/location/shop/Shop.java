@@ -17,12 +17,12 @@ public class Shop {
 	/**
 	 * Pool of shop types to be used during town generation
 	 */
-	public static enum shopType {
+	public enum shopType {
 		WEAPON,
 		POTION
-		};
-	
-	/**
+		}
+
+    /**
 	 * Should not call this directly; should be referenced by shops with a type. Could add a method somewhere for shops without a specific type
 	 * @param shopName
 	 * @param shopKeepDialogue
@@ -60,59 +60,57 @@ public class Shop {
 			shop.display();
 			
 			String in = RPGS.getInput().nextLine(); //has to be taken as a string to catch the 'back' command. is parsed as an int after.
-			
-			switch(in.toUpperCase()) {
-			case "BACK":
-				return;
-			default:
-				if(in.matches("[0-9]+")) { // selection was an item
-					int selection = Integer.parseInt(in)-1; // -1 to match starting with 0 in arrays
-					
-					if(selection < this.items.length && selection != -1) {
-					
-						if (RPGS.getPlayer().getInventory().getCoins() >= this.items[selection].getCost()) {
-							shop.clearPrompts();
-							shop.setMenuInfo("Ah, a " + this.items[selection].getName() + " that'll be " + this.items[selection].getCost() + " coins.\n" + 
-												"You have "+RPGS.getPlayer().getInventory().getCoins()+" coins right now.");
-							shop.addPrompt("y/n", "Pay the shopkeep " + this.items[selection].getCost() + " coins?");
-							shop.display();
-							
-							if(RPGS.getInput().nextLine().equalsIgnoreCase("y")) {
-								while(true)	{
-									if (!RPGS.getPlayer().getInventory().isFull()) {
-										RPGS.getPlayer().getInventory().pickup(this.items[selection]);
-										RPGS.getPlayer().getInventory().loseCoins(this.items[selection].getCost());
-										shop.alert("You give the shopkeep "+this.items[selection].getCost()+" coins and receive the " + this.items[selection].getName() + ".");
-										break;
-									}else {
-										shop.clearPrompts();
-										shop.alert("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]");
-										in = RPGS.getInput().nextLine();
-										
-										if (in.equalsIgnoreCase("y")){
-											RPGS.enterGameState(new InventoryDropMenu());
-										}else if (in.equalsIgnoreCase("n") || in.equalsIgnoreCase("back")){
-											break;
-										}else {
-											shop.alert("I'm not sure what you mean by " + in.toUpperCase() + ".");
-										}
-									}
-								}	
-							}else { // player responded something other than y to "do you want to buy"
-								
-							}
-						}else { // player does not have enough money
-							shop.alert("You can't afford that!");
-						}
-					
-					}else { // selection was not within the shop's item array
-						shop.alert("I'm afraid that this is all I have to offer you right now.");
-					}
-				}else { // selection was not an item
-					shop.alert("I'm sorry, I didnt catch that.");
-				}
-				break;
-			}
+
+            if (in.equalsIgnoreCase("BACK")) {
+                return;
+            } else {
+                if (in.matches("[0-9]+")) { // selection was an item
+                    int selection = Integer.parseInt(in) - 1; // -1 to match starting with 0 in arrays
+
+                    if (selection < this.items.length && selection != -1) {
+
+                        if (RPGS.getPlayer().getInventory().getCoins() >= this.items[selection].getCost()) {
+                            shop.clearPrompts();
+                            shop.setMenuInfo("Ah, a " + this.items[selection].getName() + " that'll be " + this.items[selection].getCost() + " coins.\n" +
+                                    "You have " + RPGS.getPlayer().getInventory().getCoins() + " coins right now.");
+                            shop.addPrompt("y/n", "Pay the shopkeep " + this.items[selection].getCost() + " coins?");
+                            shop.display();
+
+                            if (RPGS.getInput().nextLine().equalsIgnoreCase("y")) {
+                                while (true) {
+                                    if (!RPGS.getPlayer().getInventory().isFull()) {
+                                        RPGS.getPlayer().getInventory().pickup(this.items[selection]);
+                                        RPGS.getPlayer().getInventory().loseCoins(this.items[selection].getCost());
+                                        shop.alert("You give the shopkeep " + this.items[selection].getCost() + " coins and receive the " + this.items[selection].getName() + ".");
+                                        break;
+                                    } else {
+                                        shop.clearPrompts();
+                                        shop.alert("Your backpack is full!\nDo you want to drop something to make room for it? [y/n]");
+                                        in = RPGS.getInput().nextLine();
+
+                                        if (in.equalsIgnoreCase("y")) {
+                                            RPGS.enterGameState(new InventoryDropMenu());
+                                        } else if (in.equalsIgnoreCase("n") || in.equalsIgnoreCase("back")) {
+                                            break;
+                                        } else {
+                                            shop.alert("I'm not sure what you mean by " + in.toUpperCase() + ".");
+                                        }
+                                    }
+                                }
+                            } else { // player responded something other than y to "do you want to buy"
+
+                            }
+                        } else { // player does not have enough money
+                            shop.alert("You can't afford that!");
+                        }
+
+                    } else { // selection was not within the shop's item array
+                        shop.alert("I'm afraid that this is all I have to offer you right now.");
+                    }
+                } else { // selection was not an item
+                    shop.alert("I'm sorry, I didnt catch that.");
+                }
+            }
 		}
 	}
 	
@@ -131,7 +129,7 @@ public class Shop {
 		 */
 		public static Shop generateShop(int maxRarity) {
 			Random rand = new Random();
-			Item items[] = new Item[1+rand.nextInt(4)];
+			Item[] items = new Item[1+rand.nextInt(4)];
 			for(int i = 0; i < items.length; i++) {
 				items[i] = Weapon.generateNewWeapon(maxRarity, maxRarity);
 			}

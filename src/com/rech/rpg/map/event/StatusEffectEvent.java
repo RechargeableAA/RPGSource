@@ -2,14 +2,15 @@ package com.rech.rpg.map.event;
 
 import com.rech.rpg.Main;
 import com.rech.rpg.Menu;
+import com.rech.rpg.entity.Entity;
 
 public class StatusEffectEvent extends Event{
 	protected enum statusEffect{
 		DAMAGE,
 		POISON
-	};
+	}
 
-	statusEffect effect;
+    statusEffect effect;
 	int effectValue;
 	
 	protected StatusEffectEvent(String name, String description, statusEffect effect, int effectValue) {
@@ -31,7 +32,7 @@ public class StatusEffectEvent extends Event{
 			break;
 		case DAMAGE:
 			eventMenu.alert("You take " + effectValue + " damage.");
-			RPGS.getPlayer().damage(effectValue);
+			RPGS.getPlayer().getStat(Entity.Stats.HEALTH).value -= effectValue;
 			break;
 		}
 	}

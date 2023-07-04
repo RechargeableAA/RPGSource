@@ -17,7 +17,7 @@ import com.rech.rpg.gamestate.location.WildernessMenu;
  * Wilderness locations are areas usually containing enemies/animals/people/items/puzzles/etc
  */
 public class Wilderness extends Location {
-	private EntityComponent entComp;
+	private final EntityComponent entComp;
 	private static final int 
 	maxEnemies = 4,
 	EnemyLevelRange = 2;
@@ -74,8 +74,8 @@ public class Wilderness extends Location {
 
 				//check for vowel
 				Pattern vowels = Pattern.compile("[aeiou]", Pattern.CASE_INSENSITIVE);
-				boolean startsWithVowel = false;
-				if(vowels.matcher(ent.getName().subSequence(0, 1)).matches()) { startsWithVowel = true; }//check for a vowel
+				boolean startsWithVowel = vowels.matcher(ent.getName().subSequence(0, 1)).matches();
+				//check for a vowel
 
 				//an or a
 				if(startsWithVowel) {

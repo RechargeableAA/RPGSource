@@ -7,9 +7,9 @@ import com.rech.rpg.entity.Entity;
  * 
  */
 public abstract class Item{
-	private String itemName;
-	private int cost;
-	private boolean stackable;
+	private final String itemName;
+	private final int cost;
+	private final boolean stackable;
 
 	protected Item(String itemName, int cost, boolean stackable) {
 		this.itemName = itemName;

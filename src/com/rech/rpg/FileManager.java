@@ -70,7 +70,7 @@ public class FileManager{
 				
 				
 		public class SaveObject{
-			private HashMap<String, Object> values;
+			private final HashMap<String, Object> values;
 			
 			public SaveObject(HashMap<String, Object> values) {
 				this.values = values;

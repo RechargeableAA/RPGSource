@@ -32,11 +32,9 @@ public class Inventory{
 	
 	
 	public void sortInventory() {
-		Item tempArray[] = Arrays.stream(inventory).filter(Objects::nonNull).toArray(Item[]::new);
+		Item[] tempArray = Arrays.stream(inventory).filter(Objects::nonNull).toArray(Item[]::new);
 		inventory = new Item[inventorySize];
-		for(int i = 0; i < tempArray.length; i++){
-			inventory[i] = tempArray[i];
-		}
+        System.arraycopy(tempArray, 0, inventory, 0, tempArray.length);
 	}
 	
 	public boolean isEmpty() {

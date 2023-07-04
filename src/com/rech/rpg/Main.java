@@ -25,91 +25,96 @@ TODO:
 
 //@TODO Migrate the menu class into gamestate and make its methods protected
 
-public class Main{
-	public static final double versionNumber = 0.01;
-	//game safely shutoff variable
-	private boolean running = true;
-	//Player object instance, used to reference everything about the player, ie inventory, map position
-	private Player player;
-	private Location currentLocation;
-	private GameState gs;
-	private Scanner input;
-	private ArrayList<GameState> prevGS = new ArrayList<GameState>(); // store previous game states to return after finishing another game state; linear path mainmenu > inventory > equip > etc
+public class Main {
+    public static final double versionNumber = 0.01;
+    //game safely shutoff variable
+    private boolean running = true;
+    //Player object instance, used to reference everything about the player, ie inventory, map position
+    private Player player;
+    private Location currentLocation;
+    private GameState gs;
+    private Scanner input;
+    private final ArrayList<GameState> prevGS = new ArrayList<GameState>(); // store previous game states to return after finishing another game state; linear path mainmenu > inventory > equip > etc
 
-	/**
-	 * Primary game object, used to reference important game-wide objects, variables, methods. Its a neat little package to pass to methods
-	 */
-	private static Main RPGS; //RPG Source
+    /**
+     * Primary game object, used to reference important game-wide objects, variables, methods. Its a neat little package to pass to methods
+     */
+    private static Main RPGS; //RPG Source
 
-	public static void main(String[] args) {
-		RPGS = new Main();
+    public static void main(String[] args) {
+        RPGS = new Main();
 
-		RPGS.input = new Scanner(System.in);
+        RPGS.input = new Scanner(System.in);
 
-		RPGS.enterGameState(new IntroMenu());
+        RPGS.enterGameState(new IntroMenu());
 
-		//Gameloop
-		while(RPGS.running) {
-			RPGS.gs.update(RPGS);
-		}
+        //Gameloop
+        while (RPGS.running) {
+            RPGS.gs.update(RPGS);
+        }
 
-		RPGS.input.close();
-	}
+        RPGS.input.close();
+    }
 
-	/**
-	 * Accesses input variable. Doing so clears empty return characters in the input buffer. May cause hanging if accessed without a return in the buffer.
-	 * @EX If passing getInput() as a parameter, it'll remove the return in the buffer, causing a hang when accessing getInput again.
-	 */
-	public Scanner getInput(){
-		//catch debug keyword
-		if(input.findInLine(Debug.debugKeyword) != null){
-			new Debug().enter(RPGS);
-		}else if(input.findInLine("off") != null){
-			RPGS.running = false;
-		}
+    /**
+     * Accesses input variable. Doing so clears empty return characters in the input buffer. May cause hanging if accessed without a return in the buffer.
+     *
+     * @EX If passing getInput() as a parameter, it'll remove the return in the buffer, causing a hang when accessing getInput again.
+     */
+    public Scanner getInput() {
+        //catch debug keyword
+        if (input.findInLine(Debug.debugKeyword) != null) {
+            new Debug().enter(RPGS);
+        } else if (input.findInLine("off") != null) {
+            RPGS.running = false;
+        }
 
-		return input;
-	}
+        return input;
+    }
 
-	public Player getPlayer() {
-		return player;
-	}
+    public Player getPlayer() {
+        return player;
+    }
 
-	public void setPlayer(Player newPlayer){player = newPlayer;}
+    public void setPlayer(Player newPlayer) {
+        player = newPlayer;
+    }
 
-	public Location getCurrentLocation() {
-		return currentLocation;
-	}
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
 
-	public void setCurrentLocation(Location currentLocation) {
-		this.currentLocation = currentLocation;
-	}
+    public void setCurrentLocation(Location currentLocation) {
+        this.currentLocation = currentLocation;
+    }
 
-	/**
-	 * Stores a state to be returned to by the returnToPrevState method.
-	 * @EX entering Inventory state, where the typing back could return to combat or mainmenu, it returns to whichever is saved
-	 * @param gs - Gamestate to store
-	 */
-	public void saveState(GameState gs){
-		prevGS.add(gs);
-	}
+    /**
+     * Stores a state to be returned to by the returnToPrevState method.
+     *
+     * @param gs - Gamestate to store
+     * @EX entering Inventory state, where the typing back could return to combat or mainmenu, it returns to whichever is saved
+     */
+    public void saveState(GameState gs) {
+        prevGS.add(gs);
+    }
 
-	/**
-	 * return to the last saved gamestate. Removes the last saved gamestate from the top of the list
-	 */
-	public void returnToPrevState(){
-		GameState temp = prevGS.get(prevGS.size()-1);
-		prevGS.remove(prevGS.size()-1);
-		enterGameState(temp);
-	}
+    /**
+     * return to the last saved gamestate. Removes the last saved gamestate from the top of the list
+     */
+    public void returnToPrevState() {
+        GameState temp = prevGS.get(prevGS.size() - 1);
+        prevGS.remove(prevGS.size() - 1);
+        enterGameState(temp);
+    }
 
-	/**
-	 * Enters a new gamestate, runs that gamestate's enter method. Sets main's gamestate so it's update method is ran on the next gameloop
-	 * @param gameState
-	 */
-	public void enterGameState(GameState gameState){
-		gs = gameState;
-		gs.enter(RPGS);
-	}
+    /**
+     * Enters a new gamestate, runs that gamestate's enter method. Sets main's gamestate so it's update method is ran on the next gameloop
+     *
+     * @param gameState
+     */
+    public void enterGameState(GameState gameState) {
+        gs = gameState;
+        gs.enter(RPGS);
+    }
 
 }
